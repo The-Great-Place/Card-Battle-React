@@ -1,17 +1,7 @@
 import { create } from 'zustand';
 import { produce } from 'immer';
-import { makeAutoObservable } from "mobx";
 
-class Entity {
-  constructor() {
-    this.health = 90;
-    makeAutoObservable(this); // Magic happens here
-  }
-  takeDamage(amount) {
-    console.log(this.health)
-    this.health -= amount; // React will re-render automatically
-  }
-}
+
 // Factories now return plain objects
 const createCard = (name, time, effect) => ({ name, time, effect });
 
@@ -36,7 +26,7 @@ const basic_shield = createCard("Basic Shield", 2, "SHIELD_5");
 
 export const useGameStore = create((set) => ({
   // --- STATE ---
-  player: new Entity(),
+  player: 0,
   round: 0,
   entities:{
     player: createEntity("Hero", 100, [basic_attack, basic_shield]),
