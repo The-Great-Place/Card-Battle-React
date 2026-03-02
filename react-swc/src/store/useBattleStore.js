@@ -1,11 +1,4 @@
 import { create } from 'zustand';
-<<<<<<< Updated upstream
-import { produce } from 'immer';
-
-
-// Factories now return plain objects
-const createCard = (name, time, effect) => ({ name, time, effect });
-=======
 import { makeAutoObservable } from "mobx";
 class Card {
   constructor(name, cost, exec, suggested){
@@ -15,7 +8,6 @@ class Card {
     this.suggested = suggested //can be self, opponent, allies
   }
 }
->>>>>>> Stashed changes
 
 class Deck {
   constructor(initDeck){
@@ -72,12 +64,8 @@ const player = new Entity('player', 100, [basic_attack, basic_attack, basic_atta
 
 export const useGameStore = create((set) => ({
   // --- STATE ---
-<<<<<<< Updated upstream
-  player: 0,
-=======
   player: player,
   enemies: [[e1, e2, e3]],
->>>>>>> Stashed changes
   round: 0,
   action_queue:[]
 }));
