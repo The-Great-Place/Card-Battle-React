@@ -1,0 +1,362 @@
+/* BattleView.css */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.battleContainer {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  background-image: radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 20%);
+}
+
+/* ===== ENEMY SECTION ===== */
+.enemyRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  min-height: 35vh;
+  padding: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+
+.enemyRow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.enemyCard {
+  position: relative;
+  width: 200px;
+  height: 280px;
+  background: linear-gradient(145deg, #2a2a4a, #1a1a3a);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 215, 0, 0.3) inset;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.enemyCard:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 215, 0, 0.6) inset;
+}
+
+.enemyImg {
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  object-position: center;
+  border-bottom: 2px solid #ffd700;
+  transition: all 0.3s ease;
+}
+
+.enemyCard:hover .enemyImg {
+  filter: brightness(1.1) saturate(1.2);
+}
+
+/* ===== STATS OVERLAY ===== */
+.statsOverlay {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 8px;
+  display: flex;
+  justify-content: space-around;
+  font-size: 14px;
+  font-weight: bold;
+  border-top: 1px solid #ffd700;
+  border-bottom: 1px solid #ffd700;
+}
+
+.statsOverlay p {
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.statsOverlay p:first-child {
+  color: #ff6b6b;
+}
+
+.statsOverlay p:last-child {
+  color: #4ecdc4;
+}
+
+/* ===== INTENT BAR (BOOKMARKS) ===== */
+.intentBar {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px 8px;
+  border-radius: 20px;
+  backdrop-filter: blur(3px);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.bookmark {
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #ffd700, #ffa500);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.bookmark:hover {
+  transform: scale(1.2);
+  background: linear-gradient(135deg, #ffa500, #ff8c00);
+  box-shadow: 0 0 10px #ffd700;
+}
+
+.bookmark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  border-radius: 5px;
+}
+
+/* ===== FOOTER SECTION ===== */
+.footerRow {
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  /* grid-template-columns: 250px 1fr; */
+  gap: 20px;
+  background: rgba(26, 26, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+  width: 90%;
+}
+
+/* ===== PLAYER SECTION ===== */
+.playerSection {
+  position: relative;
+  width: 250px;
+  height: 200px;
+  background: linear-gradient(145deg, #2a2a4a, #1a1a3a);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.playerSection:hover{
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(255, 215, 0, 0.6) inset;
+}
+
+.playerImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.playerSection .statsOverlay {
+  bottom: 1px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+}
+
+/* ===== HAND SECTION ===== */
+.handRow {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 10px;
+  min-height: 180px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  position: relative;
+  width: 80%;
+}
+
+.card {
+  width: 120px;
+  height: 160px;
+  background: linear-gradient(145deg, #f0e6d2, #d4b88c);
+  border: 3px solid #8b7355;
+  border-radius: 10px;
+  padding: 10px;
+  color: #2c1810;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.4), transparent);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: #ffd700;
+  /* box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.5);
+  z-index: 10; */
+}
+
+.card.selectedCard {
+  transform: translateY(-20px) scale(1.1);
+  border-color: #ffd700;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.5);
+  z-index: 10;
+
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 5px #ffd700; }
+  50% { box-shadow: 0 0 20px #ffd700, 0 0 30px #ff8c00; }
+  100% { box-shadow: 0 0 5px #ffd700; }
+}
+
+.enemyCard:focus-within {
+  animation: glowPulse 2s infinite;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+  .enemyCard {
+    width: 160px;
+    height: 240px;
+  }
+  
+  .footerRow {
+    grid-template-columns: 200px 1fr;
+  }
+  
+  .playerSection {
+    width: 200px;
+    height: 160px;
+  }
+  
+  .card {
+    width: 100px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 768px) {
+  .enemyCard {
+    width: 140px;
+    height: 200px;
+  }
+  
+  .footerRow {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    padding: 15px;
+  }
+  
+  .playerSection {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 10px;
+  }
+  
+  .handRow {
+    min-height: 120px;
+  }
+  
+  .card {
+    width: 80px;
+    height: 110px;
+    font-size: 12px;
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.battleContainer::-webkit-scrollbar {
+  width: 10px;
+}
+
+.battleContainer::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+.battleContainer::-webkit-scrollbar-thumb {
+  background: linear-gradient(#ffd700, #ffa500);
+  border-radius: 5px;
+}
+
+/* Loading state animation for cards */
+@keyframes cardDraw {
+  0% { transform: translateY(100px) rotate(-10deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+.card {
+  animation: cardDraw 0.3s ease-out;
+}
+
+/* Damage flash effect */
+@keyframes damageFlash {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.5) saturate(2); background-color: #ff0000; }
+  100% { filter: brightness(1); }
+}
+
+.enemyCard:active {
+  animation: damageFlash 0.3s ease;
+}
