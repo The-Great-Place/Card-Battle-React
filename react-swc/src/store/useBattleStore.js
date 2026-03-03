@@ -32,7 +32,7 @@ slime.initializeIntents([
     {'card':CardLibrary.STRIKE, 'target':player, 'time': 2},
   ]
 )
-const enemies = [[skeleton]]
+const enemies = [[skeleton], [bandit], [slime,skeleton]]
 
 export const useGameStore = create((set) => ({
   // --- STATE ---
