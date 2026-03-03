@@ -73,7 +73,7 @@ export const BattleView = observer(() => {
             {/* Intents moved outside card, to the side */}
             <div className='enemy-intents'>
               {enemy.intents.slice(0, 3).map((move, i) => (
-                <div key={i} className='intent-icon' title={move.card.name}>
+                <div key={i} className='intent-icon' title={move.card}>
                   {move.time}
                 </div>
               ))}

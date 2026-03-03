@@ -1,0 +1,20 @@
+{
+  "GOBLIN": {
+    "name": "Goblin Scout",
+    "hp": 15,
+    "pattern":[
+        {"card":"STRIKE", "target":"player", "time": 2},
+        {"card":"STRIKE", "target":"player", "time": 2},
+        {"card":"PATCH_UP", "target":"self", "time": 3}
+    ]
+  },
+  "VAMPIRE_Bat": {
+    "name": "Vampire Bat",
+    "hp": 50,
+    "pattern":[
+        {"card":"VAMPIRE", "target":"player", "time": 2},
+        {"card":"VAMPIRE", "target":"player", "time": 2},
+        {"card":"PATCH_UP", "target":"self", "time": 3}
+    ]
+  }
+}

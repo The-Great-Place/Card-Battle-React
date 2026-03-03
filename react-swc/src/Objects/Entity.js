@@ -1,7 +1,7 @@
 import { LoopPattern } from "./mobLogic";
 import { makeAutoObservable, makeObservable, observable, action } from "mobx";
 import { EFFECT_ACTIONS } from "../engine/cardEffects";
-
+import { CardLibrary } from "../engine/cardEffects";
 export class Entity {
   constructor(name, health) {
     this.name = name;
@@ -49,6 +49,7 @@ export class Player extends Entity{
         });
         this.drawCard(4);
     }
+    addGameManager(gameManager){ this.gameManager = gameManager }
     playCard(target, idx) {
         let card = this.deck.hand[idx]
         card.effects.forEach(effect => {
@@ -90,6 +91,8 @@ export class Enemy extends Entity {
             consumeIntent: action
         });
     }
+    addGameManager(gameManager){ this.gameManager = gameManager }
+
     initializeIntents(possibleMoves) {
         this.intentGenerator = new LoopPattern(possibleMoves);
         makeObservable(this, {intentGenerator: observable})
@@ -110,11 +113,13 @@ export class Enemy extends Entity {
         this.intents.push(newIntent);
     }
     playCard(target, card){
-        card.effects.forEach(effect => {
+        if (target == "player"){ target  = this.gameManager.player }
+        if (target == "self"){ target = this}
+        CardLibrary[card].effects.forEach(effect => {
             const effect_action = EFFECT_ACTIONS[effect.type];
             if (effect_action) {
                 if (effect.target == "target"){ effect_action(target, effect.value); }
-                if (effect.target == "self"){ effect_action(this, effect.value); }
+                if (effect.target == "self"){ effect_action(target, effect.value); }
             }
         });        
         this.consumeIntent()
