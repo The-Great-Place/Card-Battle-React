@@ -92,8 +92,8 @@ export const BattleView = observer(() => {
                 <img src={player.image} alt="Player" className='playerImg' />
                 <div className='statsOverlay'>
                   <div className="stat-bar health-bar">
-                    <div className="bar-fill" style={{ width: `${(player.health / 100) * 100}%` }}></div>
-                    <span className="bar-text">{player.health} / 100</span>
+                    <div className="bar-fill" style={{ width: `${(player.health / player.maxHealth) * 100}%` }}></div>
+                    <span className="bar-text">{player.health} / {player.maxHealth}</span>
                   </div>
                   <p>Shield: {player.shield}</p>
                 </div>

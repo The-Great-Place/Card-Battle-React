@@ -39,6 +39,7 @@ export class Player extends Entity{
             playCard: action,
             drawCard: action
         });
+        this.drawCard(4);
     }
     playCard(target, idx) {
         let card = this.deck.hand[idx]

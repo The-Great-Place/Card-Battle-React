@@ -10,7 +10,7 @@ export class GameManager{
     }
     progressTime(t){
         for (let i = 0; i < t + 1; i++){
-            this.time +=1;
+            if (i!=0) this.time +=1;
             let pi = this.player.intents[0];
             if (pi){if (pi.time <= this.time) this.player.playCard(pi.target, pi.card_idx);}
             this.enemies[this.enemies_index].forEach(e => {
