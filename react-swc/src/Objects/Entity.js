@@ -1,5 +1,5 @@
 import { LoopPattern } from "./mobLogic";
-import { makeObservable, observable, action } from "mobx";
+import { makeAutoObservable, makeObservable, observable, action } from "mobx";
 import { EFFECT_ACTIONS } from "../engine/cardEffects";
 
 export class Entity {
@@ -71,9 +71,7 @@ class Deck {
 export class Enemy extends Entity {
     constructor(name, health){
         super(name, health);
-        this.intentGenerator;
         makeObservable(this, {
-            intentGenerator: observable,
             playCard: action,
             initializeIntents: action,
             consumeIntent: action
@@ -81,6 +79,7 @@ export class Enemy extends Entity {
     }
     initializeIntents(possibleMoves) {
         this.intentGenerator = new LoopPattern(possibleMoves);
+        makeObservable(this, {intentGenerator: observable})
         let lastTime = 0;
         // Pre-fill the window with 3 items
         for(let i = 0; i < 3; i++) {

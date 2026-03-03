@@ -11,11 +11,13 @@ export class GameManager{
         for (let i = 1; i < t + 1; i++){
             this.time +=1;
             let pi = this.player.intents[0];
-            if (pi.time == this.time) this.player.playCard(pi.target, pi.card_idx);
-            this.enemies[0].forEach(e => {
-                let ei = e.intents[0];
-                if (ei.time == this.time) e.playCard(ei.target, ei.card);
-            });
+            if (pi){
+                if (pi.time == this.time) this.player.playCard(pi.target, pi.card_idx);
+                this.enemies[0].forEach(e => {
+                    let ei = e.intents[0];
+                    if (ei.time == this.time) e.playCard(ei.target, ei.card);
+                });
+            }
         }
     }
     intentAction(target, card_idx){
