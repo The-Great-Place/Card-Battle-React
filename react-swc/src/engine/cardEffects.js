@@ -50,6 +50,43 @@ export const CardLibrary = {
     effects: [
       { type: 'DRAW', value: 2, target: 'self' }
     ]
+  },
+  HEAVY_STRIKE: {
+    id: 'HEAVY_STRIKE',
+    name: "Heavy Strike",
+    description:"Deal 13 dmg.",
+    image: "",
+    time_cost: 2,
+    effects: [
+      { type: 'DAMAGE', value: 15, target: 'target' }
+    ]
+  }
+  ,
+  DOUBLE_STRIKE: {
+    id: 'DOUBLE_STRIKE',
+    name: "Double Strike",
+    description:"Deal 4 dmg x2.",
+    image: "",
+    time_cost: 1,
+    effects: [
+      { type: 'DAMAGE', value: 4, target: 'target' },
+      { type: 'DAMAGE', value: 4, target: 'target' }
+    ]
+  }
+  ,
+  FIVEFOLD_STRIKE: {
+    id: 'FIVEFOLD_STRIKE',
+    name: "Fivefold Strike",
+    description:"Deal 3 dmg x5.",
+    image: "",
+    time_cost: 0,
+    effects: [
+      { type: 'DAMAGE', value: 3, target: 'target' },
+      { type: 'DAMAGE', value: 3, target: 'target' },
+      { type: 'DAMAGE', value: 3, target: 'target' },
+      { type: 'DAMAGE', value: 3, target: 'target' },
+      { type: 'DAMAGE', value: 3, target: 'target' }
+    ]
   }
 
 };

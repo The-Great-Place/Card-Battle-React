@@ -8,6 +8,9 @@ import { CardLibrary } from '../engine/cardEffects';
 const player = new Player('player', 20, [
   CardLibrary.STRIKE, 
   CardLibrary.STRIKE, 
+  CardLibrary.DOUBLE_STRIKE,
+  CardLibrary.HEAVY_STRIKE,
+  CardLibrary.FIVEFOLD_STRIKE,
   CardLibrary.DEFEND,
   CardLibrary.QUICK_STEP,
   CardLibrary.PATCH_UP,
