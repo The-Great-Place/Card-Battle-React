@@ -103,29 +103,51 @@ export const BattleView = observer(() => {
           </div>
 
           {/* Hand Section */}
+          <div className="handContainer"></div>
           <div className='handRow'>
             {player.deck.hand.map((card, idx) => (
-              <button
-                key={idx}
-                onClick={() => setSelectedCardIdx(idx)}
-                className={`card ${idx === selectedCardIdx ? 'selectedCard' : ''}`}
-              >
-                <div className='card-header'>{card.name}</div>
-                <div className='card-image'>
-                  <img src={card.image || 'default-card.jpg'} alt={card.name} />
-                </div>
-                <div className='card-description'>{card.description || 'No description'}</div>
-                <div className='card-traits-left'>
-                  {card.traits?.slice(0, 2).map((trait, i) => (
-                    <span key={i} className='trait-icon' title={trait.name}>{trait.icon}</span>
-                  ))}
-                </div>
-                <div className='card-traits-right'>
-                  {card.traits?.slice(2, 4).map((trait, i) => (
-                    <span key={i} className='trait-icon' title={trait.name}>{trait.icon}</span>
-                  ))}
-                </div>
-              </button>
+             
+          <button
+       key={idx}
+      onClick={() => setSelectedCardIdx(idx)}
+      className={`card card--fullart ${idx === selectedCardIdx ? 'selectedCard' : ''}`}
+      style={{ "--i": idx, "--n": player.deck.hand.length }}
+>
+  {/* Full-card art */}
+  <img className="card__artFull" src={card.image} alt={card.name} />
+
+  {/* Dark vignette for readability */}
+  <div className="card__vignette" aria-hidden="true" />
+
+  {/* Top-left cost */}
+  <div className="card__cost">
+    <span className="card__costValue">{card.time_cost ?? 1}</span>
+  </div>
+
+  {/* Pips under cost */}
+  <div className="card__pips">
+    {Array.from({ length: Math.min(card.traits?.length ?? 0, 6) }).map((_, i) => (
+      <span key={i} className="card__pip" />
+    ))}
+  </div>
+
+  {/* Name banner */}
+  <div className="card__name">
+    <span className="card__nameText">{card.name}</span>
+  </div>
+
+  {/* Description */}
+  <div className="card__desc">
+    <div className="card__descInner">
+      • {card.description || 'No description'}
+    </div>
+  </div>
+
+  {/* Frame overlay */}
+  <img className="card__frame" src="/frame.png" alt="" aria-hidden="true" />
+</button>
+
+
             ))}
           </div>
 

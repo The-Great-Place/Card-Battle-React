@@ -291,114 +291,223 @@ body {
 }
 
 /* Hand Section – Cards overlapping like poker hand */
-.handRow {
+
+.handRow{
+  position: relative;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: -10px;
-  flex: 1 1 auto;
-  min-width: 0;
   padding: 0.5rem 0;
+  min-width: 0;
+  overflow: visible;
 }
 
-.card {
-  position: relative;
-  width: 120px;
-  height: 160px;
-  background: var(--bg-card);
-  border: 2px solid #5a4b70;
-  border-radius: 12px;
-  box-shadow: 0 8px 0 #1f172a, var(--shadow-dark);
-  margin-left: -10px;
-  transition: transform 0.2s, box-shadow 0.2s, margin 0.2s;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  padding: 0.3rem;
-  color: var(--text-pale);
-  font-size: 0.7rem;
-  transform-origin: bottom center;
+/* overlap like StS */
+.handRow .card{
+  --mid: calc((var(--n) - 1) / 2);
+  --d: calc(var(--i) - var(--mid));
+
+  /* spacing shrinks as n grows */
+  --spread: clamp(2px, calc(26px - (var(--n) * 2px)), 10px);
+  --overlap: clamp(-56px, calc(-26px - (var(--n) * 2px)), -34px);
+
+  margin-left: var(--overlap);
+  transform: translateX(calc(var(--d) * var(--spread)));
 }
 
-.card:first-child {
+.handRow .card:first-child{
+  margin-left: 0;
+}
+.handRow .card:first-child{
   margin-left: 0;
 }
 
+/* keep them basically flat */
+.handRow .card{
+  --mid: calc((var(--n) - 1) / 2);
+  --d: calc(var(--i) - var(--mid));
+
+  transform: translateY(0px) rotate(0deg);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  z-index: calc(100 + var(--i));
+}
+
+/* OPTIONAL: tiny “spread” so they don’t stack perfectly */
+.handRow .card{
+  transform: translateX(calc(var(--d) * 6px)) translateY(0px) rotate(0deg);
+}
+
+/* hover pop like StS */
+.handRow .card:hover:not(.selectedCard){
+  transform: translateX(calc(var(--d) * 6px)) translateY(-22px) scale(1.04);
+  z-index: 999;
+}
+
+/* selected higher */
+.handRow .card.selectedCard{
+  transform: translateX(calc(var(--d) * 6px)) translateY(-34px) scale(1.06);
+  z-index: 1000;
+}
+
+.card.card--fullart {
+  position: relative;
+  width: 160px;
+  height: 240px;
+  border: none;
+  padding: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+
+  box-shadow: 0 10px 0 rgba(0,0,0,0.55), 0 18px 30px rgba(0,0,0,0.35);
+  transform-origin: bottom center;
+}
+
+/* Full-bleed art */
+.card__artFull {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* fills entire card */
+  object-position: center;
+  display: block;
+
+  /* optional: punch */
+  filter: contrast(1.05) saturate(1.05);
+}
+
+/* Vignette + darkening so text stays readable on any art */
+.card__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+
+  
+}
+
+/* Cost badge */
+.card__cost {
+   position:absolute;
+  top: -2px;   /* <-- change this to move up/down */
+  left: 4px;  /* <-- change this to move left/right */
+  width: 38px;
+  height: 38px;
+  display:grid;
+  place-items:center;
+  z-index: 6;           /* above frame */
+  background: none;     /* IMPORTANT */
+  box-shadow: none;     /* IMPORTANT */
+  
+}
+
+.card__costValue {
+  font-weight: 900;
+  font-size: 25px;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 2px 0 rgba(0,0,0,0.35);
+}
+
+/* Pips under cost */
+.card__pips {
+  position: absolute;
+  top: 30px;
+  left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 3;
+}
+
+.card__pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(240, 225, 190, 0.95);
+  box-shadow: inset 0 0 0 2px rgba(0,0,0,0.25), 0 3px 6px rgba(0,0,0,0.25);
+}
+
+/* Name banner (over the art) */
+.card__name {
+   position:absolute;
+  top: -5px;      /* <-- change this */
+  left: 50px;     /* <-- change this */
+  right: 20px;    /* <-- change this */
+  height: 28px;
+  display:flex;
+  align-items:center;
+  z-index: 6;     /* above frame */
+  background: none;   /* IMPORTANT */
+  box-shadow: none;   /* IMPORTANT */
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;   /* important */
+  container-type: inline-size;
+}
+
+.card__nameText{
+  font-weight: 900;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 2px 0 rgba(0,0,0,0.45);
+
+  font-size: clamp(0.6rem, 11cqw, 2rem);
+  line-height: 1;
+
+  white-space: nowrap;   /* keep one line */
+  overflow: visible;     /* allow full text */
+  text-overflow: clip;   /* disable ... */
+}
+
+/* Bottom description panel */
+.card__desc {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  height: 62px;
+
+  z-index: 3;
+  border-radius: 12px;
+  background: rgba(10, 8, 14, 0.55);
+  box-shadow: inset 0 0 0 2px rgba(180,140,80,0.35);
+  backdrop-filter: blur(2px);
+}
+
+.card__descInner {
+  padding: 10px 10px 8px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: rgba(255,255,255,0.88);
+  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+
+/* Frame overlay always on top */
+.card__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Keep your selection/hover effects */
 .card.selectedCard {
   transform: translateY(-20px) scale(1.05);
-  box-shadow: 0 12px 0 #1f172a, 0 0 25px #8f7ab3;
-  border-color: #c1acf0;
   z-index: 10;
 }
 
 .card:hover:not(.selectedCard) {
   transform: translateY(-10px);
-  box-shadow: 0 10px 0 #1f172a, 0 0 20px #6a5191;
+  z-index: 6;
 }
 
-.card-header {
-  font-weight: bold;
-  text-align: center;
-  border-bottom: 1px solid #8f7ab3;
-  margin-bottom: 0.2rem;
-  padding-bottom: 0.1rem;
-  color: #d9c2ff;
-  text-transform: uppercase;
-  font-size: 0.7rem;
-}
 
-.card-image {
-  width: 100%;
-  height: 60px;
-  background: #2a1e30;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 0.3rem;
-  border: 1px solid #5e4b7a;
-}
-
-.card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.card-description {
-  font-size: 0.6rem;
-  line-height: 1.2;
-  margin-bottom: 0.2rem;
-  flex: 1;
-  color: #c9b8e6;
-}
-
-.card-traits-left,
-.card-traits-right {
-  position: absolute;
-  bottom: 4px;
-  display: flex;
-  gap: 0.2rem;
-}
-
-.card-traits-left {
-  left: 4px;
-}
-
-.card-traits-right {
-  right: 4px;
-}
-
-.trait-icon {
-  width: 18px;
-  height: 18px;
-  background: #2a1e36;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.7rem;
-  border: 1px solid #9a8cb0;
-  color: #dac7ff;
-}
 
 /* Draw Area */
 .draw-area {

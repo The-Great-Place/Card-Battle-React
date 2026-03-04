@@ -43,7 +43,7 @@
     "id": "QUICK_STEP",
     "name": "Quick Step",
     "description":"Gain 3 Shield. Then Draw 1.",
-    "image": "/Quick Step.png",
+    "image": "/Quick_Step.png",
     "time_cost": 0,
     "effects": [
       { "type": "SHIELD", "value": 3, "target": "target" },
@@ -75,7 +75,7 @@
     "id": "HEAVY_STRIKE",
     "name": "Heavy Strike",
     "description":"Deal 13 dmg.",
-    "image": "",
+    "image": "/Heavy_Strike.png",
     "time_cost": 2,
     "effects": [
       { "type": "DAMAGE", "value": 15, "target": "target" }
@@ -85,7 +85,7 @@
     "id": "DOUBLE_STRIKE",
     "name": "Double Strike",
     "description":"Deal 4 dmg x2.",
-    "image": "",
+    "image": "/Double_Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 4, "target": "target" },
@@ -96,7 +96,7 @@
     "id": "FIVEFOLD_STRIKE",
     "name": "Fivefold Strike",
     "description":"Deal 3 dmg x5.",
-    "image": "",
+    "image": "/Fivefold_Strike.png",
     "time_cost": 0,
     "effects": [
       { "type": "DAMAGE", "value": 3, "target": "target" },
