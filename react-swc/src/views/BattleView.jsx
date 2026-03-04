@@ -33,6 +33,26 @@ function getIntentGlyph(def) {
   return "✦";
 }
 
+//Shows the card's in stacks
+function groupCards(cards) {
+  const map = {};
+
+  cards.forEach(card => {
+    const key = card.id; // use id so duplicates group correctly
+
+    if (!map[key]) {
+      map[key] = {
+        card: card,
+        count: 1
+      };
+    } else {
+      map[key].count += 1;
+    }
+  });
+
+  return Object.values(map);
+}
+
 
 const EnemyUnit = observer(({ onPress, enemy }) => {
   const healthPercent = (enemy.health / (enemy.maxHealth || 100)) * 100;
@@ -77,6 +97,37 @@ export const BattleView = observer(() => {
   const synergy = 3;
   const playerDrawCard = () => { gameManager.drawCard(1) }
 
+  const refreshHandSimple = () => {
+    const n = player.deck.hand.length;
+    if (n <= 0) return;
+
+    player.deck.discardPile.push(...player.deck.hand);
+    player.deck.hand.splice(0, player.deck.hand.length);
+
+    player.drawCard(n);
+    gameManager.progressTime(2);
+  };
+
+
+  // For Refresh hand and selectable discard in the future
+  const [refreshMode, setRefreshMode] = useState(false);
+  const [refreshSet, setRefreshSet] = useState(new Set());
+  const toggleRefreshPick = (idx) => {
+    setRefreshSet(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx);
+      else next.add(idx);
+      return next;
+    });
+  };
+
+  const doRefresh = () => {
+    const indexes = Array.from(refreshSet);
+    const n = player.refreshSelected(indexes);
+    setRefreshSet(new Set());
+    setRefreshMode(false);
+    if (n > 0) gameManager.progressTime(1); // or whatever time cost you want
+  };
 
 
   return (
@@ -138,7 +189,12 @@ export const BattleView = observer(() => {
                   <p>Shield: {player.shield}</p>
                 </div>
               </div>
-              <button onClick={playerDrawCard} className='clickable refresh-button'>Refresh Hand</button>
+           <button
+            onClick={refreshHandSimple}
+            className='clickable refresh-button'
+          >
+            Refresh Hand
+          </button>
             </div>
           </div>
 
@@ -148,10 +204,16 @@ export const BattleView = observer(() => {
             {player.deck.hand.map((card, idx) => (
              
           <button
-       key={idx}
-      onClick={() => setSelectedCardIdx(idx)}
-      className={`card card--fullart ${idx === selectedCardIdx ? 'selectedCard' : ''}`}
-      style={{ "--i": idx, "--n": player.deck.hand.length }}
+              key={idx}
+              onClick={() => {
+                if (refreshMode) toggleRefreshPick(idx);
+                else setSelectedCardIdx(idx);
+              }}
+              className={`card card--fullart
+                ${idx === selectedCardIdx ? 'selectedCard' : ''}
+                ${refreshSet.has(idx) ? 'refreshPick' : ''}`
+              }
+              style={{ "--i": idx, "--n": player.deck.hand.length }}
 >
   {/* Full-card art */}
   <img className="card__artFull" src={card.image} alt={card.name} />
@@ -192,8 +254,32 @@ export const BattleView = observer(() => {
           </div>
 
           {/* Right Section: Draw Card button only */}
-          <div className='draw-area'>
-            <button onClick={playerDrawCard} className='clickable draw-button'>Draw Card</button>
+          <div className="draw-area">
+            <div className="draw-wrapper">
+
+              <button onClick={playerDrawCard} className="clickable draw-button">
+                Draw Card
+              </button>
+
+              <div className="draw-tooltip">
+                <div className="draw-title">
+                Draw Pile ({player.deck.drawPile.length})</div>
+
+                  {groupCards(player.deck.drawPile)
+                    .sort((a, b) => a.card.name.localeCompare(b.card.name))
+                    .map(({card, count}, i) => (
+                      <div key={i} className="draw-card-row">
+                        <img src={card.image} className="draw-card-icon" />
+                        <span>{card.name}{count > 1 ? ` x${count}` : ""}</span>
+                      </div>
+                ))}
+
+                {player.deck.drawPile.length === 0 && (
+                  <div className="draw-empty">Empty</div>
+                )}
+              </div>
+
+            </div>
           </div>
       </div>
   </div>
