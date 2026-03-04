@@ -246,7 +246,7 @@ export const BattleView = observer(() => {
   </div>
 
   {/* Frame overlay */}
-  <img className="card__frame" src="/Card/frame.png" alt="" aria-hidden="true" />
+  <img className="card__frame" src="/Card/Frame.png" alt="" aria-hidden="true" />
 </button>
 
 

@@ -141,7 +141,7 @@ body {
 .enemyCard {
   position: relative;
   width: 160px;
-  height: 200px;
+  height: 240px;
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
