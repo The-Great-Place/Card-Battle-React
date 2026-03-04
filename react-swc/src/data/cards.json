@@ -3,7 +3,7 @@
     "id": "WEAK_STRIKE",
     "name": "Weak Strike",
     "description":"Deal 1 dmg to target",
-    "image": "/Strike.png",
+    "image": "/Card/Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 1, "target": "target" }
@@ -13,7 +13,7 @@
     "id": "STRIKE",
     "name": "Strike",
     "description":"Deal 5 dmg to target",
-    "image": "/Strike.png",
+    "image": "/Card/Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 5, "target": "target" }
@@ -23,7 +23,7 @@
     "id": "DEFEND",
     "name": "Defend",
     "description":"Gain 8 Shield.",
-    "image": "/Defend.png",
+    "image": "/Card/Defend.png",
     "time_cost": 1,
     "effects": [
       { "type": "SHIELD", "value": 8, "target": "target" }
@@ -33,7 +33,7 @@
     "id": "PATCH_UP",
     "name": "Patch Up",
     "description":"Heal 4 hp for target",
-    "image": "/Patch Up.png",
+    "image": "/Card/Patch Up.png",
     "time_cost": 1,
     "effects": [
       { "type": "HEAL", "value": 4, "target": "target" }
@@ -43,7 +43,7 @@
     "id": "QUICK_STEP",
     "name": "Quick Step",
     "description":"Gain 3 Shield. Then Draw 1.",
-    "image": "/Quick_Step.png",
+    "image": "/Card/Quick_Step.png",
     "time_cost": 0,
     "effects": [
       { "type": "SHIELD", "value": 3, "target": "target" },
@@ -54,7 +54,7 @@
     "id": "FOCUS",
     "name": "Focus",
     "description":"Draw 2.",
-    "image": "/Focus.png",
+    "image": "/Card/Focus.png",
     "time_cost": 0,
     "effects": [
       { "type": "DRAW", "value": 2, "target": "self" }
@@ -74,8 +74,8 @@
   "HEAVY_STRIKE": {
     "id": "HEAVY_STRIKE",
     "name": "Heavy Strike",
-    "description":"Deal 13 dmg.",
-    "image": "/Heavy_Strike.png",
+    "description":"Deal 15 dmg.",
+    "image": "/Card/Heavy_Strike.png",
     "time_cost": 2,
     "effects": [
       { "type": "DAMAGE", "value": 15, "target": "target" }
@@ -85,7 +85,7 @@
     "id": "DOUBLE_STRIKE",
     "name": "Double Strike",
     "description":"Deal 4 dmg x2.",
-    "image": "/Double_Strike.png",
+    "image": "/Card/Double_Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 4, "target": "target" },
@@ -96,8 +96,8 @@
     "id": "FIVEFOLD_STRIKE",
     "name": "Fivefold Strike",
     "description":"Deal 3 dmg x5.",
-    "image": "/Fivefold_Strike.png",
-    "time_cost": 0,
+    "image": "/Card/Fivefold_Strike.png",
+    "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 3, "target": "target" },
       { "type": "DAMAGE", "value": 3, "target": "target" },
