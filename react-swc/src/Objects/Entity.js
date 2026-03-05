@@ -12,11 +12,6 @@ export class Entity {
     this.intents = [];
     this.alive = true;
     this.image = image
-    this.onFire = 0;
-    this.onWet = 0;
-    this.onElec = 0;
-    this.charge = 5;
-    this.isFrozen = false;
 
     makeObservable(this, {
       health: observable,
@@ -29,10 +24,7 @@ export class Entity {
     });
 
   }
-  takeDamage(amount, type) {
-    
-    if (type=="fire") {amount += this.onFire; }
-    if (type=="elec") {amount += this.onWet}
+  takeDamage(amount) {
     if (this.shield >= amount){
      this.shield -= amount;
     } else{
@@ -40,28 +32,18 @@ export class Entity {
      this.shield = 0;
      this.health -= amount;
     }
-    this.checkAlive()
   }
   modifyHealth(amount) {this.health = Math.min(this.health + amount, this.maxHealth) }
   addShield(amount) {this.shield += amount; }
   checkAlive() {if (this.health <= 0){this.alive = false;}}
   playCard(target, card){
     card.effects.forEach(effect => {
-        this.modifyEffectStrength(effect)
         const effect_action = EFFECT_ACTIONS[effect.type];
         if (effect_action) {
             if (effect.target == "target"){ effect_action(target, effect.value); }
             else { effect_action(this, effect.value); }
         }
-    });
-    
-    this.charge = 0;
-    this.isFrozen = false;
-  }
-  modifyEffectStrength(effect){
-    if (this.isFrozen == true){ effect = "NULL" }
-    if (effect.type == "DAMAGE"){ effect.value += this.charge }
-
+    });        
   }
 }
 
@@ -87,15 +69,11 @@ export class Player extends Entity{
         this.intents.splice(0, 1);
     }
     drawCard(n){
-
-      for (let i = 0; i < n; i++) {
-        const c = this.deck.drawCard();
-        if (!c) break;
-      }
-      console.log(this.deck)
-    }
-
-
+  for (let i = 0; i < n; i++) {
+    const c = this.deck.drawCard();
+    if (!c) break;
+  }
+}
 refreshSelected(handIndexes) {
   // handIndexes: array of indices to discard
   if (!handIndexes || handIndexes.length === 0) return 0;

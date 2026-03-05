@@ -14,24 +14,7 @@ const player = new Player('player', 20, null, [
   "RUSH",
   "PATCH_UP",
   "FOCUS"
-])
 
-
-const player2 = new Player('player', 20, null, [
-  "STRIKE", 
-  "QUICK_STRIKE", 
-  "DOUBLE_STRIKE",
-  "HEAVY_STRIKE",
-  "FIVEFOLD_STRIKE",
-  "DEFEND",
-  "RUSH",
-  "PATCH_UP",
-  "FOCUS",
-  "CHARGE",
-  "ICE_SHARD",
-  "LIGHTNING_STRIKE",
-  "WATER_FLOW",
-  "FIREBALL"
 ])
 
 const g1 = createEnemy('GOBLIN')
@@ -52,7 +35,7 @@ const enemies = [[g1, g2], [s1,s2,s3,s4,s5],[s6,v1,s7]]
 const gameManager = new GameManager(player, enemies)
 export const useGameStore = create((set) => ({
   // --- STATE ---
-  player: player2,
+  player: player,
   enemies: enemies,
   gameManager: gameManager
 }));
