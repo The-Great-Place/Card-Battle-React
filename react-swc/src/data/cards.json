@@ -123,7 +123,9 @@
     "image": "/Card/Fireball.png",
     "time_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 5, "target": "target" }
+      { "type": "DAMAGE_FIRE", "value": 5, "target": "target" },
+      { "type": "APPLY_BURN", "value": 2, "target": "target" }
+
     ]
   },
   "WATER_FLOW": {
@@ -133,7 +135,8 @@
     "image": "/Card/Water_Flow.png",
     "time_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 5, "target": "target" }
+      { "type": "DAMAGE_WATER", "value": 5, "target": "target" },
+      { "type": "APPLY_WET", "value": 2, "target": "target" }
     ]
   },
   "EARTH_SHIELD": {
@@ -149,32 +152,33 @@
   "LIGHTNING_STRIKE": {
     "id": "LIGHTNING_STRIKE",
     "name": "Lightning Strike",
-    "description":"Deal 5 dmg.",
+    "description":"Deal 5 dmg. Deal more damage to enemies that are wet",
     "image": "/Card/Lightning_Strike.png",
     "time_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 5, "target": "target" }
+      { "type": "DAMAGE_ELEC", "value": 5, "target": "target" }
     ]
   },
   "ICE_SHARD": {
     "id": "ICE_SHARD",
     "name": "Ice Shard",
-    "description":"Deal 5 dmg.",
+    "description":"Deal 3 dmg and freeze target",
     "image": "/Card/Ice_Shard.png",
     "time_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 5, "target": "target" }
-    ]
-  },
-    "CHARGE": {
-    "id": "CHARGE",
-    "name": "Charge",
-    "description":"Deal 3 dmg to target",
-    "image": "/Card/Charge.png",
-    "time_cost": 0,
-    "effects": [
+      { "type": "FREEZE", "value": 0, "target": "target" },
       { "type": "DAMAGE", "value": 3, "target": "target" }
     ]
+  },
+  "CHARGE": {
+  "id": "CHARGE",
+  "name": "Charge",
+  "description":"Deal 3 dmg to target",
+  "image": "/Card/Charge.png",
+  "time_cost": 0,
+  "effects": [
+    { "type": "CHARGE", "value": 3, "target": "target" }
+  ]
   },
     "BLOOD_DRAIN": {
     "id": "BLOOD_DRAIN",
