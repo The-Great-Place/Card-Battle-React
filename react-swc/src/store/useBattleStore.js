@@ -5,7 +5,7 @@ import { createEnemy } from '../engine/enemyRegistry';
 // Define your cards with "Effect" strings or logic keys
 
 const player = new Player('player', 20, null, [
-  "STRIKE", 
+ "STRIKE", 
   "QUICK_STRIKE", 
   "DOUBLE_STRIKE",
   "HEAVY_STRIKE",
@@ -14,6 +14,7 @@ const player = new Player('player', 20, null, [
   "RUSH",
   "PATCH_UP",
   "FOCUS"
+
 ])
 
 const g1 = createEnemy('GOBLIN')

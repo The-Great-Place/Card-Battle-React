@@ -115,5 +115,75 @@
       { "type": "DAMAGE", "value": 3, "target": "target" },
       { "type": "DAMAGE", "value": 3, "target": "target" }
     ]
+  },
+   "FIREBALL": {
+    "id": "FIREBALL",
+    "name": "Fireball",
+    "description":"Deal 5 dmg. Activate Burn. Apply Burn x2.",
+    "image": "/Card/Fireball.png",
+    "time_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 5, "target": "target" }
+    ]
+  },
+  "WATER_FLOW": {
+    "id": "WATER_FLOW",
+    "name": "Water Flow",
+    "description":"Deal 5 dmg.",
+    "image": "/Card/Water_Flow.png",
+    "time_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 5, "target": "target" }
+    ]
+  },
+  "EARTH_SHIELD": {
+    "id": "EARTH_SHIELD",
+    "name": "Earth Shield",
+    "description":"Deal 5 dmg. ",
+    "image": "/Card/Earth_Shield.png",
+    "time_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 5, "target": "target" }
+    ]
+  },
+  "LIGHTNING_STRIKE": {
+    "id": "LIGHTNING_STRIKE",
+    "name": "Lightning Strike",
+    "description":"Deal 5 dmg.",
+    "image": "/Card/Lightning_Strike.png",
+    "time_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 5, "target": "target" }
+    ]
+  },
+  "ICE_SHARD": {
+    "id": "ICE_SHARD",
+    "name": "Ice Shard",
+    "description":"Deal 5 dmg.",
+    "image": "/Card/Ice_Shard.png",
+    "time_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 5, "target": "target" }
+    ]
+  },
+    "CHARGE": {
+    "id": "CHARGE",
+    "name": "Charge",
+    "description":"Deal 3 dmg to target",
+    "image": "/Card/Charge.png",
+    "time_cost": 0,
+    "effects": [
+      { "type": "DAMAGE", "value": 3, "target": "target" }
+    ]
+  },
+    "BLOOD_DRAIN": {
+    "id": "BLOOD_DRAIN",
+    "name": "Blood Drain",
+    "description":"Deal 3 dmg to target",
+    "image": "/Card/Blood_Drain.png",
+    "time_cost": 0,
+    "effects": [
+      { "type": "DAMAGE", "value": 3, "target": "target" }
+    ]
   }
 }
