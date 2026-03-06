@@ -8,7 +8,7 @@
     "image": "/Card/Strike.png",
     "time_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 1, "target": "target" }
+      { "type": "DAMAGE", "value": 2, "target": "target" }
     ]
   },
   "STRIKE": {
@@ -77,11 +77,11 @@
     "name": "Focus",
     "rarity": "common",
     "rewardable": true,
-    "description":"Draw 2.",
+    "description":"Draw 1.",
     "image": "/Card/Focus.png",
     "time_cost": 0,
     "effects": [
-      { "type": "DRAW", "value": 2, "target": "self" }
+      { "type": "DRAW", "value": 1, "target": "self" }
     ]
   },
   "VAMPIRE": {
@@ -89,12 +89,12 @@
     "name": "Vampire",
     "rarity": "common",
     "rewardable": false,
-    "description":"Deal 1 damage and heal 1",
+    "description":"Deal 3 damage. Heal 3",
     "image": "",
-    "time_cost": 2,
+    "time_cost": 1,
     "effects": [
-      { "type": "Damage", "value": 2, "target": "target" },
-      { "type": "HEAL", "value": 2, "target": "self" }
+      { "type": "DAMAGE", "value": 3, "target": "target" },
+      { "type": "HEAL", "value": 3, "target": "self" }
     ]
   },
   "HEAVY_STRIKE": {
