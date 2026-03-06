@@ -1,5 +1,7 @@
 import { makeAutoObservable } from "mobx";
 
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 export class GameManager{
     constructor(player, enemies){
         this.time = 0;
@@ -8,24 +10,27 @@ export class GameManager{
         this.enemies_index = 0;
         makeAutoObservable(this);
     }
-    progressTime(t){
+    async progressTime(t){
         for (let i = 0; i < t + 1; i++){
             if (i!=0) this.time +=1;
-            this.runIntents()
+            await this.runIntents()
             this.updateGame()
         }
     }
-    runIntents(){
+    async runIntents(){
         let pi = this.player.intents[0];
         if (pi){if (pi.time <= this.time) {
             this.player.playCard(pi.target, this.player.deck.hand[pi.card_idx], pi.card_idx);
-            }
-        }
-        this.enemies[this.enemies_index].forEach(e => {
+            await delay(800)
+        }}
+        this.enemies[this.enemies_index].forEach(async e => {
             if (e.alive){
                 let ei = e.intents[0];
                 let matchTarget = {"player": this.player, "self": e}
-                if (ei.time <= this.time) e.playCard(matchTarget[ei.target], ei.card);
+                if (ei.time <= this.time) {
+                    e.playCard(matchTarget[ei.target], ei.card);
+                    await delay(800)
+                }
             }
         });
     }

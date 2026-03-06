@@ -12,6 +12,7 @@
   "dependencies": {
     "immer": "^11.1.4",
     "mobx-react": "^9.2.1",
+    "motion": "^12.35.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "zustand": "^5.0.11"
