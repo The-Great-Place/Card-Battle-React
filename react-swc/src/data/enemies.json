@@ -39,7 +39,7 @@
     "pattern":[
         {"card":"VAMPIRE", "target":"player", "time": 1},
         {"card":"VAMPIRE", "target":"player", "time": 1},
-        {"card":"VAMPIRE", "target":"self", "time": 2}
+        {"card":"VAMPIRE", "target":"player", "time": 2}
     ],
     "image": "./Enemy/Bat.png"
   }

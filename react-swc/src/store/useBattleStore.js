@@ -7,10 +7,10 @@ function buildBattleState(set) {
   const player = new Player('player', 20, null, [
     "STRIKE",
     "STRIKE",
-    "PATCH_UP",
+    "DEFEND",
     "DEFEND",
     "FOCUS",
-    "RUSH"
+    "PATCH_UP"
 
   ]);
 
@@ -38,11 +38,13 @@ function buildBattleState(set) {
   const v2 = createEnemy('VAMPIRE_BAT');
   const v3 = createEnemy('VAMPIRE_BAT');
   const v4 = createEnemy('VAMPIRE_BAT');
+  const v5 = createEnemy('VAMPIRE_BAT');
 
   const enemies = [
     [g1],
-    [g2,g3],
     [s1, s2, s3,], 
+    [v5],
+    [g2,g3],
     [s4, s5,s6,s7,s8,s9],
     [s10, v1, s11],
     [v2,v3,v4],
