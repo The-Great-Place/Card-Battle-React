@@ -5,7 +5,7 @@
     "rarity": "common",
     "rewardable": false,
     "description":"Deal 1 dmg to target",
-    "image": "/Card/Strike.png",
+    "image": "./Card/Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 1, "target": "target" }
@@ -17,7 +17,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Deal 5 dmg to target",
-    "image": "/Card/Strike.png",
+    "image": "./Card/Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 5, "target": "target" }
@@ -29,7 +29,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Deal 3 dmg to target",
-    "image": "/Card/Quick_Strike.png",
+    "image": "./Card/Quick_Strike.png",
     "time_cost": 0,
     "effects": [
       { "type": "DAMAGE", "value": 3, "target": "target" }
@@ -41,7 +41,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Gain 8 Shield.",
-    "image": "/Card/Defend.png",
+    "image": "./Card/Defend.png",
     "time_cost": 1,
     "effects": [
       { "type": "SHIELD", "value": 8, "target": "target" }
@@ -53,7 +53,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Heal 4 hp for target",
-    "image": "/Card/Patch_Up.png",
+    "image": "./Card/Patch_Up.png",
     "time_cost": 1,
     "effects": [
       { "type": "HEAL", "value": 4, "target": "target" }
@@ -65,7 +65,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Gain 3 Shield. Then Draw 1.",
-    "image": "/Card/Rush.png",
+    "image": "./Card/Rush.png",
     "time_cost": 0,
     "effects": [
       { "type": "SHIELD", "value": 3, "target": "target" },
@@ -78,7 +78,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Draw 2.",
-    "image": "/Card/Focus.png",
+    "image": "./Card/Focus.png",
     "time_cost": 0,
     "effects": [
       { "type": "DRAW", "value": 2, "target": "self" }
@@ -103,7 +103,7 @@
     "rarity": "uncommon",
     "rewardable": true,
     "description":"Deal 15 dmg.",
-    "image": "/Card/Heavy_Strike.png",
+    "image": "./Card/Heavy_Strike.png",
     "time_cost": 2,
     "effects": [
       { "type": "DAMAGE", "value": 15, "target": "target" }
@@ -115,7 +115,7 @@
     "rarity": "uncommon",
     "rewardable": true,
     "description":"Deal 4 dmg x2.",
-    "image": "/Card/Double_Strike.png",
+    "image": "./Card/Double_Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 4, "target": "target" },
@@ -128,7 +128,7 @@
     "rarity": "rare",
     "rewardable": true,
     "description":"Deal 3 dmg x5.",
-    "image": "/Card/Fivefold_Strike.png",
+    "image": "./Card/Fivefold_Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 3, "target": "target" },
@@ -144,7 +144,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Deal 5 dmg. Apply Burn x2.",
-    "image": "/Card/Fireball.png",
+    "image": "./Card/Fireball.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE_FIRE", "value": 5, "target": "target" },
@@ -153,7 +153,7 @@
     ]
   },
   "WATER_FLOW": {
-    "image": "/Card/Water_Flow.png",
+    "image": "./Card/Water_Flow.png",
     "name": "Water Flow",
     "rarity": "common",
     "rewardable": true,
@@ -170,7 +170,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Deal 5 electric dmg. Deal more damage to wet enemies.",
-    "image": "/Card/Lightning_Strike.png",
+    "image": "./Card/Lightning_Strike.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE_ELEC", "value": 5, "target": "target" }
@@ -182,7 +182,7 @@
     "rarity": "common",
     "rewardable": true,
     "description":"Deal 3 dmg. Apply Freeze x1.",
-    "image": "/Card/Ice_Shard.png",
+    "image": "./Card/Ice_Shard.png",
     "time_cost": 1,
     "effects": [
       { "type": "FREEZE", "value": 0, "target": "target" },
@@ -195,7 +195,7 @@
   "rarity": "common",
   "rewardable": true,
   "description":"Apply Charge x3.",
-  "image": "/Card/Charge.png",
+  "image": "./Card/Charge.png",
   "time_cost": 0,
   "effects": [
     { "type": "CHARGE", "value": 3, "target": "target" }
@@ -207,7 +207,7 @@
     "rarity": "rare",
     "rewardable": true,
     "description":"Deal 7 dmg to target. Heal 7.",
-    "image": "/Card/Blood_Drain.png",
+    "image": "./Card/Blood_Drain.png",
     "time_cost": 1,
     "effects": [
       { "type": "DAMAGE", "value": 7, "target": "target" },

@@ -7,7 +7,7 @@
         {"card":"STRIKE", "target":"player", "time": 2},
         {"card":"PATCH_UP", "target":"self", "time": 3}
     ],
-    "image": "/Enemy/Goblin.png"
+    "image": "./Enemy/Goblin.png"
   },
   "SKELETON":{
     "name": "Skeleton",
@@ -15,7 +15,7 @@
     "pattern":[
         {"card":"WEAK_STRIKE", "target":"player", "time": 1}
     ],
-    "image": "/Enemy/Skeleton.png"
+    "image": "./Enemy/Skeleton.png"
   },
   "BANDIT": {
     "name": "Bandit",
@@ -41,6 +41,6 @@
         {"card":"VAMPIRE", "target":"player", "time": 1},
         {"card":"VAMPIRE", "target":"self", "time": 2}
     ],
-    "image": "/Enemy/Bat.png"
+    "image": "./Enemy/Bat.png"
   }
 }

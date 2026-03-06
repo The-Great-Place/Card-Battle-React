@@ -133,10 +133,10 @@ export class GameManager {
     this.player.checkAlive();
     this.currentEnemies.forEach((e) => e.checkAlive());
 
-    if (!this.player.alive) {
-      this.runFailed = true;
-      return;
-    }
+    // if (!this.player.alive) {
+    //   this.runFailed = true;
+    //   return;
+    // }
 
     const allEnemyDead =
       this.currentEnemies.length > 0 &&
