@@ -40,10 +40,10 @@ function buildBattleState(set) {
   const v4 = createEnemy('VAMPIRE_BAT');
 
   const enemies = [
-    [g1,v2],
+    [g1],
     [g2,g3],
     [s1, s2, s3,], 
-    [ s4, s5,s6,s7,s8,s9],
+    [s4, s5,s6,s7,s8,s9],
     [s10, v1, s11],
     [v2,v3,v4],
   ];
