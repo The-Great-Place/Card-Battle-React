@@ -14,7 +14,7 @@ export const HandCardView = ({ onPress, player, card, card_idx, selectedCardIdx}
 
             {/* Top-left cost */}
             <div className="card__cost">
-                <span className="card__costValue">{card.time_cost ?? 1}</span>
+                <span className="card__costValue">{card.energy_cost ?? 1}</span>
             </div>
 
             {/* Pips under cost */}

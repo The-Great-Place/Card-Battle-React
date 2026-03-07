@@ -3,9 +3,9 @@
     "name": "Goblin Scout",
     "hp": 15,
     "pattern":[
-        {"card":"STRIKE", "target":"player", "time": 2},
-        {"card":"STRIKE", "target":"player", "time": 2},
-        {"card":"DEFEND", "target":"self", "time": 3}
+        {"card":"STRIKE", "target":"player", "time": 1},
+        {"card":"STRIKE", "target":"player", "time": 1},
+        {"card":"PATCH_UP", "target":"self", "time": 1}
     ],
     "image": "./Enemy/Goblin.png"
   },
@@ -39,7 +39,7 @@
     "pattern":[
         {"card":"VAMPIRE", "target":"player", "time": 1},
         {"card":"VAMPIRE", "target":"player", "time": 1},
-        {"card":"VAMPIRE", "target":"player", "time": 2}
+        {"card":"VAMPIRE", "target":"player", "time": 1}
     ],
     "image": "./Enemy/Bat.png"
   }

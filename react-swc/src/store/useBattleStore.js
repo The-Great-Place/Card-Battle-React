@@ -5,19 +5,19 @@ import { createEnemy } from '../engine/enemyRegistry';
 
 function buildBattleState() {
   const player = new Player('player', 20, null, [
-    // "STRIKE",
-    // "STRIKE",
-    // "DEFEND",
-    // "DEFEND",
-    // "FOCUS",
-    // "PATCH_UP"
-    "FIVEFOLD_STRIKE",
-    "FIVEFOLD_STRIKE",
-    "FIVEFOLD_STRIKE",
-    "FIVEFOLD_STRIKE",
-    "FIVEFOLD_STRIKE",
-    "FIVEFOLD_STRIKE",
-    "FIVEFOLD_STRIKE",
+     "STRIKE",
+     "STRIKE",
+     "DEFEND",
+     "DEFEND",
+     "FOCUS",
+     "PATCH_UP"
+    //"FIVEFOLD_STRIKE",
+    //"FIVEFOLD_STRIKE",
+    //"FIVEFOLD_STRIKE",
+    //"FIVEFOLD_STRIKE",
+    //"FIVEFOLD_STRIKE",
+    //"FIVEFOLD_STRIKE",
+    //"FIVEFOLD_STRIKE",
 
   ]);
 
@@ -26,6 +26,8 @@ function buildBattleState() {
   };
 
   const gameManager = new GameManager(player, [], restartBattle);
+  player.addGameManager(gameManager);
+    gameManager.startBattle();
 
   return { gameManager };
 }

@@ -96,7 +96,6 @@ export class Player extends Entity{
     playCard(target, card, idx) {
         super.playCard(target, card);
         this.deck.discardFromHand(idx);
-        this.intents.splice(0, 1);
     }
     drawCard(n){
   for (let i = 0; i < n; i++) {
@@ -184,36 +183,54 @@ class Deck {
 export class Enemy extends Entity {
     constructor(name, health, image){
         super(name, health, image);
+
+        this.possibleMoves = [];
+        this.moveIndex = 0;
+
         makeObservable(this, {
             playCard: action,
             initializeIntents: action,
-            consumeIntent: action
+            consumeIntent: action,
+            possibleMoves: observable,
+            moveIndex: observable,
         });
     }
 
     initializeIntents(possibleMoves) {
-        this.intentGenerator = new LoopPattern(possibleMoves);
-        makeObservable(this, {intentGenerator: observable})
-        let lastTime = 0;
-        // Pre-fill the window with 3 items
-        for(let i = 0; i < 3; i++) {
-            const intent = this.intentGenerator.generateNext(lastTime);
-            this.intents.push(intent);
-            lastTime = intent.time;
+        this.possibleMoves = (possibleMoves || []).map(move => ({ ...move }));
+        this.moveIndex = 0;
+        this.intents = [];
+
+        // 预填 3 个 intent
+        for (let i = 0; i < 3; i++) {
+            const nextIntent = this.getNextIntent();
+            if (nextIntent) {
+                this.intents.push(nextIntent);
+            }
         }
     }
-    consumeIntent() {
-        this.intents.shift(); // Remove the used one
-        
-        // Generate a new one to keep the window at 3
-        const lastIntent = this.intents[this.intents.length - 1];
-        const newIntent = this.intentGenerator.generateNext(lastIntent.time);
-        this.intents.push(newIntent);
+
+    getNextIntent() {
+        if (!this.possibleMoves.length) return null;
+
+        const baseMove = this.possibleMoves[this.moveIndex % this.possibleMoves.length];
+        this.moveIndex += 1;
+
+        // 一定要 clone，不要直接共用原对象
+        return { ...baseMove };
     }
+
+    consumeIntent() {
+        this.intents.shift();
+
+        const newIntent = this.getNextIntent();
+        if (newIntent) {
+            this.intents.push(newIntent);
+        }
+    }
+
     playCard(target, card){
         super.playCard(target, CardLibrary[card]);
-        this.consumeIntent()
+        this.consumeIntent();
     }
-
-
 }

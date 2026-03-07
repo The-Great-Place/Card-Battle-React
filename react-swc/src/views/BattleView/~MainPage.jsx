@@ -24,7 +24,7 @@ export const BattleView = observer(() => {
   
   const handleTargetSelect = (target) => {
     if (selectedCardIdx !== null) {
-      gameManager.intentAction(target, selectedCardIdx);
+      gameManager.playCard(target, selectedCardIdx);
       setSelectedCardIdx(null);
     }
   };
@@ -46,7 +46,7 @@ export const BattleView = observer(() => {
           <span className='synergy-icon'>⚡</span>
           <span className='synergy-value'>Synergy: {synergy}</span>
         </div>
-        <div className='turn-indicator'>Time {gameManager.time}</div>
+        <div className='turn-indicator'> Turn {gameManager.turn} </div>
         <div className='top-right-placeholder'>{/* optional right element */}
             <button className='clickable setting'>Setting</button>
             </div>
@@ -71,7 +71,7 @@ export const BattleView = observer(() => {
               <HandCardView key={idx} onPress={() => setSelectedCardIdx(prev => (prev === idx ? null : idx))} player={player} card={card} card_idx={idx} selectedCardIdx={selectedCardIdx}></HandCardView>
             ))}
           </div>
-
+          <button onClick={gameManager.endTurn} className="clickable refresh-button"> End Turn</button>
       </div>
 
       {/*  Game State Managing */}
