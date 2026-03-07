@@ -54,10 +54,17 @@ export class Entity {
   modifyHealth(amount) {this.health = Math.min(this.health + amount, this.maxHealth) }
   addShield(amount) {this.shield += amount; }
   checkAlive() {if (this.health <= 0){this.alive = false;}}
+
   playCard(target, card){
     console.log(this, this.isFrozen)
-    card.effects.forEach(effect => {
+    this.chargeConsumed = false;
+
+
+    card.effects.forEach(rawEffect => {
+          
+        const effect = { ...rawEffect }; 
         this.effectModifier(effect);
+        
         const effect_action = EFFECT_ACTIONS[effect.type];
         if (effect_action) {
             if (effect.target == "target"){ effect_action(target, effect.value); }
@@ -68,7 +75,10 @@ export class Entity {
     this.isFrozen = false;  
   }
   effectModifier(effect){
-    if (this.isFrozen == true){ effect.type = "NULL" }
+ if (this.isFrozen) {
+    effect.type = "NULL";
+    return;
+  }
     if (effect.type == "DAMAGE"){ 
       effect.value += this.charge
       this.chargeConsumed = true;
