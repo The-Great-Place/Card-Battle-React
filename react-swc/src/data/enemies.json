@@ -5,7 +5,7 @@
     "pattern":[
         {"card":"STRIKE", "target":"player", "time": 2},
         {"card":"STRIKE", "target":"player", "time": 2},
-        {"card":"PATCH_UP", "target":"self", "time": 3}
+        {"card":"DEFEND", "target":"self", "time": 3}
     ],
     "image": "./Enemy/Goblin.png"
   },

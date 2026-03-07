@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useGameStore } from './store/useBattleStore.js'
 import './App.css'
-import { BattleView } from './views/BattleView.jsx'
+import { BattleView } from './views/BattleView/~MainPage.jsx'
 
 function App() {
 
