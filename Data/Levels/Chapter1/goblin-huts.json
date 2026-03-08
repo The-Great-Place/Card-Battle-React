@@ -1,0 +1,9 @@
+{
+  "waves": [
+    { "enemies": ["GOBLIN"] },
+    { "enemies": ["SPEAR_GOBLIN", "GOBLIN"] },
+    { "enemies": ["GOBLIN", "GOBLIN" ]},
+    { "enemies": ["GOBLIN_SOLDIER", "SPEAR_GOBLIN"] },
+    { "enemies": ["STRONG_GOBLIN"] }
+  ]
+}

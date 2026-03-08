@@ -1,0 +1,350 @@
+{
+  "WEAK_STRIKE": {
+    "id": "WEAK_STRIKE",
+    "name": "Weak Strike",
+    "rarity": "common",
+    "rewardable": false,
+    "description":"Deal 1 dmg to target",
+    "image": "./Card/Strike.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 1, "target": "target" }
+    ]
+  },
+    "GUARD": {
+    "id": "GUARD",
+    "name": "Guard",
+    "rarity": "uncommon",
+    "rewardable": false,
+    "description":"Gain 20 Shield.",
+    "image": "./Card/Defend.png",
+    "energy_cost": 2,
+    "effects": [
+      { "type": "SHIELD", "value": 20, "target": "target" }
+    ]
+  },
+  "STRIKE": {
+    "id": "STRIKE",
+    "name": "Strike",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Deal 5 dmg to target",
+    "image": "./Card/Strike.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 5, "target": "target" }
+    ]
+  },
+   "QUICK_STRIKE": {
+    "id": "QUICK_STRIKE",
+    "name": "Quick Strike",
+    "rarity": "rare",
+    "rewardable": true,
+    "description":"Deal 4 dmg to target",
+    "image": "./Card/Quick_Strike.png",
+    "energy_cost": 0,
+    "effects": [
+      { "type": "DAMAGE", "value": 4, "target": "target" }
+    ]
+  },
+  "DEFEND": {
+    "id": "DEFEND",
+    "name": "Defend",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Gain 8 Shield.",
+    "image": "./Card/Defend.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "SHIELD", "value": 8, "target": "target" }
+    ]
+  },
+  "PATCH_UP": {
+    "id": "PATCH_UP",
+    "name": "Patch Up",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Heal 4 hp for target",
+    "image": "./Card/Patch_Up.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "HEAL", "value": 4, "target": "target" }
+    ]
+  },
+  "RUSH": {
+    "id": "RUSH",
+    "name": "Rush",
+    "rarity": "uncommon",
+    "rewardable": true,
+    "description":"Your next card costs 1 less this turn.",
+    "image": "./Card/Rush.png",
+    "energy_cost": 0,
+    "effects": [
+      { "type": "REDUCE_NEXT_CARDS_COST", "value": { "amount": 1, "charges": 1 }, "target": "self" }
+    ]
+  },
+  "FOCUS": {
+    "id": "FOCUS",
+    "name": "Focus",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Draw 2.",
+    "image": "./Card/Focus.png",
+    "energy_cost": 0,
+    "effects": [
+      { "type": "DRAW", "value": 2, "target": "self" }
+    ]
+  },
+  "VAMPIRE": {
+    "id": "VAMPIRE",
+    "name": "Vampire",
+    "rarity": "common",
+    "rewardable": false,
+    "description":"Deal 3 damage. Heal 3",
+    "image": "",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 3, "target": "target" },
+      { "type": "HEAL", "value": 3, "target": "self" }
+    ]
+  },
+  "HEAVY_STRIKE": {
+    "id": "HEAVY_STRIKE",
+    "name": "Heavy Strike",
+    "rarity": "uncommon",
+    "rewardable": true,
+    "description":"Deal 15 dmg.",
+    "image": "./Card/Heavy_Strike.png",
+    "energy_cost": 2,
+    "effects": [
+      { "type": "DAMAGE", "value": 15, "target": "target" }
+    ]
+  },
+  "DOUBLE_STRIKE": {
+    "id": "DOUBLE_STRIKE",
+    "name": "Double Strike",
+    "rarity": "rare",
+    "rewardable": true,
+    "description":"Deal 4 dmg x2.",
+    "image": "./Card/Double_Strike.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 4, "target": "target" },
+      { "type": "DAMAGE", "value": 4, "target": "target" }
+    ]
+  },
+  "FIVEFOLD_STRIKE": {
+    "id": "FIVEFOLD_STRIKE",
+    "name": "Fivefold Strike",
+    "rarity": "legendary",
+    "rewardable": true,
+    "description":"Deal 3 dmg x5.",
+    "image": "./Card/Fivefold_Strike.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE", "value": 3, "target": "target" },
+      { "type": "DAMAGE", "value": 3, "target": "target" },
+      { "type": "DAMAGE", "value": 3, "target": "target" },
+      { "type": "DAMAGE", "value": 3, "target": "target" },
+      { "type": "DAMAGE", "value": 3, "target": "target" }
+    ]
+  },
+  "ATTACK_RUSH": {
+  "id": "ATTACK_RUSH",
+  "name": "Attack Rush",
+  "rarity": "epic",
+  "rewardable": true,
+  "description": "Create 3 temporary Quick Strike in your hand. Exhaust.",
+  "image": "./Card/Attack_Rush.png",
+  "energy_cost": 1,
+  "effects": [
+      {
+        "type": "CREATE_TEMP_CARD_IN_HAND",
+        "target": "self",
+        "value": {
+          "cardId": "QUICK_STRIKE",
+          "count": 3,
+          "energy_cost": 1,
+          "exhaust": true
+        }
+      }
+    ]
+  },
+   "FIREBALL": {
+    "id": "FIREBALL",
+    "name": "Fireball",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Deal 4 dmg. Then Apply Burn x4.",
+    "image": "./Card/Fireball.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE_FIRE", "value": 5, "target": "target" },
+      { "type": "APPLY_BURN", "value": 2, "target": "target" }
+
+    ]
+  },
+    "FLAME_BURST": {
+    "id": "FLAME_BURST",
+    "name": "Flame Burst",
+    "rarity": "rare",
+    "rewardable": true,
+    "description":"Draw 1. Apply 3 Burn. Your Next Card Cost 1 Less.",
+    "image": "./Card/Flame_Burst.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DRAW", "value": 1, "target": "self" },
+      { "type": "APPLY_BURN", "value": 3, "target": "target" },
+      { "type": "REDUCE_NEXT_CARDS_COST", "value": { "amount": 1, "charges": 1 }, "target": "self" }
+
+    ]
+  },
+  "IGNITE": {
+    "id": "IGNITE",
+    "name": "Ignite",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Apply Burn x2. Then Deal 1 dmg.",
+    "image": "./Card/Ignite.png",
+    "energy_cost": 0,
+    "effects": [
+      { "type": "APPLY_BURN", "value": 2, "target": "target" },
+      { "type": "DAMAGE_FIRE", "value": 1, "target": "target" }
+
+    ]
+  },
+    "KINDLE": {
+    "id": "KINDLE",
+    "name": "Kindle",
+    "rarity": "uncommon",
+    "rewardable": true,
+    "description":"Apply Burn x6.",
+    "image": "./Card/Kindle.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "APPLY_BURN", "value": 6, "target": "target" }
+
+    ]
+  },
+
+    "PYRO_PUNCH": {
+    "id": "PYRO_PUNCH",
+    "name": "Pyro Punch",
+    "rarity": "uncommon",
+    "rewardable": true,
+    "description":"Deal 3 fire dmg. If the enemy has burn stacks, +3 fire dmg.",
+    "image": "./Card/Pyro_Punch.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE_FIRE", "value": 6, "target": "target" }
+
+    ]
+  },
+    "BLAZING_FLURRY": {
+    "id": "BLAZING_FLURRY",
+    "name": "Blazing Flurry",
+    "rarity": "legendary",
+    "rewardable": true,
+    "description":"Deal 1 fire dmg x 5.",
+    "image": "./Card/Blazing_Flurry.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE_FIRE", "value": 1, "target": "target" },
+      { "type": "DAMAGE_FIRE", "value": 1, "target": "target" },
+      { "type": "DAMAGE_FIRE", "value": 1, "target": "target" },
+      { "type": "DAMAGE_FIRE", "value": 1, "target": "target" },
+      { "type": "DAMAGE_FIRE", "value": 1, "target": "target" }
+
+    ]
+  },
+    "COMBUST": {
+    "id": "COMBUST",
+    "name": "Combust",
+    "rarity": "uncommon",
+    "rewardable": true,
+    "description":"Activate all selected target’s burn stacks.",
+    "image": "./Card/Combust.png",
+    "energy_cost": 0,
+    "effects": [
+      { "type": "DAMAGE_FIRE", "value": 1, "target": "target" }
+
+    ]
+  },
+    "FLAME_WALL": {
+    "id": "FLAME_WALL",
+    "name": "Flame Wall",
+    "rarity": "epic",
+    "rewardable": true,
+    "description":"Gain 8 shield. In 3 turns, activates enemy burn when they attack you.",
+    "image": "./Card/Flame_Wall.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "SHIELD", "value": 8, "target": "target" }
+
+    ]
+  },
+
+
+  "WATER_FLOW": {
+    "image": "./Card/Water_Flow.png",
+    "name": "Water Flow",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Deal 5 water dmg. Apply Wet x1.",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE_WATER", "value": 5, "target": "target" },
+      { "type": "APPLY_WET", "value": 2, "target": "target" }
+    ]
+  },
+  "LIGHTNING_STRIKE": {
+    "id": "LIGHTNING_STRIKE",
+    "name": "Lightning Strike",
+    "rarity": "common",
+    "rewardable": true,
+    "description":"Deal 5 electric dmg. Deal more damage to wet enemies.",
+    "image": "./Card/Lightning_Strike.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "DAMAGE_ELEC", "value": 5, "target": "target" }
+    ]
+  },
+  "ICE_SHARD": {
+    "id": "ICE_SHARD",
+    "name": "Ice Shard",
+    "rarity": "uncommon",
+    "rewardable": true,
+    "description":"Deal 3 dmg. Apply Freeze x1.",
+    "image": "./Card/Ice_Shard.png",
+    "energy_cost": 1,
+    "effects": [
+      { "type": "FREEZE", "value": 0, "target": "target" },
+      { "type": "DAMAGE", "value": 3, "target": "target" }
+    ]
+  },
+  "CHARGE": {
+  "id": "CHARGE",
+  "name": "Charge",
+  "rarity": "common",
+  "rewardable": true,
+  "description":"Apply Charge x3.",
+  "image": "./Card/Charge.png",
+  "energy_cost": 0,
+  "effects": [
+    { "type": "CHARGE", "value": 3, "target": "target" }
+  ]
+  },
+    "BLOOD_DRAIN": {
+    "id": "BLOOD_DRAIN",
+    "name": "Blood Drain",
+    "rarity": "epic",
+    "rewardable": true,
+    "description":"Deal 7 dmg to target. Heal 7.",
+    "image": "./Card/Blood_Drain.png",
+    "energy_cost": 2,
+    "effects": [
+      { "type": "DAMAGE", "value": 7, "target": "target" },
+      { "type": "HEAL", "value": 7, "target": "self" }
+    ]
+  }
+}

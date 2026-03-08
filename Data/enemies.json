@@ -1,0 +1,98 @@
+{
+  "GOBLIN": {
+    "name": "Goblin Scout",
+    "hp": 20,
+    "pattern":[
+        {"card":"STRIKE", "target":"player", "time": 1},
+        {"card":"STRIKE", "target":"player", "time": 1},
+        {"card":"PATCH_UP", "target":"self", "time": 1}
+    ],
+    "image": "./Enemy/Goblin.png"
+  },
+   "SPEAR_GOBLIN": {
+    "name": "Goblin Spear Thrower",
+    "hp": 15,
+    "pattern":[
+      {"card":"CHARGE", "target":"self", "time": 0},
+        {"card":"DOUBLE_STRIKE", "target":"player", "time": 1},
+        {"card":"STRIKE", "target":"player", "time": 1}
+    ],
+    "image": "./Enemy/Spear_Goblin.png"
+  },
+   "STRONG_GOBLIN": {
+    "name": "Strong Goblin",
+    "hp": 80,
+    "pattern":[
+        {"card":"STRIKE", "target":"player", "time": 1},
+        {"card":"HEAVY_STRIKE", "target":"player", "time": 1},
+        {"card":"PATCH_UP", "target":"self", "time": 0}
+    ],
+    "image": "./Enemy/Strong_Goblin.png"
+  },
+   "GOBLIN_SOLDIER": {
+    "name": "Goblin Soldier",
+    "hp": 35,
+    "pattern":[
+        {"card":"DEFEND", "target":"self", "time": 0},
+        {"card":"STRIKE", "target":"player", "time": 1},
+        {"card":"DOUBLE_STRIKE", "target":"player", "time": 1}
+    ],
+    "image": "./Enemy/Goblin_Soldier.png"
+  },
+  "SKELETON":{
+    "name": "Skeleton",
+    "hp": 3,
+    "pattern":[
+        {"card":"STRIKE", "target":"player", "time": 1}
+    ],
+    "image": "./Enemy/Skeleton.png"
+  },
+    "SKELETON_SOLDIER":{
+    "name": "Skeleton Soldier",
+    "hp": 10,
+    "pattern":[
+        {"card":"DEFEND", "target":"self", "time": 0},
+        {"card":"DOUBLE_STRIKE", "target":"player", "time": 1},
+        {"card":"DOUBLE_STRIKE", "target":"player", "time": 1}
+    ],
+    "image": "./Enemy/Skeleton_Soldier.png"
+  },
+    "ELITE_SKELETON":{
+    "name": "Elite Skeleton Soldier",
+    "hp": 15,
+    "pattern":[
+        {"card":"GUARD", "target":"self", "time": 1},
+        {"card":"CHARGE", "target":"self", "time": 1},
+        {"card":"DOUBLE_STRIKE", "target":"player", "time": 0},
+        {"card":"STRIKE", "target":"player", "time": 1}
+
+    ],
+    "image": "./Enemy/Elite_Skeleton.png"
+  },
+  "BANDIT": {
+    "name": "Bandit",
+    "hp": 15,
+    "pattern":[
+        {"card":"STRIKE", "target":"player", "time": 2},
+        {"card":"DEFEND", "target":"player", "time": 2},
+        {"card":"PATCH_UP", "target":"self", "time": 1}
+    ]
+  },
+  "SLIME":{
+    "name": "Slime",
+    "hp": 20,
+    "pattern":[
+        {"card":"STRIKE", "target":"player", "time": 2}
+    ]
+  },
+  "VAMPIRE_BAT": {
+    "name": "Vampire Bat",
+    "hp": 30,
+    "pattern":[
+        {"card":"VAMPIRE", "target":"player", "time": 1},
+        {"card":"VAMPIRE", "target":"player", "time": 1},
+        {"card":"VAMPIRE", "target":"player", "time": 1}
+    ],
+    "image": "./Enemy/Bat.png"
+  }
+}
