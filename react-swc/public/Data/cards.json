@@ -164,7 +164,7 @@
         "value": {
           "cardId": "QUICK_STRIKE",
           "count": 3,
-          "energy_cost": 1,
+          "energy_cost": 0,
           "exhaust": true
         }
       }
