@@ -1,73 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { CardLibrary } from "../engine/cardEffects";
-
-function buildRewardPools() {
-  const pools = {
-    common: [],
-    uncommon: [],
-    rare: [],
-    epic: [],
-    legendary: [],
-  };
-
-  Object.entries(CardLibrary).forEach(([id, card]) => {
-    if (!card.rewardable) return;
-
-    const rarity = card.rarity || "common";
-
-    if (!pools[rarity]) {
-      pools[rarity] = [];
-    }
-
-    pools[rarity].push(id);
-  });
-
-  return pools;
-}
-
-const REWARD_POOLS = buildRewardPools();
-
-function randomFrom(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
-
-function rollRarityForWave(waveIndex) {
-  const r = Math.random();
-
-  if (r < 0.4) return "common";
-  if (r < 0.7) return "uncommon";
-  if (r < 0.85) return "rare";
-  if (r < 0.95) return "epic";
-  return "legendary";
-}
-
-function getRandomLootChoices(waveIndex, count = 3) {
-  const chosenIds = new Set();
-  const rewards = [];
-
-  let safety = 0;
-  while (rewards.length < count && safety < 100) {
-    safety++;
-
-    const rarity = rollRarityForWave(waveIndex);
-    const pool = REWARD_POOLS[rarity] || [];
-    if (pool.length === 0) continue;
-
-    const id = randomFrom(pool);
-    if (chosenIds.has(id)) continue;
-
-    const card = CardLibrary[id];
-    if (!card) continue;
-
-    chosenIds.add(id);
-    rewards.push({
-      ...card,
-      rewardRarity: rarity,
-    });
-  }
-
-  return rewards;
-}
+import { getRandomLootChoices } from "../engine/generateLoot";
 
 export class GameManager {
   constructor(player, enemies, restartCallback = null) {
@@ -92,35 +24,16 @@ export class GameManager {
     makeAutoObservable(this, {}, { autoBind: true });
   }
 
-  get currentEnemies() {
-    return this.enemies[this.enemies_index] || [];
-  }
+  get currentEnemies() { return this.enemies[this.enemies_index] || [];}
 
-  startBattle() {
-    this.turn = 1;
-    this.playerTurn = true;
-    this.energy = this.maxEnergy;
-
-    // 清空旧的玩家意图
-    if (this.player.intents) {
-      this.player.intents = [];
-    }
-
-    // 清空手牌
-    if (this.player.deck?.discardHandAll) {
-      this.player.deck.discardHandAll();
-    }
-
-    this.player.drawCard(this.cardsPerTurn);
-
-    this.updateGame();
-  }
+  startBattle() { this.turn = 1; this.startPlayerTurn() }
 
   startPlayerTurn() {
+    this.player.deck.discardHandAll();
     this.playerTurn = true;
     this.energy = this.maxEnergy;
     this.player.drawCard(this.cardsPerTurn);
-    this.updateGame();
+    // this.updateGame();
   }
 
   playCard(target, card_idx) {
@@ -165,15 +78,10 @@ export class GameManager {
     if (this.lootOpen || this.runComplete || this.runFailed) return;
 
     this.playerTurn = false;
-
-    if (this.player.deck?.discardHandAll) {
-      this.player.deck.discardHandAll();
-    }
+    this.player.deck.discardHandAll();
 
     this.runEnemyTurn();
-    this.updateGame();
-
-    if (this.lootOpen || this.runComplete || this.runFailed) return;
+    if (!this.player.alive) this.runFailed = true;
 
     this.turn += 1;
     this.startPlayerTurn();
@@ -188,71 +96,65 @@ runEnemyTurn() {
       player: this.player,
       self: e,
     };
+    e.intents.forEach((intent) => {
+      const target = matchTarget[intent.target]
+      e.playCard(target, intent.card)
+    })
+    e.getNextIntent()
 
-    let safety = 10; // 防止死循环
-    let chainMode = false;
+  //   let safety = 10; // 防止死循环
+  //   let chainMode = false;
 
-    while (e.alive && e.intents.length > 0 && safety > 0) {
-      safety--;
+  //   while (e.alive && e.intents.length > 0 && safety > 0) {
+  //     safety--;
 
-      const intent = e.intents[0];
-      if (!intent) break;
+  //     const intent = e.intents[0];
+  //     if (!intent) break;
 
-      // 先头是 1：正常放一招，然后结束
-      if (!chainMode && intent.time === 1) {
-        const target = matchTarget[intent.target];
-        if (!target) break;
+  //     // 先头是 1：正常放一招，然后结束
+  //     if (!chainMode && intent.time === 1) {
+  //       const target = matchTarget[intent.target];
+  //       if (!target) break;
 
-        e.playCard(target, intent.card);
-        break;
-      }
+  //       e.playCard(target, intent.card);
+  //       break;
+  //     }
 
-      // 先头是 0：进入连锁模式
-      if (intent.time === 0) {
-        chainMode = true;
+  //     // 先头是 0：进入连锁模式
+  //     if (intent.time === 0) {
+  //       chainMode = true;
 
-        const target = matchTarget[intent.target];
-        if (!target) break;
+  //       const target = matchTarget[intent.target];
+  //       if (!target) break;
 
-        e.playCard(target, intent.card);
-        continue;
-      }
+  //       e.playCard(target, intent.card);
+  //       continue;
+  //     }
 
-      // 连锁模式中遇到 1：放掉并结束
-      if (chainMode && intent.time === 1) {
-        const target = matchTarget[intent.target];
-        if (!target) break;
+  //     // 连锁模式中遇到 1：放掉并结束
+  //     if (chainMode && intent.time === 1) {
+  //       const target = matchTarget[intent.target];
+  //       if (!target) break;
 
-        e.playCard(target, intent.card);
-        break;
-      }
+  //       e.playCard(target, intent.card);
+  //       break;
+  //     }
 
-      // 遇到大于1：不放，只减1，然后结束
-      if (intent.time > 1) {
-        intent.time -= 1;
-        break;
-      }
+  //     // 遇到大于1：不放，只减1，然后结束
+  //     if (intent.time > 1) {
+  //       intent.time -= 1;
+  //       break;
+  //     }
 
-      break;
-    }
-  });
+  //     break;
+  //   }
+   });
 }
 
   updateGame() {
-    this.player.checkAlive();
-    this.currentEnemies.forEach((e) => e.checkAlive());
-
-    if (!this.player.alive) {
-      this.runFailed = true;
-      return;
-    }
-
-    const allEnemyDead =
-      this.currentEnemies.length > 0 &&
-      this.currentEnemies.every((e) => !e.alive);
-
+    const allEnemyDead = this.currentEnemies.length > 0 && this.currentEnemies.every((e) => !e.alive);
     if (!allEnemyDead) return;
-
+    //if all Enemy Dead, Progress Wave
     const isLastWave = this.enemies_index >= this.enemies.length - 1;
 
     if (isLastWave) {
@@ -293,5 +195,7 @@ runEnemyTurn() {
   nextLevel() {
     this.current_view = "chapter-view";
     this.runComplete = false;
+    this.enemies_index = 0;
+    this.startBattle();
   }
 }

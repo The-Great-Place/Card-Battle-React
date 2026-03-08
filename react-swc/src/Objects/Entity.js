@@ -64,7 +64,7 @@ export class Entity {
   checkAlive() {if (this.health <= 0){this.alive = false;}}
 
   playCard(target, card){
-    console.log(this, this.isFrozen)
+    // console.log(this, this.isFrozen)
     this.chargeConsumed = false;
 
 
@@ -98,7 +98,7 @@ export class Entity {
 
 
 export class Player extends Entity{
-    constructor(name, health, image, deck) {
+  constructor(name, health, image, deck) {
         super(name, health, image);
         this.deck = new Deck(deck);
         
@@ -109,39 +109,40 @@ export class Player extends Entity{
             refreshSelected: action
         });
       //  this.drawCard(4);
-    }
-    addGameManager(gameManager){ this.gameManager = gameManager; }
-    playCard(target, card, idx) {
+  }
+  playCard(target, card, idx) {
         super.playCard(target, card);
         this.deck.discardFromHand(idx);
+  }
+  drawCard(n){
+    for (let i = 0; i < n; i++) {
+      const c = this.deck.drawCard();
+      if (!c) break;
     }
-    drawCard(n){
-  for (let i = 0; i < n; i++) {
-    const c = this.deck.drawCard();
-    if (!c) break;
   }
-}
-refreshSelected(handIndexes) {
-  // handIndexes: array of indices to discard
-  if (!handIndexes || handIndexes.length === 0) return 0;
+  addGameManager(gameManager){this.gameManager = gameManager}
+  refreshSelected(handIndexes) {
+    // handIndexes: array of indices to discard
+    if (!handIndexes || handIndexes.length === 0) return 0;
 
-  // IMPORTANT: discard from highest index first so indices don't shift
-  const sorted = [...handIndexes].sort((a, b) => b - a);
+    // IMPORTANT: discard from highest index first so indices don't shift
+    const sorted = [...handIndexes].sort((a, b) => b - a);
 
-  let discarded = 0;
-  for (const idx of sorted) {
-    const card = this.deck.hand[idx];
-    if (!card) continue;
-    this.deck.discardPile.push(card);
-    this.deck.hand.splice(idx, 1);
-    discarded++;
-  }
+    let discarded = 0;
+    for (const idx of sorted) {
+      const card = this.deck.hand[idx];
+      if (!card) continue;
+      this.deck.discardPile.push(card);
+      this.deck.hand.splice(idx, 1);
+      discarded++;
+    }
 
-  // Draw back the same number
-  this.drawCard(discarded);
-  return discarded;
+    // Draw back the same number
+    this.drawCard(discarded);
+    return discarded;
+    }
 }
-}
+
 /*Updated Deck*/ 
 class Deck {
   constructor(initDeck) {
@@ -220,40 +221,51 @@ export class Enemy extends Entity {
     }
 
     initializeIntents(possibleMoves) {
-        this.possibleMoves = (possibleMoves || []).map(move => ({ ...move }));
-        this.moveIndex = 0;
-        this.intents = [];
+        // this.possibleMoves = (possibleMoves || []).map(move => ({ ...move }));
+        // this.moveIndex = 0;
+        // this.intents = [];
 
-        // 预填 3 个 intent
-        for (let i = 0; i < 3; i++) {
-            const nextIntent = this.getNextIntent();
-            if (nextIntent) {
-                this.intents.push(nextIntent);
-            }
-        }
+        // // 预填 3 个 intent
+        // for (let i = 0; i < 3; i++) {
+        //     const nextIntent = this.getNextIntent();
+        //     if (nextIntent) {
+        //         this.intents.push(nextIntent);
+        //     }
+        // }
+
+        this.intentGenerator = new LoopPattern(possibleMoves);
+        makeObservable(this, {intentGenerator: observable})
+        // Pre-fill the window with 3 items
+        this.intents = this.intentGenerator.generateNext();
     }
 
+
     getNextIntent() {
-        if (!this.possibleMoves.length) return null;
+        this.intents = this.intentGenerator.generateNext()
 
-        const baseMove = this.possibleMoves[this.moveIndex % this.possibleMoves.length];
-        this.moveIndex += 1;
+        // if (!this.possibleMoves.length) return null;
 
-        // 一定要 clone，不要直接共用原对象
-        return { ...baseMove };
+        // const baseMove = this.possibleMoves[this.moveIndex % this.possibleMoves.length];
+        // this.moveIndex += 1;
+
+        // // 一定要 clone，不要直接共用原对象
+        // return { ...baseMove };
     }
 
     consumeIntent() {
         this.intents.shift();
+        this.getNextIntent()
 
-        const newIntent = this.getNextIntent();
-        if (newIntent) {
-            this.intents.push(newIntent);
-        }
+        // const newIntent = this.getNextIntent();
+        // if (newIntent) {
+        //     this.intents.push(newIntent);
+        // }
     }
 
     playCard(target, card){
+
         super.playCard(target, CardLibrary[card]);
-        this.consumeIntent();
+        // this.getNextIntent()
+        // this.consumeIntent();
     }
 }

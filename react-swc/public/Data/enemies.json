@@ -13,8 +13,9 @@
     "name": "Goblin Spear Thrower",
     "hp": 15,
     "pattern":[
-      {"card":"CHARGE", "target":"self", "time": 0},
+        {"card":"CHARGE", "target":"self", "time": 0},
         {"card":"DOUBLE_STRIKE", "target":"player", "time": 1},
+        {"card":"STRIKE", "target":"player", "time": 1},
         {"card":"STRIKE", "target":"player", "time": 1}
     ],
     "image": "./Enemy/Spear_Goblin.png"

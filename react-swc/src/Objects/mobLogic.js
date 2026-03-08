@@ -10,18 +10,20 @@ export class LoopPattern extends IntentPattern {
   constructor(moves) {
     super();
     this.moves = moves; // e.g., [{card: 'Attack', time: 2}, {card: 'Defend', time: 3}]
-    this.currentIndex = 0;
+    this.currentIndex = -1;
   }
 
-  generateNext(lastTime) {
-    const move = this.moves[this.currentIndex];
-    this.currentIndex = (this.currentIndex + 1) % this.moves.length;
-    
-    // Ensure time strictly increases
-    return {
-      ...move,
-      time: lastTime + move.time
-    };
+  generateNext() {
+    const next_intent = []
+    do { 
+      this.currentIndex = (this.currentIndex + 1) % this.moves.length;
+      next_intent.push( this.moves[this.currentIndex] )
+    } while (this.moves[this.currentIndex].time == 0)
+
+    // next_intent.push( this.moves[this.currentIndex] )
+    // this.currentIndex = (this.currentIndex + 1) % this.moves.length;
+
+    return next_intent;
   }
 }
 

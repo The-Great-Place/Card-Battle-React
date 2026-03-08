@@ -315,7 +315,6 @@ body {
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
-
 .intent-icon:hover{
   transform: scale(1.08);
   box-shadow:
@@ -335,13 +334,16 @@ body {
   transform: translate(-50%, -50%);
   border-radius: 50%;
 }
-
-.intent-main{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
+.intent-image{
+  width: 39px;
+  height: 39px;
+  object-fit: cover;  /* This makes the image cover the area while maintaining aspect ratio */
+  border-radius: 50%; /* This ensures the image itself is also circular */
 }
+.intent-image:hover{
+  transform: scale(0.92);
+}
+
 
 /* icon */
 .intent-glyph{
@@ -379,10 +381,23 @@ body {
   transition: opacity 60ms ease, transform 60ms ease;
   overflow: hidden; /* clean edges */
 }
+.intent-card-preview{
+  position: absolute;
+  top: 0;
+  left: calc(100% + 12px);
 
-.intent-icon:hover .intent-tooltip{
+  transform: scale(0.65);
+  transform-origin: top left;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+
+.intent-icon:hover .intent-card-preview{
   opacity: 1;
-  transform: translateY(-50%) translateX(0px);
+  transform: translateY(-10%) translateX(10%);
 }
 
 /* Title box */

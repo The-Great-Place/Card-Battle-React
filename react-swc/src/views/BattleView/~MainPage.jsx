@@ -76,7 +76,6 @@ export const BattleView = observer(() => {
 
       {/*  Game State Managing */}
       {gameManager.lootOpen && ( <LootView loot={gameManager.pendingLoot} onPick={(card)=>gameManager.claimLoot(card)} onSkip={()=>gameManager.skipLoot()} />)}
-      {/* {gameManager.runComplete && ( <RunCompleteView title="Run Complete" buttonText="Restart Run" onRestart={() => gameManager.restartRun()} />)} */}
       {gameManager.runComplete && ( <RunCompleteView title="Run Complete" buttonText="Next Level" onRestart={() => gameManager.nextLevel()} />)}
       {gameManager.runFailed && ( <RunCompleteView title="You Died" buttonText="Try Again" onRestart={() => gameManager.restartRun()}/>)}
   </div>
