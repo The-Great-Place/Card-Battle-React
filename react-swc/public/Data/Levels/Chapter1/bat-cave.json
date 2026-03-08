@@ -1,9 +1,0 @@
-{
-  "waves": [
-    { "enemies": ["GOBLIN"] },
-    { "enemies": ["SKELETON", "SKELETON", "SKELETON"] },
-    { "enemies": ["SKELETON", "SKELETON", "SKELETON", "SKELETON", "SKELETON", "SKELETON"]},
-    { "enemies": ["SKELETON", "VAMPIRE_BAT", "SKELETON"] },
-    { "enemies": ["VAMPIRE_BAT", "VAMPIRE_BAT", "VAMPIRE_BAT"] }
-  ]
-}

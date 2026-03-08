@@ -1,0 +1,9 @@
+{
+  "waves": [
+    { "enemies": ["SKELETON", "SKELETON", "SKELETON"] },
+    { "enemies": ["SKELETON", "VAMPIRE_BAT", "SKELETON"] },
+    { "enemies": ["SKELETON_SOLDIER", "VAMPIRE_BAT", "SKELETON_SOLDIER"]},
+    { "enemies": ["SKELETON", "ELITE_SKELETON", "SKELETON_SOLDIER","VAMPIRE_BAT"] },
+    { "enemies": ["SKELETON_SOLDIER", "VAMPIRE_BAT", "ELITE_SKELETON","VAMPIRE_BAT","SKELETON_SOLDIER"] }
+  ]
+}

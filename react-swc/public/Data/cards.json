@@ -11,6 +11,18 @@
       { "type": "DAMAGE", "value": 1, "target": "target" }
     ]
   },
+    "GUARD": {
+    "id": "GUARD",
+    "name": "Guard",
+    "rarity": "uncommon",
+    "rewardable": false,
+    "description":"Gain 20 Shield.",
+    "image": "./Card/Defend.png",
+    "energy_cost": 2,
+    "effects": [
+      { "type": "SHIELD", "value": 20, "target": "target" }
+    ]
+  },
   "STRIKE": {
     "id": "STRIKE",
     "name": "Strike",
@@ -26,13 +38,13 @@
    "QUICK_STRIKE": {
     "id": "QUICK_STRIKE",
     "name": "Quick Strike",
-    "rarity": "common",
+    "rarity": "rare",
     "rewardable": true,
-    "description":"Deal 3 dmg to target",
+    "description":"Deal 4 dmg to target",
     "image": "./Card/Quick_Strike.png",
     "energy_cost": 0,
     "effects": [
-      { "type": "DAMAGE", "value": 3, "target": "target" }
+      { "type": "DAMAGE", "value": 4, "target": "target" }
     ]
   },
   "DEFEND": {
@@ -62,7 +74,7 @@
   "RUSH": {
     "id": "RUSH",
     "name": "Rush",
-    "rarity": "common",
+    "rarity": "uncommon",
     "rewardable": true,
     "description":"Your next card costs 1 less this turn.",
     "image": "./Card/Rush.png",
@@ -111,7 +123,7 @@
   "DOUBLE_STRIKE": {
     "id": "DOUBLE_STRIKE",
     "name": "Double Strike",
-    "rarity": "uncommon",
+    "rarity": "rare",
     "rewardable": true,
     "description":"Deal 4 dmg x2.",
     "image": "./Card/Double_Strike.png",
@@ -124,7 +136,7 @@
   "FIVEFOLD_STRIKE": {
     "id": "FIVEFOLD_STRIKE",
     "name": "Fivefold Strike",
-    "rarity": "rare",
+    "rarity": "legendary",
     "rewardable": true,
     "description":"Deal 3 dmg x5.",
     "image": "./Card/Fivefold_Strike.png",
@@ -140,9 +152,9 @@
   "ATTACK_RUSH": {
   "id": "ATTACK_RUSH",
   "name": "Attack Rush",
-  "rarity": "common",
+  "rarity": "epic",
   "rewardable": true,
-  "description": "Create 3 temporary 0-cost Strike cards in your hand. Exhaust.",
+  "description": "Create 3 temporary Quick Strike in your hand. Exhaust.",
   "image": "./Card/Attack_Rush.png",
   "energy_cost": 1,
   "effects": [
@@ -150,9 +162,9 @@
         "type": "CREATE_TEMP_CARD_IN_HAND",
         "target": "self",
         "value": {
-          "cardId": "STRIKE",
+          "cardId": "QUICK_STRIKE",
           "count": 3,
-          "energy_cost": 0,
+          "energy_cost": 1,
           "exhaust": true
         }
       }
@@ -175,7 +187,7 @@
     "FLAME_BURST": {
     "id": "FLAME_BURST",
     "name": "Flame Burst",
-    "rarity": "common",
+    "rarity": "rare",
     "rewardable": true,
     "description":"Draw 1. Apply 3 Burn. Your Next Card Cost 1 Less.",
     "image": "./Card/Flame_Burst.png",
@@ -204,7 +216,7 @@
     "KINDLE": {
     "id": "KINDLE",
     "name": "Kindle",
-    "rarity": "common",
+    "rarity": "uncommon",
     "rewardable": true,
     "description":"Apply Burn x6.",
     "image": "./Card/Kindle.png",
@@ -231,7 +243,7 @@
     "BLAZING_FLURRY": {
     "id": "BLAZING_FLURRY",
     "name": "Blazing Flurry",
-    "rarity": "uncommon",
+    "rarity": "legendary",
     "rewardable": true,
     "description":"Deal 1 fire dmg x 5.",
     "image": "./Card/Blazing_Flurry.png",
@@ -261,7 +273,7 @@
     "FLAME_WALL": {
     "id": "FLAME_WALL",
     "name": "Flame Wall",
-    "rarity": "rare",
+    "rarity": "epic",
     "rewardable": true,
     "description":"Gain 8 shield. In 3 turns, activates enemy burn when they attack you.",
     "image": "./Card/Flame_Wall.png",
@@ -300,7 +312,7 @@
   "ICE_SHARD": {
     "id": "ICE_SHARD",
     "name": "Ice Shard",
-    "rarity": "common",
+    "rarity": "uncommon",
     "rewardable": true,
     "description":"Deal 3 dmg. Apply Freeze x1.",
     "image": "./Card/Ice_Shard.png",
@@ -325,11 +337,11 @@
     "BLOOD_DRAIN": {
     "id": "BLOOD_DRAIN",
     "name": "Blood Drain",
-    "rarity": "rare",
+    "rarity": "epic",
     "rewardable": true,
     "description":"Deal 7 dmg to target. Heal 7.",
     "image": "./Card/Blood_Drain.png",
-    "energy_cost": 1,
+    "energy_cost": 2,
     "effects": [
       { "type": "DAMAGE", "value": 7, "target": "target" },
       { "type": "HEAL", "value": 7, "target": "self" }

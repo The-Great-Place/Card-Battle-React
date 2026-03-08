@@ -7,9 +7,9 @@ function buildBattleState(set) {
   const player = new Player('player', 20, null, [
      "STRIKE",
      "STRIKE",
+     "STRIKE",
      "DEFEND",
      "DEFEND",
-     "FOCUS",
      "PATCH_UP"
     //"FIVEFOLD_STRIKE",
     //"FIVEFOLD_STRIKE",

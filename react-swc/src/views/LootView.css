@@ -113,3 +113,9 @@
 .lootRarityUnder--rare {
   color: #47b9ff;
 }
+.lootRarityUnder--epic {
+  color: hsl(297, 60%, 59%);
+}
+.lootRarityUnder--legendary {
+  color: #ffc83d;
+}

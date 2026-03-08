@@ -6,6 +6,8 @@ function buildRewardPools() {
     common: [],
     uncommon: [],
     rare: [],
+    epic: [],
+    legendary: [],
   };
 
   Object.entries(CardLibrary).forEach(([id, card]) => {
@@ -32,9 +34,11 @@ function randomFrom(array) {
 function rollRarityForWave(waveIndex) {
   const r = Math.random();
 
-  if (r < 0.5) return "common";
-  if (r < 0.8) return "uncommon";
-  return "rare";
+  if (r < 0.4) return "common";
+  if (r < 0.7) return "uncommon";
+  if (r < 0.85) return "rare";
+  if (r < 0.95) return "epic";
+  return "legendary";
 }
 
 function getRandomLootChoices(waveIndex, count = 3) {
@@ -107,7 +111,6 @@ export class GameManager {
       this.player.deck.discardHandAll();
     }
 
-    // 如果你不想开局抽太多，记得把 Player constructor 里的 drawCard(4) 删掉
     this.player.drawCard(this.cardsPerTurn);
 
     this.updateGame();
