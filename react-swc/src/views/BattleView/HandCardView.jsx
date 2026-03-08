@@ -1,7 +1,15 @@
 
 export const HandCardView = ({ onPress, player, card, card_idx, selectedCardIdx}) => {
-    const cost = card.energy_cost ?? 1;
-    const canPlay = (player.gameManager?.energy ?? 0) >= cost;
+    const baseCost = card.energy_cost ?? 1;
+
+    const reduction =
+      (player.gameManager?.player?.costReductionCharges ?? 0) > 0
+        ? (player.gameManager?.player?.costReductionAmount ?? 0)
+        : 0;
+
+    const displayCost = Math.max(0, baseCost - reduction);
+
+    const canPlay = (player.gameManager?.energy ?? 0) >= displayCost;
     return(
         <button  onClick={(e) => {
         e.stopPropagation(); if (canPlay) onPress(); }}
@@ -16,7 +24,7 @@ export const HandCardView = ({ onPress, player, card, card_idx, selectedCardIdx}
 
             {/* Top-left cost */}
             <div className="card__cost">
-                <span className="card__costValue">{card.energy_cost ?? 1}</span>
+                <span className="card__costValue">{displayCost}</span>
             </div>
 
             {/* Pips under cost */}

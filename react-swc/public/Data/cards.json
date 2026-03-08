@@ -64,12 +64,11 @@
     "name": "Rush",
     "rarity": "common",
     "rewardable": true,
-    "description":"Gain 3 Shield. Then Draw 1.",
+    "description":"Your next card costs 1 less this turn.",
     "image": "./Card/Rush.png",
     "energy_cost": 0,
     "effects": [
-      { "type": "SHIELD", "value": 3, "target": "target" },
-      { "type": "DRAW", "value": 1, "target": "self" }
+      { "type": "REDUCE_NEXT_CARDS_COST", "value": { "amount": 1, "charges": 1 }, "target": "self" }
     ]
   },
   "FOCUS": {
@@ -138,12 +137,33 @@
       { "type": "DAMAGE", "value": 3, "target": "target" }
     ]
   },
+  "ATTACK_RUSH": {
+  "id": "ATTACK_RUSH",
+  "name": "Attack Rush",
+  "rarity": "common",
+  "rewardable": true,
+  "description": "Create 3 temporary 0-cost Strike cards in your hand. Exhaust.",
+  "image": "./Card/Attack_Rush.png",
+  "energy_cost": 1,
+  "effects": [
+      {
+        "type": "CREATE_TEMP_CARD_IN_HAND",
+        "target": "self",
+        "value": {
+          "cardId": "STRIKE",
+          "count": 3,
+          "energy_cost": 0,
+          "exhaust": true
+        }
+      }
+    ]
+  },
    "FIREBALL": {
     "id": "FIREBALL",
     "name": "Fireball",
     "rarity": "common",
     "rewardable": true,
-    "description":"Deal 5 dmg. Then Apply Burn x2.",
+    "description":"Deal 4 dmg. Then Apply Burn x4.",
     "image": "./Card/Fireball.png",
     "energy_cost": 1,
     "effects": [
@@ -157,12 +177,13 @@
     "name": "Flame Burst",
     "rarity": "common",
     "rewardable": true,
-    "description":"Draw 2. Apply 1 Burn.",
+    "description":"Draw 1. Apply 3 Burn. Your Next Card Cost 1 Less.",
     "image": "./Card/Flame_Burst.png",
     "energy_cost": 1,
     "effects": [
-      { "type": "DRAW", "value": 2, "target": "self" },
-      { "type": "APPLY_BURN", "value": 1, "target": "target" }
+      { "type": "DRAW", "value": 1, "target": "self" },
+      { "type": "APPLY_BURN", "value": 3, "target": "target" },
+      { "type": "REDUCE_NEXT_CARDS_COST", "value": { "amount": 1, "charges": 1 }, "target": "self" }
 
     ]
   },
@@ -171,11 +192,11 @@
     "name": "Ignite",
     "rarity": "common",
     "rewardable": true,
-    "description":"Apply Burn x1. Then Deal 1 dmg.",
+    "description":"Apply Burn x2. Then Deal 1 dmg.",
     "image": "./Card/Ignite.png",
     "energy_cost": 0,
     "effects": [
-      { "type": "APPLY_BURN", "value": 1, "target": "target" },
+      { "type": "APPLY_BURN", "value": 2, "target": "target" },
       { "type": "DAMAGE_FIRE", "value": 1, "target": "target" }
 
     ]
@@ -185,11 +206,11 @@
     "name": "Kindle",
     "rarity": "common",
     "rewardable": true,
-    "description":"Apply Burn x5.",
+    "description":"Apply Burn x6.",
     "image": "./Card/Kindle.png",
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_BURN", "value": 5, "target": "target" }
+      { "type": "APPLY_BURN", "value": 6, "target": "target" }
 
     ]
   },

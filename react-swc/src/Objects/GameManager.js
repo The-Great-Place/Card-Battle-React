@@ -127,11 +127,32 @@ export class GameManager {
     const card = this.player.deck.hand[card_idx];
     if (!card) return;
 
-    const cost = card.energy_cost ?? 1; // 注意这里必须统一成 energy_cost
-    if (this.energy < cost) return;
+    const baseCost = card.energy_cost ?? 1;
 
-    this.energy -= cost;
+    // 先记录这张牌打出前，玩家身上有没有旧的减费buff
+    const hadReductionBeforePlay = this.player.costReductionCharges > 0;
+    const reductionBeforePlay = hadReductionBeforePlay
+      ? this.player.costReductionAmount
+      : 0;
+
+    const finalCost = Math.max(0, baseCost - reductionBeforePlay);
+
+    if (this.energy < finalCost) return;
+
+    this.energy -= finalCost;
+
+    // 这里 Rush / 其他牌的效果才会结算
     this.player.playCard(target, card, card_idx);
+
+    // 只消耗“这张牌打出前就已经存在”的减费次数
+    if (hadReductionBeforePlay) {
+      this.player.costReductionCharges -= 1;
+
+      if (this.player.costReductionCharges <= 0) {
+        this.player.costReductionCharges = 0;
+        this.player.costReductionAmount = 0;
+      }
+    }
 
     this.updateGame();
   }

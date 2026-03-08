@@ -12,12 +12,16 @@ export class Entity {
     this.intents = [];
     this.alive = true;
     this.image = image
+
     this.onFire = 0;
     this.onWet = 0;
     this.onElec = 0;
     this.charge = 0;
     this.isFrozen = false;
     this.chargeConsumed = false;
+
+    this.costReductionAmount = 0;
+    this.costReductionCharges = 0;
 
     makeObservable(this, {
     onFire: observable,
@@ -29,9 +33,13 @@ export class Entity {
     shield: observable,
     intents: observable,
     alive: observable,
+    costReductionAmount: observable,
+    costReductionCharges: observable,
     takeDamage: action,
     addShield: action,
     checkAlive: action,
+
+
     });
   }
   applyfire(amount){
@@ -100,7 +108,7 @@ export class Player extends Entity{
             drawCard: action,
             refreshSelected: action
         });
-        this.drawCard(4);
+      //  this.drawCard(4);
     }
     addGameManager(gameManager){ this.gameManager = gameManager; }
     playCard(target, card, idx) {
@@ -178,7 +186,12 @@ class Deck {
 
   discardFromHand(handIndex) {
     const [card] = this.hand.splice(handIndex, 1);
-    if (card) this.discardPile.push(card);
+    if (!card) return null;
+
+    if (!card.exhaust) {
+      this.discardPile.push(card);
+    }
+
     return card;
   }
 
