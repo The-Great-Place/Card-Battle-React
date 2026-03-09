@@ -25,7 +25,7 @@
     "id": "GUARD",
     "name": "Guard",
     "rarity": "uncommon",
-    "rewardable": false,
+    "rewardable": true,
     "description":"Gain 20 Shield.",
     "image": "./Card/Guard.png",
     "energy_cost": 2,
