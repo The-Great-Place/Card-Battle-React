@@ -133,6 +133,7 @@ export class Entity {
     if (effect.type == "DAMAGE"){ 
       effect.value += this.stack.charge
       effect.value *= this.stack.damageMultiplier
+      this.stack.damageMultiplier = 1
     }
   }
 
