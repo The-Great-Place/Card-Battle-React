@@ -587,7 +587,7 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_PREPRATION", "value": 1, "target": "self" }
+      { "type": "APPLY_PREPARATION", "value": 1, "target": "self" }
     ]
   }
 

@@ -25,7 +25,7 @@ export class Entity {
       "static": false,
       "damageMultiplier": 1,
       "multiselect": 0,
-      "prepration": 1
+      "preparation": 1
     }    
 
     makeObservable(this, {
@@ -172,13 +172,13 @@ export class Player extends Entity{
       this.costReduction.splice(0,1)
     }
     this.energy -= cost;
-    let init_prep = this.stack.prepration
+    let init_prep = this.stack.preparation
     for (let i = 0; i < init_prep; i++){
       super.playCard(target, card);
-      this.stack.prepration -= 1;
+      this.stack.preparation -= 1;
     }
-    this.stack.prepration += 1;
-    console.log("prepration prepration", this.stack.prepration)
+    this.stack.preparation += 1;
+    console.log("preparation preparation", this.stack.preparation)
     this.deck.discardFromHand(idx);
   }
   drawCard(n){
