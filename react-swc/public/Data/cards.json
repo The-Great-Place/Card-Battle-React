@@ -577,9 +577,9 @@
       { "type": "APPLY_MULTISELECT", "value": 1, "target": "self" }
     ]
   },
-  "PREPRATION":{
-    "id": "PREPRATION",
-    "name": "Prepration",
+  "PREPARATION":{
+    "id": "PREPARATION",
+    "name": "Preparation",
     "rarity": "legendary",
     "rewardable": true,
     "description": "Your next card triggers again",
