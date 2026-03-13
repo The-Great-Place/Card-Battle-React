@@ -11,12 +11,11 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
-    
   },
   "dependencies": {
     "immer": "^11.1.4",
     "mobx-react": "^9.2.1",
-    "motion": "^12.35.0",
+    "motion": "^12.36.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "zustand": "^5.0.11"
