@@ -184,6 +184,7 @@ runEnemyTurn() {
 
   nextLevel() {
     this.completeCurrentLevel();
+    this.player.gold += 10;
     this.current_view = "chapter-view";
     this.runComplete = false;
     this.runFailed = false;

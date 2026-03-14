@@ -163,7 +163,20 @@
     "image": "./Card/Double_Strike.png",
     "targets": 1,
     "energy_cost": 1,
-    "effects": [
+      "effects":[{ "type": "DAMAGE", "value": 4, "target": "target" },
+      { "type": "DAMAGE", "value": 4, "target": "target" }]
+  },
+  "DOUBLE_STRIKE2":{
+    "id": "DOUBLE_STRIKE",
+    "name": "Double Strike",
+    "rarity": "rare",
+    "rewardable": true,
+    "description":"Deal 4 dmg x2.",
+    "image": "./Card/Double_Strike.png",
+    "targets": 1,
+    "energy_cost": 1,
+
+        "effects": [
       { "type": "DAMAGE", "value": 4, "target": "target" },
        {
         "type": "CREATE_TEMP_CARD_IN_HAND",

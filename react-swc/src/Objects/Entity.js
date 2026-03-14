@@ -161,11 +161,13 @@ export class Player extends Entity{
         this.energy = 3;
         this.maxEnergy = 3;
         this.costReduction = []
+        this.gold = 0
         
         makeObservable(this, {
             deck: observable,
             costReduction: observable,
             energy: observable,
+            gold: observable,
             playCard: action,
             drawCard: action,
             refreshSelected: action

@@ -3,6 +3,7 @@ import { useGameStore } from '../../store/useBattleStore';
 import { BattleView } from '../BattleView/~MainPage';
 import { createEnemy } from '../../engine/enemyRegistry';
 import { observer } from "mobx-react";
+import { ShopView } from './ShopView';
 
 export const ChapterView = observer(() => {
   const gameManager = useGameStore(s => s.gameManager);
@@ -83,6 +84,7 @@ export const ChapterView = observer(() => {
     return (
       <div className="chapter-view">
         <div className="map-container">
+          <ShopView gameManager={gameManager}></ShopView>
           <img
             src={mapImage}
             alt="Dungeon Map"

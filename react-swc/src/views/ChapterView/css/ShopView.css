@@ -1,0 +1,33 @@
+.shop-content {
+    background: rgb(145, 128, 128);
+    padding: 20px;
+    border-radius: 8px;
+    min-width: 300px;
+}
+
+.shop-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 5px 10px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.refresh-button:hover {
+    background: #45a049;
+}
+
+.shop-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
