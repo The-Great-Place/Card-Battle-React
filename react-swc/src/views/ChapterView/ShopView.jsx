@@ -8,7 +8,7 @@ import { CardLibrary } from "../../engine/cardEffects";
 import { getRandomLootChoices } from "../../engine/generateLoot";
 import "./css/ShopView.css"
 
-export function ShopView({ gameManager }) {
+export const ShopView = observer(({ gameManager }) => {
     const [shopOpen, setShopOpen] = useState(false);
     const [lootChoices, setLootChoices] = useState(() => getRandomLootChoices(0, 10));
     console.log(lootChoices)
@@ -72,4 +72,4 @@ export function ShopView({ gameManager }) {
             )}
         </>
     );
-}
+})
