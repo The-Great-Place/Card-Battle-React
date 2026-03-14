@@ -73,7 +73,7 @@ const calculate = (a, b, o) =>{
     case '*':
       return a * b;
     case '/':
-      return a / b;
+      return Math.floor(a / b);
     default:
       return 0;
   }

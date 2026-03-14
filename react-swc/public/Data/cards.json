@@ -560,12 +560,29 @@
     "name": "Last Defense",
     "rarity": "epic",
     "rewardable": true,
-    "description": "Gain Shield equal to your missing hp.",
+    "description": "Gain 1 Shield for every 3 missing hp.",
     "image": "./Card/Last_Defense.png",
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "shield", "value": 8, "target": "self" }
+      { "type": "APPLY_STACK", "stack_name": "shield", "target": "self", "value": {
+        "params":["source.maxHealth", "source.health", "-", 3, "/"]
+        }}
+    ]
+  },
+   "DESPERATION": {
+    "id": "DESPERATION",
+    "name": "Desperation",
+    "rarity": "epic",
+    "rewardable": true,
+    "description": "Gain 1 Strength for every 5 missing hp.",
+    "image": "./Card/Last_Defense.png",
+    "targets": 0,
+    "energy_cost": 1,
+    "effects": [
+      { "type": "APPLY_STACK", "stack_name": "charge", "target": "self", 
+        "value": {"params":["source.maxHealth", "source.health", "-", 5, "/"]}
+      }
     ]
   },
   "MULTISELECT": {

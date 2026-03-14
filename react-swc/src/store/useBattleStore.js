@@ -22,6 +22,8 @@ function buildBattleState(set) {
     //"FIVEFOLD_STRIKE",
     //"FIVEFOLD_STRIKE",
     //"FIVEFOLD_STRIKE",
+    "DESPERATION",
+    "LAST_DEFENSE",
       "SWEEP",
       "SHIELD_BASH",
       // "DEATH_CLEAVE",
