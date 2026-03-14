@@ -20,9 +20,9 @@ export const EFFECT_ACTIONS = {
   },
   REDUCE_NEXT_CARDS_COST: (context, effect) => {
     let value = effect.value
-    for (let i = 0; i < value.charges; i++){
-      if (context.target.costReduction[i]){ context.target.costReduction[i] += value.amount }
-      else {context.target.costReduction.push(value.amount)}
+    for (let i = 0; i < effect.charges; i++){
+      if (context.target.costReduction[i]){ context.target.costReduction[i] += effect.value }
+      else {context.target.costReduction.push(effect.value)}
     }
   },
   CREATE_TEMP_CARD_IN_HAND: (context, effect) => {
