@@ -86,7 +86,7 @@
     "rewardable": true,
     "description": "Apply Charge x1.",
     "image": "./Card/Charge.png",
-    "targets": 1,
+    "targets": 0,
     "energy_cost": 0,
     "effects": [
       { "type": "APPLY_STACK", "stack_name": "charge", "value": 1, "target": "self" }

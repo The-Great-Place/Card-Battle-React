@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+:root {
+  --menu-bg-deep: #08050d;
+  --menu-bg-mid: #140d1d;
+  --menu-panel: rgba(28, 20, 40, 0.82);
+  --menu-border: #9a8cb0;
+  --menu-text: #efe7fb;
+  --menu-subtext: #cdbfe6;
+  --menu-glow: rgba(125, 91, 166, 0.45);
+  --menu-button: #2a1e36;
+  --menu-button-hover: #3c2b4f;
+  --menu-button-primary: #5c3d7a;
+  --menu-button-primary-hover: #75519a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.mainMenuPage {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'MedievalSharp', serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(100, 60, 160, 0.15), transparent 30%),
+    radial-gradient(circle at 80% 30%, rgba(125, 91, 166, 0.12), transparent 28%),
+    radial-gradient(circle at 50% 80%, rgba(80, 30, 100, 0.14), transparent 32%),
+    linear-gradient(180deg, var(--menu-bg-mid), var(--menu-bg-deep));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.mainMenuPage__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.45)),
+    radial-gradient(circle at center, transparent 35%, rgba(0,0,0,0.45) 100%);
+  pointer-events: none;
+}
+
+.mainMenuPage__content {
+  position: relative;
+  z-index: 1;
+  width: min(560px, 92vw);
+  padding: 48px 36px;
+  border-radius: 28px;
+  background: var(--menu-panel);
+  border: 2px solid rgba(154, 140, 176, 0.75);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 20px 60px rgba(0,0,0,0.6),
+    0 0 40px var(--menu-glow);
+  backdrop-filter: blur(8px);
+  text-align: center;
+}
+
+.mainMenuPage__titleBlock {
+  margin-bottom: 36px;
+}
+
+.mainMenuPage__title {
+  font-size: clamp(2.6rem, 7vw, 4.5rem);
+  color: var(--menu-text);
+  letter-spacing: 0.04em;
+  text-shadow:
+    0 0 10px rgba(180, 150, 255, 0.15),
+    0 0 24px rgba(125, 91, 166, 0.25);
+  margin-bottom: 10px;
+}
+
+.mainMenuPage__subtitle {
+  font-size: 1rem;
+  color: var(--menu-subtext);
+  opacity: 0.95;
+}
+
+.mainMenuPage__menu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mainMenuPage__button {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 999px;
+  border: 2px solid rgba(154, 140, 176, 0.75);
+  background: var(--menu-button);
+  color: var(--menu-text);
+  font-size: 1.05rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+}
+
+.mainMenuPage__button:hover {
+  background: var(--menu-button-hover);
+  border-color: #c3b1e6;
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 22px rgba(0,0,0,0.42),
+    0 0 18px rgba(125, 91, 166, 0.25);
+}
+
+.mainMenuPage__button--primary {
+  background: var(--menu-button-primary);
+  border-color: #cdb7f5;
+}
+
+.mainMenuPage__button--primary:hover {
+  background: var(--menu-button-primary-hover);
+  border-color: #e0ccff;
+  box-shadow:
+    0 12px 26px rgba(0,0,0,0.45),
+    0 0 22px rgba(160, 120, 220, 0.38);
+}
+
+.mainMenuPage__button:active {
+  transform: translateY(0);
+}

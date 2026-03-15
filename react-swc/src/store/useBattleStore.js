@@ -5,7 +5,7 @@ import { createEnemy } from '../engine/enemyRegistry';
 
 function buildBattleState(set) {
   const player = new Player('player', 50, null, [
-       "FORTIFY",
+       "STRIKE",
         "STRIKE",
         "STRIKE",
       "DEFEND",
