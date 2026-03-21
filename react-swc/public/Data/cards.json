@@ -161,29 +161,6 @@
       { "type": "DAMAGE", "value": 4, "target": "target" }
     ]
   },
-  "DOUBLE_STRIKE2": {
-    "id": "DOUBLE_STRIKE",
-    "name": "Double Strike",
-    "rarity": "rare",
-    "rewardable": false,
-    "description": "Deal 4 dmg x2.",
-    "image": "./Card/Double_Strike.png",
-    "targets": 1,
-    "energy_cost": 1,
-    "effects": [
-      { "type": "DAMAGE", "value": 4, "target": "target" },
-      {
-        "type": "CREATE_TEMP_CARD_IN_HAND",
-        "target": "self",
-        "value": {
-          "cardId": "QUICK_STRIKE",
-          "count": 1,
-          "energy_cost": 0,
-          "exhaust": true
-        }
-      }
-    ]
-  },
   "EXECUTION": {
     "id": "EXECUTION",
     "name": "Execution",
