@@ -2,6 +2,8 @@ import './css/BattleView.css';
 
 import { useState } from 'react';
 import { observer } from "mobx-react"
+import { AnimatePresence } from "motion/react";
+
 
 import { useGameStore } from '../../store/useBattleStore.js'; // Adjust path
 import { LootView } from "./LootView.jsx";
@@ -192,9 +194,14 @@ export const BattleView = observer(() => {
           )}
 
           <div className='handRow'>
-            {player.deck.hand.map((card, idx) => (
-              <HandCardView key={idx} onPress={() => handleCardSelect(card, idx)} player={player} card={card} card_idx={idx} selectedCard={selectedCard}></HandCardView>
-            ))}
+          
+            <AnimatePresence initial={false}>
+
+              {player.deck.hand.map((card, idx) => (
+                <HandCardView key={idx} onPress={() => handleCardSelect(card, idx)} player={player} card={card} card_idx={idx} selectedCard={selectedCard}></HandCardView>
+              ))}
+            </AnimatePresence>
+
           </div>
         </div>
           <button onClick={gameManager.endTurn} className="clickable refresh-button"> End Turn</button>

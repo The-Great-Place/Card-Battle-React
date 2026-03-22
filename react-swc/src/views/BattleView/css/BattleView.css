@@ -501,7 +501,7 @@ width: 100%;
   min-width: 0;
 }
 .play-button {
-  margin-bottom: 60px;
+  transform: translateY(-50px);
   position: relative;
   padding: 0.55rem 1.4rem;
   font-size: 1rem;
@@ -520,7 +520,7 @@ width: 100%;
   background: #664583;
   border-color: #d2bdf5;
   box-shadow: 0 0 18px rgba(160, 120, 220, 0.5);
-  transform: translateY(-2px);
+  transform: translateY(-55px);
 }
 .footerRow {
   display: flex;
@@ -528,6 +528,7 @@ width: 100%;
   gap: 1rem;
   margin-top: auto;
   padding: 1rem 0;
+  position:relative;
 }
 
 /* Player Area */
@@ -615,52 +616,37 @@ width: 100%;
   overflow: visible;
 }
 
-/* overlap like StS */
-.handRow .card{
+.handRow{
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 0.5rem 0;
+  min-width: 0;
+  overflow: visible;
+}
+
+/* 外层 slot 负责手牌重叠 */
+.handRow .handCardSlot{
   --mid: calc((var(--n) - 1) / 2);
   --d: calc(var(--i) - var(--mid));
 
-  /* spacing shrinks as n grows */
   --spread: clamp(2px, calc(26px - (var(--n) * 2px)), 10px);
   --overlap: clamp(-56px, calc(-26px - (var(--n) * 2px)), -34px);
 
   margin-left: var(--overlap);
   transform: translateX(calc(var(--d) * var(--spread)));
-}
-
-.handRow .card:first-child{
-  margin-left: 0;
-}
-.handRow .card:first-child{
-  margin-left: 0;
-}
-
-/* keep them basically flat */
-.handRow .card{
-  --mid: calc((var(--n) - 1) / 2);
-  --d: calc(var(--i) - var(--mid));
-
-  transform: translateY(0px) rotate(0deg);
-  transition: transform 160ms ease, box-shadow 160ms ease;
   z-index: calc(100 + var(--i));
+  position: relative;
 }
 
-/* OPTIONAL: tiny “spread” so they don’t stack perfectly */
-.handRow .card{
-  transform: translateX(calc(var(--d) * 6px)) translateY(0px) rotate(0deg);
+.handRow .handCardSlot:first-child{
+  margin-left: 0;
 }
 
-/* hover pop like StS */
-.handRow .card:hover:not(.selectedCard){
-  transform: translateX(calc(var(--d) * 6px)) translateY(-22px) scale(1.04);
-  z-index: 999;
-}
 
-/* selected higher */
-.handRow .card.selectedCard{
-  transform: translateX(calc(var(--d) * 6px)) translateY(-34px) scale(1.06);
-  z-index: 1000;
-}
+
 
 .card.refreshPick{
   outline: 3px solid rgba(255, 200, 120, 0.95);
@@ -670,16 +656,6 @@ width: 100%;
 }
 
 
-/* Keep your selection/hover effects */
-.card.selectedCard {
-  transform: translateY(-20px) scale(1.05);
-  z-index: 10;
-}
-
-.card:hover:not(.selectedCard) {
-  transform: translateY(-10px);
-  z-index: 6;
-}
 
 
 
