@@ -1,4 +1,3 @@
-import React from "react";
 import { observer } from "mobx-react";
 import "../BattleView/css/LootView.css";
 import "../BattleView/css/CardUI.css";
@@ -8,13 +7,13 @@ import { CardLibrary } from "../../engine/cardEffects";
 import { getRandomLootChoices } from "../../engine/generateLoot";
 import "./css/ShopView.css"
 
-export const ShopView = observer(({ gameManager }) => {
+export const ShopView = observer(({ gameState, battleEngine }) => {
     const [shopOpen, setShopOpen] = useState(false);
     const [lootChoices, setLootChoices] = useState(() => getRandomLootChoices(0, 10));
-    console.log(lootChoices)
     const refreshShop = (e) => {
-        gameManager.player.gold -= 2;
         e.stopPropagation();
+        const refreshed = battleEngine.dispatch({ type: "REFRESH_SHOP", cost: 2 });
+        if (!refreshed) return;
         setLootChoices(getRandomLootChoices(0, 10));
     };
     let matchPrice = {
@@ -24,10 +23,8 @@ export const ShopView = observer(({ gameManager }) => {
         "epic": 4,
         "legendary": 5
     }
-    const handleBuy = (card, cash) =>{
-        gameManager.player.gold -= cash;
-        gameManager.player.deck.discardPile.push({ ...card });
-(card)
+    const handleBuy = (cardId, cash) =>{
+        battleEngine.dispatch({ type: "BUY_CARD", cardId, cost: cash });
     }
 
     return (
@@ -46,7 +43,7 @@ export const ShopView = observer(({ gameManager }) => {
                 >
                     <div className="shop-content" onClick={(e) => e.stopPropagation()}>
                         <div className="shop-header">
-                            <p>Gold: {gameManager.player.gold}</p>
+                            <p>Gold: {gameState.player.gold}</p>
                             <button 
                                 className='clickable refresh-button' 
                                 onClick={refreshShop}
@@ -56,16 +53,22 @@ export const ShopView = observer(({ gameManager }) => {
                         </div>
                         
                         <div className="shop-items">
-                            {lootChoices.map((element, index) => (
-                                <div key={index}>
-                                <HandCardView 
-                                     
-                                    card={element} 
-                                    player={null}
-                                />
-                                <button  onClick={() => handleBuy(element, matchPrice[element.rarity])}> Buy for {matchPrice[element.rarity]} </button>
-                                </div>
-                            ))}
+                            {lootChoices.map((element, index) => {
+                                const card = CardLibrary[element.id];
+                                if (!card) return null;
+
+                                return (
+                                    <div key={element.id ?? index}>
+                                        <HandCardView 
+                                            card={card} 
+                                            player={null}
+                                        />
+                                        <button onClick={() => handleBuy(element.id, matchPrice[element.rewardRarity])}>
+                                            Buy for {matchPrice[element.rewardRarity]}
+                                        </button>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

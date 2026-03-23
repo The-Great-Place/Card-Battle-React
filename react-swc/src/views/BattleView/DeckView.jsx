@@ -5,7 +5,7 @@ function groupCards(cards) {
   const map = {};
 
   cards.forEach(card => {
-    const key = card.id; // use id so duplicates group correctly
+    const key = card.definitionId ?? card.id; // group card instances by their source definition
 
     if (!map[key]) {
       map[key] = {
@@ -36,7 +36,7 @@ function PileSection({ title, cards }) {
       <div className="pileSection__list">
         {grouped.length > 0 ? (
           grouped.map(({ card, count }, i) => (
-            <div key={`${card.id}-${i}`} className="pileCardRow">
+            <div key={`${card.definitionId ?? card.id}-${i}`} className="pileCardRow">
               <img src={card.image} alt={card.name} className="pileCardIcon" />
 
               <div className="pileCardInfo">

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { Player,Enemy } from '../Objects/Entity';
-import { GameManager } from '../Objects/GameManager';
-import { createEnemy } from '../engine/enemyRegistry';
+import { Player } from '../Objects/Entity';
+import { GameState } from '../engine/core/GameState';
+import { BattleEngine } from '../engine/core/BattleEngine';
 
 function buildBattleState(set) {
   const player = new Player('player', 50, null, [
@@ -11,21 +11,23 @@ function buildBattleState(set) {
       "DEFEND",
        "DEFEND",
        "PATCH_UP",
-
- 
   ]);
 
   const restartBattle = () => {
     set(buildBattleState(set));
   };
 
-  const gameManager = new GameManager(player, [], restartBattle);
-  player.addGameManager(gameManager);
-  gameManager.startBattle();
+  const gameState = new GameState(player, restartBattle);
+  const battleEngine = new BattleEngine(gameState);
 
-  return { gameManager };
+  return { gameState, battleEngine };
 }
 
 export const useGameStore = create((set) => ({
   ...buildBattleState(set),
 }));
+
+if (process.env.NODE_ENV === 'development') {
+  window.useGameStore = useGameStore;
+  window.debugStore = useGameStore.getState();
+}

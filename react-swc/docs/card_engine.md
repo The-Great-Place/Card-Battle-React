@@ -603,6 +603,44 @@ Recommended hook families:
 - `modifyStatusApplication`
 - `modifyCardEffects`
 - `onEvent`
+## Damage Resolution Pipeline
+
+Many advanced mechanics depend on the engine knowing what damage actually happened, not just what damage was intended.
+
+Examples:
+
+- lifesteal should usually heal based on actual health damage dealt
+- thorn should trigger when an attacker hits shield
+- looting should trigger when a target dies from the attack
+- frozen guard should trigger when a shielded unit is hit
+- "on hit" and "on kill" effects should not require card-specific hacks
+
+To support this, all damage should go through a central damage resolver.
+
+### Recommended Flow
+
+1. A card, status, modifier, summon, or environment requests damage.
+2. The engine gathers all relevant modifiers.
+3. The engine calculates the final attempted damage.
+4. Shield, mitigation, and prevention are applied.
+5. The target's health is updated.
+6. A `DamageResult` is produced.
+7. The engine emits post-resolution events such as `damage_dealt`, `damage_taken`, and possibly `entity_died`.
+8. Statuses and modifiers react to the resolved outcome.
+
+### Damage Request
+
+A damage request is the intent to deal damage before mitigation is applied.
+
+```ts
+interface DamageRequest {
+  sourceEntityId: string
+  targetEntityId: string
+  sourceCardInstanceId?: string
+  amount: number
+  tags?: string[]
+  payload?: Record<string, unknown>
+}
 
 ## Targeting System
 

@@ -1,12 +1,10 @@
-import { useState } from 'react'
-import { observer } from "mobx-react"
 import { useGameStore } from './store/useGameStore.js'
 import './App.css'
 
 
 import { MainMenuView } from './views/MainView/MainMenuView.jsx'
 import { LibraryView } from './views/LibraryView/LibraryView.jsx'
-import { BattleView } from './views/BattleView/~MainPage.jsx'
+import { BattleView } from './views/BattleView/BattleView.jsx'
 import { ChapterView } from './views/ChapterView/~MainView.jsx'
 
 //function App() {
@@ -30,8 +28,6 @@ import { ChapterView } from './views/ChapterView/~MainView.jsx'
 
 function App() {
   const screen = useGameStore((state) => state.screen)
-
-  console.log("App screen =", screen)
 
   return (
     <div className='container'>

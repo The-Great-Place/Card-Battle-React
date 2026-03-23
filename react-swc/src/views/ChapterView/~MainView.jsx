@@ -6,7 +6,8 @@ import { observer } from "mobx-react";
 import { ShopView } from './ShopView';
 
 export const ChapterView = observer(() => {
-  const gameManager = useGameStore(s => s.gameManager);
+  const gameState = useGameStore(s => s.gameState);
+  const battleEngine = useGameStore(s => s.battleEngine);
 
   const buildEnemiesArray = (enemiesJSON) => {
     return enemiesJSON.waves.map(wave =>
@@ -15,22 +16,23 @@ export const ChapterView = observer(() => {
   };
 
   const EnterLevel = async (levelId) => {
-    const levelStatus = gameManager.chapterProgress.levels[levelId]?.status;
+    const levelStatus = gameState.chapterProgress.levels[levelId]?.status;
     if (levelStatus !== 'available') return;
 
     const response = await fetch('./Data/Levels/Chapter1/' + levelId + '.json');
     const enemiesJson = await response.json();
 
-    gameManager.enemies = buildEnemiesArray(enemiesJson);
-    gameManager.currentLevelId = levelId;
-    gameManager.current_view = "battle-view";
-    gameManager.startBattle();
+    battleEngine.dispatch({
+      type: "START_LEVEL",
+      levelId,
+      enemies: buildEnemiesArray(enemiesJson),
+    });
   };
 
   const allNormalCleared =
-    gameManager.chapterProgress.levels['darkened-grave'].status === 'completed' &&
-    gameManager.chapterProgress.levels['goblin-huts'].status === 'completed' &&
-    gameManager.chapterProgress.levels['monster-tunnel'].status === 'completed';
+    gameState.chapterProgress.levels['darkened-grave'].status === 'completed' &&
+    gameState.chapterProgress.levels['goblin-huts'].status === 'completed' &&
+    gameState.chapterProgress.levels['monster-tunnel'].status === 'completed';
 
   const mapImage = allNormalCleared
     ? "./Map/Dungeon1.png"
@@ -80,11 +82,11 @@ export const ChapterView = observer(() => {
     },
   ];
 
-  if (gameManager.current_view === 'chapter-view') {
+  if (gameState.currentView === 'chapter-view') {
     return (
       <div className="chapter-view">
         <div className="map-container">
-          <ShopView gameManager={gameManager}></ShopView>
+          <ShopView gameState={gameState} battleEngine={battleEngine}></ShopView>
           <img
             src={mapImage}
             alt="Dungeon Map"
@@ -92,7 +94,7 @@ export const ChapterView = observer(() => {
           />
 
           {levels.map((level) => {
-            const status = gameManager.chapterProgress.levels[level.id]?.status ?? 'locked';
+            const status = gameState.chapterProgress.levels[level.id]?.status ?? 'locked';
 
             if (level.id === 'dragon-den' && status === 'locked') {
               return null;
@@ -125,7 +127,7 @@ export const ChapterView = observer(() => {
     );
   }
 
-  if (gameManager.current_view === 'battle-view') {
+  if (gameState.currentView === 'battle-view') {
     return <BattleView />;
   }
 

@@ -31,8 +31,6 @@ export const PlayerUnit = ({ onPress, player, selectedTargets }) => {
                 </div>
                 <div>
                     <DeckView className='clickable refresh-button' deck={player.deck}></DeckView>
-                   {/* <button onClick={refreshHandSimple} className='clickable refresh-button' > Refresh Hand </button>*/}
-                   {/* <button onClick={gameManager.endTurn} className="clickable refresh-button"> End Turn</button> */}
                 </div>
 
             </div>

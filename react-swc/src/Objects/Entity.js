@@ -1,10 +1,12 @@
-import { LoopPattern } from "./mobLogic";
-import { makeAutoObservable, makeObservable, observable, action } from "mobx";
+import { makeObservable, observable, action } from "mobx";
 import { EFFECT_ACTIONS, resolveValue } from "../engine/cardEffects";
 import { CardLibrary } from "../engine/cardEffects";
+import { Deck } from "./Card";
+import { getCardCost } from "../engine/queries/battleQueries";
 
 export class Entity {
   constructor(name, health, image) {
+    this.id = crypto.randomUUID();
     this.name = name;
     this.health = health;
     this.maxHealth = health;
@@ -19,7 +21,7 @@ export class Entity {
       "flow": 0,
       "freeze": 0,
       "charge": 0,
-      "regeneratioin": [],
+      "regeneration": [],
       "fortify": 0,
       "shield": 0,
       "static": false,
@@ -42,9 +44,19 @@ export class Entity {
     });
   }
   applyStack(type, amount){
-    if (type == "Regeneration"){ this.stack["Regeneration"].push(turns); return;}
-    if (type == "Stun"){ this.stack["Stun"] = true; }
-    this.stack[type] += amount;
+    if (type === "regeneration") {
+      this.stack.regeneration.push(amount);
+      return;
+    }
+
+    if (type === "Stun") {
+      this.stack.Stun = true;
+      return;
+    }
+
+    if (typeof this.stack[type] === "number") {
+      this.stack[type] += amount;
+    }
   }
 
   takeDamage(amount) {
@@ -103,50 +115,43 @@ export class Entity {
 
   getNextTurnShield() { return Math.floor(this.shield / 2);}
   playCard(target, card){
-    
     card.effects.forEach(rawEffect => {
-          console.log(rawEffect)
           const effect = { ...rawEffect }; 
           
+      // Resolve dynamic values once before per-target modifiers/actions.
+      if (effect.value && typeof effect.value === "object" && Array.isArray(effect.value.params)) {
+        const context = {
+          source: this,
+          target: Array.isArray(target) ? target[0] : target,
+          card,
+        };
 
-            //修复shield bash bug。确保每个param转为数值之后再被damage加成。
-            if (effect.value && typeof effect.value === "object" && Array.isArray(effect.value.params)) {
-            const context = {
-              source: this,
-              target: Array.isArray(target) ? target[0] : target,
-              card
-            };
+        effect.value = resolveValue(context, { params: [...effect.value.params] }) ?? 0;
+      }
 
-            effect.value = resolveValue(context, { params: [...effect.value.params] }) ?? 0;
-          }
+      this.effectModifier(effect);
+      const effectAction = EFFECT_ACTIONS[effect.type];
 
-          this.effectModifier(effect);
-          console.log(effect)
-          const effect_action = EFFECT_ACTIONS[effect.type];
+      if (!effectAction) return;
 
+      if (Array.isArray(target)) {
+        target.forEach((element) => {
+          const context = {
+            source: this,
+            target: effect.target === "self" ? this : element,
+            card,
+          };
+          effectAction(context, effect);
+        });
+        return;
+      }
 
-          if (effect_action) {
-              if (Array.isArray(target)){
-                  console.log(effect_action)
-                  target.forEach(element => {
-                    const context = {
-                      source: this, // 'this' is the entity playing the card
-                      target: (effect.target === "self") ? this : element,
-                      card: card
-                    };
-                    console.log(effect)
-                    effect_action(context, effect); 
-                  });
-              } else {
-                const context = {
-                  source: this, // 'this' is the entity playing the card
-                  target: (effect.target === "self") ? this : target,
-                  card: card
-                };
-                effect_action(context, effect)
-              }
-            }
-          
+      const context = {
+        source: this,
+        target: effect.target === "self" ? this : target,
+        card,
+      };
+      effectAction(context, effect);
     });
 
     this.isFrozen = false;  
@@ -183,16 +188,12 @@ export class Player extends Entity{
             gold: observable,
             playCard: action,
             drawCard: action,
-            refreshSelected: action
+            // refreshSelected: action
         });
   }
-  playCard(target, card, idx) {
-
-    //Handle Energy Reduction
-    let cost = card.energy_cost
-    console.log(this.energy)
+  playCard(target, card, cardInstanceId) {
+    const cost = getCardCost(this, card);
     if (this.costReduction.length > 0){ 
-      cost -= this.costReduction[0]
       this.costReduction.splice(0,1)
     }
     this.energy -= cost;
@@ -202,7 +203,7 @@ export class Player extends Entity{
       this.stack.preparation -= 1;
     }
     this.stack.preparation += 1;
-    this.deck.discardFromHand(idx);
+    this.deck.discardFromHand(cardInstanceId);
   }
   drawCard(n){
     for (let i = 0; i < n; i++) {
@@ -210,88 +211,93 @@ export class Player extends Entity{
       if (!c) break;
     }
   }
-  addGameManager(gameManager){this.gameManager = gameManager}
-  refreshSelected(handIndexes) {
-    // handIndexes: array of indices to discard
-    if (!handIndexes || handIndexes.length === 0) return 0;
 
-    // IMPORTANT: discard from highest index first so indices don't shift
-    const sorted = [...handIndexes].sort((a, b) => b - a);
 
-    let discarded = 0;
-    for (const idx of sorted) {
-      const card = this.deck.hand[idx];
-      if (!card) continue;
-      this.deck.discardPile.push(card);
-      this.deck.hand.splice(idx, 1);
-      discarded++;
-    }
+  // refreshSelected(cardInstanceIds) {
+  //   if (!cardInstanceIds || cardInstanceIds.length === 0) return 0;
 
-    // Draw back the same number
-    this.drawCard(discarded);
-    return discarded;
-    }
+  //   const sorted = [...cardInstanceIds]
+  //     .map(instanceId => ({
+  //       instanceId,
+  //       idx: this.deck.getHandIndex(instanceId),
+  //     }))
+  //     .filter(({ idx }) => idx >= 0)
+  //     .sort((a, b) => b.idx - a.idx);
+
+  //   let discarded = 0;
+  //   for (const { idx } of sorted) {
+  //     const card = this.deck.hand[idx];
+  //     if (!card) continue;
+  //     this.deck.addCardInstance(card);
+  //     this.deck.hand.splice(idx, 1);
+  //     discarded++;
+  //   }
+
+  //   // Draw back the same number
+  //   this.drawCard(discarded);
+  //   return discarded;
+  // }
 }
 
 /*Updated Deck*/ 
-class Deck {
-  constructor(initDeck) {
-    const defs = initDeck.map(c => CardLibrary[c]);
+// class Deck {
+//   constructor(initDeck) {
+//     const defs = initDeck.map(c => CardLibrary[c]);
 
-    this.hand = [];
-    this.drawPile = [...defs];     // cards available to draw
-    this.discardPile = [];
-    this.allCards = defs;
+//     this.hand = [];
+//     this.drawPile = [...defs];     // cards available to draw
+//     this.discardPile = [];
+//     this.allCards = defs;
 
-    makeAutoObservable(this);
+//     makeAutoObservable(this);
 
-    this.shuffle(this.drawPile);
-  }
+//     this.shuffle(this.drawPile);
+//   }
 
-  shuffle(array) {
-    // Fisher–Yates
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-  }
+//   shuffle(array) {
+//     // Fisher–Yates
+//     for (let i = array.length - 1; i > 0; i--) {
+//       const j = Math.floor(Math.random() * (i + 1));
+//       [array[i], array[j]] = [array[j], array[i]];
+//     }
+//   }
 
-  reshuffleDiscardIntoDraw() {
-    if (this.discardPile.length === 0) return;
-    this.drawPile = [...this.discardPile];
-    this.discardPile = [];
-    this.shuffle(this.drawPile);
-  }
+//   reshuffleDiscardIntoDraw() {
+//     if (this.discardPile.length === 0) return;
+//     this.drawPile = [...this.discardPile];
+//     this.discardPile = [];
+//     this.shuffle(this.drawPile);
+//   }
 
-  drawCard() {
-    if (this.drawPile.length === 0) {
-      this.reshuffleDiscardIntoDraw();
-    }
-    if (this.drawPile.length === 0) return null; // no cards anywhere
+//   drawCard() {
+//     if (this.drawPile.length === 0) {
+//       this.reshuffleDiscardIntoDraw();
+//     }
+//     if (this.drawPile.length === 0) return null; // no cards anywhere
 
-    // draw top (or random). top feels better for card games:
-    const card = this.drawPile.pop();
-    this.hand.push(card);
-    return card;
-  }
+//     // draw top (or random). top feels better for card games:
+//     const card = this.drawPile.pop();
+//     this.hand.push(card);
+//     return card;
+//   }
 
-  discardFromHand(handIndex) {
-    const [card] = this.hand.splice(handIndex, 1);
-    if (!card) return null;
+//   discardFromHand(handIndex) {
+//     const [card] = this.hand.splice(handIndex, 1);
+//     if (!card) return null;
 
-    if (!card.exhaust) {
-      this.discardPile.push(card);
-    }
+//     if (!card.exhaust) {
+//       this.discardPile.push(card);
+//     }
 
-    return card;
-  }
+//     return card;
+//   }
 
-  discardHandAll() {
-    while (this.hand.length > 0) {
-      this.discardPile.push(this.hand.pop());
-    }
-  }
-}
+//   discardHandAll() {
+//     while (this.hand.length > 0) {
+//       this.discardPile.push(this.hand.pop());
+//     }
+//   }
+// }
 
 
 export class Enemy extends Entity {

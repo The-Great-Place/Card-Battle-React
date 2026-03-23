@@ -1,5 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
+import { CardLibrary } from "../../engine/cardEffects";
 import "./css/LootView.css";
 import "./css/CardUI.css";
 
@@ -11,7 +12,8 @@ export const LootView = observer(({ loot, onPick, onSkip }) => {
         <div className="lootSubtitle">Pick 1 card to add to your deck</div>
 
         <div className="lootCards">
-          {loot.map((card, i) => {
+          {loot.map((cardId, i) => {
+            const card = CardLibrary[cardId.id]
             const cost = card.energy_cost ?? 1;
             const rarity = card.rewardRarity || card.rarity || "common";
 
@@ -19,7 +21,7 @@ export const LootView = observer(({ loot, onPick, onSkip }) => {
               <div key={i} className="lootCardWrap">
                 <button
                   className="lootCard card card--fullart"
-                  onClick={() => onPick(card)}
+                  onClick={() => onPick(cardId.id)}
                 >
                   <img className="card__artFull" src={card.image} alt={card.name} />
                   <div className="card__vignette" aria-hidden="true" />

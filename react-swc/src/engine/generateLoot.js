@@ -60,7 +60,7 @@ export function getRandomLootChoices(waveIndex, count = 3) {
 
     chosenIds.add(id);
     rewards.push({
-      ...card,
+      id,
       rewardRarity: rarity,
     });
   }

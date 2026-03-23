@@ -1,3 +1,4 @@
+import { CardInstance } from "../Objects/Card";
 // data/cardLibrary.js
 const response = await fetch('./Data/cards.json')
 export const CardLibrary = await response.json()
@@ -5,10 +6,6 @@ export const CardLibrary = await response.json()
 
 export const EFFECT_ACTIONS = {
   DAMAGE: (context, effect) => {
-      console.log("[DAMAGE context.source]", context.source);
-  console.log("[DAMAGE source.stack]", context.source?.stack);
-  console.log("[DAMAGE source.stack.shield]", context.source?.stack?.shield);
-  console.log("[DAMAGE raw effect.value]", effect.value);
     const amount = resolveValue(context, effect.value);
     context.target.takeDamage(amount);
   },
@@ -31,19 +28,16 @@ export const EFFECT_ACTIONS = {
   },
   CREATE_TEMP_CARD_IN_HAND: (context, effect) => {
   let value = effect.value
-  const baseCard = CardLibrary[value.cardId];
-  if (!baseCard) return;
 
   for (let i = 0; i < value.count; i++) {
-    const tempCard = {
-      ...baseCard,
-      energy_cost: value.energy_cost ?? baseCard.energy_cost ?? 1,
+    const tempCard = CardInstance.fromCardId(value.cardId, {
+      costOverride: value.energy_cost ?? null,
       exhaust: value.exhaust ?? false,
       temporary: true,
-    };
+    });
+    if (!tempCard) continue;
 
-    context.target.deck.hand.push(tempCard);
-    console.log(tempCard)
+    context.target.deck.addCardInstance(tempCard, "hand");
   }
   },
  
@@ -91,9 +85,7 @@ export const resolveValue = (context, value) => {
 
   const operations = new Set(['+', '-', '*', '/'])
   const stack = []
-  console.log("params", params)
   params.forEach(e => {
-    console.log(operations.has(e))
     if (operations.has(e)){
       let second = stack.pop();
       let first = stack.pop();
@@ -102,9 +94,7 @@ export const resolveValue = (context, value) => {
     else {
       stack.push(getProp(context, e));
     }
-    console.log(stack)
   });
 
-  console.log("stack", stack[0])
   return stack[0]
 };
