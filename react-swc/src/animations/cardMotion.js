@@ -2,11 +2,16 @@
 
 // ---------- transitions ----------
 export const CARD_TRANSITION_FAST = {
-  duration: 0.11,
+  duration: 0.1,
+   ease: "easeOut",
+
 };
 
 export const CARD_TRANSITION_LAYOUT = {
   duration: 0.2,
+  type: "spring",
+  stiffness: 400,
+  damping: 23,
 };
 
 // ---------- outer slot motion ----------
@@ -38,6 +43,7 @@ export const HAND_CARD_SLOT_EXIT = {
   opacity: 0,
   y: -24,
   scale: 0.88,
+  
 };
 
 // ---------- inner button motion ----------
