@@ -1,64 +1,127 @@
-import { useState } from "react";
-import { getRequiredTargetCount } from "../../../engine/queries/battleQueries";
+import { useMemo, useState } from "react";
+import {
+  getBattleViewModel,
+  getCardPlayState,
+} from "../../../engine/queries/battleQueries";
 
-const EMPTY_TARGETS = { targets: [], idx: [] };
-const EMPTY_CARD = { card: null, instanceId: null };
+export function useBattleSelection(gameState, battleEngine) {
+  const [selectedCardId, setSelectedCardId] = useState(null);
+  const [rawSelectedTargetIds, setRawSelectedTargetIds] = useState([]);
+  const isInteractionLocked = gameState?.lootOpen || gameState?.runComplete || gameState?.runFailed;
+  const activeSelectedCardId = !isInteractionLocked && gameState?.player?.deck?.getCardInHand(selectedCardId)
+    ? selectedCardId
+    : null;
 
-export function useBattleSelection(player) {
-  const [selectedCard, setSelectedCard] = useState(EMPTY_CARD);
-  const [selectedTargets, setSelectedTargets] = useState(EMPTY_TARGETS);
+  const selectedCard = activeSelectedCardId
+    ? gameState?.player?.deck?.getCardInHand(activeSelectedCardId) ?? null
+    : null;
+
+  const pendingInteraction = gameState?.pendingInteraction ?? null;
+  const isInteractionActive = Boolean(pendingInteraction);
+
+  const playState = useMemo(
+    () => getCardPlayState(gameState, activeSelectedCardId, rawSelectedTargetIds),
+    [gameState, activeSelectedCardId, rawSelectedTargetIds],
+  );
+
+  const battleViewModel = useMemo(
+    () => getBattleViewModel(gameState, activeSelectedCardId, rawSelectedTargetIds),
+    [{...gameState}, activeSelectedCardId, rawSelectedTargetIds],
+  );
 
   const clearSelection = () => {
-    setSelectedCard(EMPTY_CARD);
-    setSelectedTargets(EMPTY_TARGETS);
+    setSelectedCardId(null);
+    setRawSelectedTargetIds([]);
   };
 
-  const handleTargetSelect = (target, idx) => {
-    if (!selectedCard.card) return;
+  const toggleInteractionSelection = (targetId) => {
+    if (!pendingInteraction || !targetId || !battleEngine) return;
 
-    setSelectedTargets((prev) => {
-      const existingIndex = prev.idx.indexOf(idx);
-      if (existingIndex >= 0) {
-        return {
-          targets: prev.targets.filter((_, i) => i !== existingIndex),
-          idx: prev.idx.filter((_, i) => i !== existingIndex),
-        };
+    const legalEntityIds = new Set(pendingInteraction.validEntityIds ?? []);
+    const legalCardIds = new Set(pendingInteraction.validCardInstanceIds ?? []);
+    const legalOptionIds = new Set(pendingInteraction.validOptionIds ?? []);
+    if (
+      !legalEntityIds.has(targetId) &&
+      !legalCardIds.has(targetId) &&
+      !legalOptionIds.has(targetId)
+    ) {
+      return;
+    }
+
+    const current = Array.isArray(pendingInteraction.selectedTargetIds)
+      ? [...pendingInteraction.selectedTargetIds]
+      : [];
+
+    const isSelected = current.includes(targetId);
+    const max = pendingInteraction.maxSelections > 0
+      ? pendingInteraction.maxSelections
+      : current.length + 1;
+    let nextSelection;
+
+    if (isSelected) {
+      nextSelection = current.filter((id) => id !== targetId);
+    } else {
+      nextSelection = [...current, targetId];
+      if (max > 0 && nextSelection.length > max) {
+        nextSelection = nextSelection.slice(-max);
+      }
+    }
+
+    battleEngine.dispatch({
+      type: "SET_INTERACTION_SELECTIONS",
+      selectionIds: nextSelection,
+    });
+  };
+
+  const handleOptionSelect = (optionId) => {
+    if (!optionId) return;
+    toggleInteractionSelection(optionId);
+  };
+
+  const handleTargetSelect = (targetId) => {
+    if (isInteractionLocked || !targetId) return;
+
+    if (isInteractionActive) {
+      toggleInteractionSelection(targetId);
+      return;
+    }
+
+    if (!activeSelectedCardId) return;
+
+    setRawSelectedTargetIds((prev) => {
+      if (prev.includes(targetId)) {
+        return prev.filter((id) => id !== targetId);
       }
 
-      const nextTargets = [...prev.targets, target];
-      const nextIdx = [...prev.idx, idx];
-      const maxTargets = getRequiredTargetCount(player, selectedCard.card);
-
-      if (nextTargets.length > maxTargets) {
-        nextTargets.shift();
-        nextIdx.shift();
-      }
-
-      return { targets: nextTargets, idx: nextIdx };
+      return [...prev, targetId];
     });
   };
 
   const handleCardSelect = (card) => {
-    if (selectedCard.instanceId === card.instanceId) {
+    if (!card?.instanceId || isInteractionLocked) return;
+
+    if (isInteractionActive) {
+      toggleInteractionSelection(card.instanceId);
+      return;
+    }
+
+    if (activeSelectedCardId === card.instanceId) {
       clearSelection();
       return;
     }
 
-    setSelectedCard({ card, instanceId: card.instanceId });
-    if (getRequiredTargetCount(player, card) === 0) {
-      setSelectedTargets({ targets: [player], idx: [0] });
-      return;
-    }
-
-    setSelectedTargets(EMPTY_TARGETS);
+    setSelectedCardId(card.instanceId);
+    setRawSelectedTargetIds(getCardPlayState(gameState, card.instanceId, []).selectedTargetIds);
   };
 
   return {
     selectedCard,
-    selectedTargets,
-    selectedTargetIds: selectedTargets.targets.map((target) => target.id),
+    selectedCardId: activeSelectedCardId,
+    selectedTargetIds: playState.selectedTargetIds,
+    battleViewModel,
     clearSelection,
     handleTargetSelect,
     handleCardSelect,
+    handleOptionSelect,
   };
 }

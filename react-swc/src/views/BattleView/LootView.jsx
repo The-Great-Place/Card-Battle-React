@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { CardLibrary } from "../../engine/cardEffects";
+import { getCardDefinition } from "../../engine/definitions/cardRegistry";
 import "./css/LootView.css";
 import "./css/CardUI.css";
 
@@ -13,7 +13,8 @@ export const LootView = observer(({ loot, onPick, onSkip }) => {
 
         <div className="lootCards">
           {loot.map((cardId, i) => {
-            const card = CardLibrary[cardId.id]
+            const card = getCardDefinition(cardId.id)
+            if (!card) return null;
             const cost = card.energy_cost ?? 1;
             const rarity = card.rewardRarity || card.rarity || "common";
 

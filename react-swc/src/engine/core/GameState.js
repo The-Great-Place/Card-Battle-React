@@ -16,6 +16,7 @@ export class GameState {
     this.runFailed = false;
     this.currentView = "chapter-view";
     this.currentLevelId = null;
+    this.pendingInteraction = null;
 
     this.chapterProgress = {
       levels: {

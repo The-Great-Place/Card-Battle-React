@@ -1,4 +1,4 @@
-import { CardLibrary } from "../engine/cardEffects";
+import { getAllCardDefinitions, getCardDefinition } from "./definitions/cardRegistry";
 
 function buildRewardPools() {
   const pools = {
@@ -9,7 +9,7 @@ function buildRewardPools() {
     legendary: [],
   };
 
-  Object.entries(CardLibrary).forEach(([id, card]) => {
+  Object.entries(getAllCardDefinitions()).forEach(([id, card]) => {
     if (!card.rewardable) return;
 
     const rarity = card.rarity || "common";
@@ -55,7 +55,7 @@ export function getRandomLootChoices(waveIndex, count = 3) {
     const id = randomFrom(pool);
     if (chosenIds.has(id)) continue;
 
-    const card = CardLibrary[id];
+    const card = getCardDefinition(id);
     if (!card) continue;
 
     chosenIds.add(id);

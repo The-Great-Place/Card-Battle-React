@@ -9,8 +9,17 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "charge", "value": 3, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "charge",
+        "value": 3,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "ATTACK_RUSH": {
     "id": "ATTACK_RUSH",
@@ -32,7 +41,11 @@
           "exhaust": true
         }
       }
-    ]
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "BLAZING_FLURRY": {
     "id": "BLAZING_FLURRY",
@@ -44,12 +57,37 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 1, "target": "target" },
-      { "type": "DAMAGE", "value": 1, "target": "target" },
-      { "type": "DAMAGE", "value": 1, "target": "target" },
-      { "type": "DAMAGE", "value": 1, "target": "target" },
-      { "type": "DAMAGE", "value": 1, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "BLOOD_DRAIN": {
     "id": "BLOOD_DRAIN",
@@ -61,9 +99,22 @@
     "targets": 1,
     "energy_cost": 2,
     "effects": [
-      { "type": "DAMAGE", "value": 7, "target": "target" },
-      { "type": "HEAL", "value": 7, "target": "self" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 7,
+        "target": "target"
+      },
+      {
+        "type": "HEAL",
+        "value": 7,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "BRACE": {
     "id": "BRACE",
@@ -75,9 +126,22 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "shield", "value": 6, "target": "self" },
-      { "type": "DRAW", "value": 1, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "shield",
+        "value": 6,
+        "target": "self"
+      },
+      {
+        "type": "DRAW",
+        "value": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "CHARGE": {
     "id": "CHARGE",
@@ -89,8 +153,17 @@
     "targets": 0,
     "energy_cost": 0,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "charge", "value": 1, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "charge",
+        "value": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "COMBUST": {
     "id": "COMBUST",
@@ -102,8 +175,17 @@
     "targets": 1,
     "energy_cost": 0,
     "effects": [
-      { "type": "DAMAGE", "value": 1, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "DEATH_CLEAVE": {
     "id": "DEATH_CLEAVE",
@@ -115,9 +197,23 @@
     "targets": 1,
     "energy_cost": 2,
     "effects": [
-      { "type": "DAMAGE", "value": 35, "target": "target" },
-      { "type": "REDUCE_NEXT_CARDS_COST", "value": -2, "charges": 1 , "target": "self" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 35,
+        "target": "target"
+      },
+      {
+        "type": "REDUCE_NEXT_CARDS_COST",
+        "value": -2,
+        "charges": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "DEFEND": {
     "id": "DEFEND",
@@ -129,8 +225,17 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "value": 8, "stack_name": "shield", "target": "self"}
-    ]
+      {
+        "type": "APPLY_STACK",
+        "value": 8,
+        "stack_name": "shield",
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "DESPERATION": {
     "id": "DESPERATION",
@@ -142,10 +247,25 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "charge", "target": "self", 
-        "value": {"params":["source.maxHealth", "source.health", "-", 5, "/"]}
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "charge",
+        "target": "self",
+        "value": {
+          "params": [
+            "source.maxHealth",
+            "source.health",
+            "-",
+            5,
+            "/"
+          ]
+        }
       }
-    ]
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "DOUBLE_STRIKE": {
     "id": "DOUBLE_STRIKE",
@@ -157,9 +277,22 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 4, "target": "target" },
-      { "type": "DAMAGE", "value": 4, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 4,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 4,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "EXECUTION": {
     "id": "EXECUTION",
@@ -171,8 +304,17 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "damageMultiplier", "value": 1, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "damageMultiplier",
+        "value": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "FIREBALL": {
     "id": "FIREBALL",
@@ -184,9 +326,23 @@
     "targets": 2,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 4, "target": "target" },
-      { "type": "APPLY_STACK", "stack_name": "burn", "value": 4, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 4,
+        "target": "target"
+      },
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "burn",
+        "value": 4,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 2,
+      "required": false
+    }
   },
   "FIVEFOLD_STRIKE": {
     "id": "FIVEFOLD_STRIKE",
@@ -198,12 +354,37 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 3, "target": "target" },
-      { "type": "DAMAGE", "value": 3, "target": "target" },
-      { "type": "DAMAGE", "value": 3, "target": "target" },
-      { "type": "DAMAGE", "value": 3, "target": "target" },
-      { "type": "DAMAGE", "value": 3, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "FLAME_BURST": {
     "id": "FLAME_BURST",
@@ -215,9 +396,24 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "burn", "value": 4, "target": "target" },
-      { "type": "APPLY_STACK", "stack_name": "charge", "value": 3, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "burn",
+        "value": 4,
+        "target": "target"
+      },
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "charge",
+        "value": 3,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "FLAME_WALL": {
     "id": "FLAME_WALL",
@@ -229,8 +425,18 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "shield", "value": 8, "target": "target" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "shield",
+        "value": 8,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "FOCUS": {
     "id": "FOCUS",
@@ -242,8 +448,16 @@
     "targets": 0,
     "energy_cost": 0,
     "effects": [
-      { "type": "DRAW", "value": 2, "target": "self" }
-    ]
+      {
+        "type": "DRAW",
+        "value": 2,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "FOLLOWING_STRIKE": {
     "id": "FOLLOWING_STRIKE",
@@ -255,9 +469,22 @@
     "targets": 1,
     "energy_cost": 0,
     "effects": [
-      { "type": "DAMAGE", "value": 2, "target": "target" },
-      { "type": "DRAW", "value": 1, "target": "self" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 2,
+        "target": "target"
+      },
+      {
+        "type": "DRAW",
+        "value": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "FORTRESS": {
     "id": "FORTRESS",
@@ -269,9 +496,23 @@
     "targets": 0,
     "energy_cost": 2,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "shield", "value": 14, "target": "self" },
-      { "type": "APPLY_STACK", "stack_name": "charge", "value": 2, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "shield",
+        "value": 14,
+        "target": "self"
+      },
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "charge",
+        "value": 2,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "FORTIFY": {
     "id": "FORTIFY",
@@ -283,8 +524,17 @@
     "targets": 0,
     "energy_cost": 0,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "fortify", "value": 1, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "fortify",
+        "value": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "GUARD": {
     "id": "GUARD",
@@ -296,8 +546,17 @@
     "targets": 0,
     "energy_cost": 2,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "shield", "value": 20, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "shield",
+        "value": 20,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "HEAVY_STRIKE": {
     "id": "HEAVY_STRIKE",
@@ -309,8 +568,17 @@
     "targets": 1,
     "energy_cost": 2,
     "effects": [
-      { "type": "DAMAGE", "value": 15, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 15,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "ICE_SHARD": {
     "id": "ICE_SHARD",
@@ -322,9 +590,23 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "freeze", "value": 1, "target": "target" },
-      { "type": "DAMAGE", "value": 3, "target": "target" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "freeze",
+        "value": 1,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "IGNITE": {
     "id": "IGNITE",
@@ -336,9 +618,23 @@
     "targets": 1,
     "energy_cost": 0,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "burn", "value": 2, "target": "target" },
-      { "type": "DAMAGE", "value": 1, "target": "target" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "burn",
+        "value": 2,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "KINDLE": {
     "id": "KINDLE",
@@ -350,8 +646,18 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "burn", "value": 6, "target": "target" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "burn",
+        "value": 6,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "LAST_DEFENSE": {
     "id": "LAST_DEFENSE",
@@ -363,10 +669,25 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "shield", "target": "self", "value": {
-        "params":["source.maxHealth", "source.health", "-", 3, "/"]
-        }}
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "shield",
+        "target": "self",
+        "value": {
+          "params": [
+            "source.maxHealth",
+            "source.health",
+            "-",
+            3,
+            "/"
+          ]
+        }
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "LIGHTNING_STRIKE": {
     "id": "LIGHTNING_STRIKE",
@@ -378,8 +699,17 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 5, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 5,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "MULTISELECT": {
     "id": "MULTISELECT",
@@ -391,8 +721,17 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "multiselect", "value": 1, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "multiselect",
+        "value": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "OVERCHARGE": {
     "id": "OVERCHARGE",
@@ -404,9 +743,22 @@
     "targets": 0,
     "energy_cost": 0,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "charge", "value": 2, "target": "self" },
-      { "type": "HEAL", "value": -5, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "charge",
+        "value": 2,
+        "target": "self"
+      },
+      {
+        "type": "HEAL",
+        "value": -5,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "PATCH_UP": {
     "id": "PATCH_UP",
@@ -418,8 +770,16 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "HEAL", "value": 4, "target": "self" }
-    ]
+      {
+        "type": "HEAL",
+        "value": 4,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "PREPARATION": {
     "id": "PREPARATION",
@@ -431,8 +791,17 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "preparation", "value": 1, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "preparation",
+        "value": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "PYRO_PUNCH": {
     "id": "PYRO_PUNCH",
@@ -444,8 +813,17 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 6, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 6,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "QUICK_GUARD": {
     "id": "QUICK_GUARD",
@@ -457,8 +835,17 @@
     "targets": 0,
     "energy_cost": 0,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "shield", "value": 4, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "shield",
+        "value": 4,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "QUICK_STRIKE": {
     "id": "QUICK_STRIKE",
@@ -470,8 +857,17 @@
     "targets": 1,
     "energy_cost": 0,
     "effects": [
-      { "type": "DAMAGE", "value": 4, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 4,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "REGENERATION": {
     "id": "REGENERATION",
@@ -483,8 +879,17 @@
     "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "APPLY_STACK", "stack_name": "regeneration", "value": 5, "target": "self" }
-    ]
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "regeneration",
+        "value": 5,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "REST": {
     "id": "REST",
@@ -495,7 +900,12 @@
     "image": "./Card/Focus.png",
     "targets": 1,
     "energy_cost": 1,
-    "effects": []
+    "effects": [],
+    "targeting": {
+      "selector": "self",
+      "count": 1,
+      "required": false
+    }
   },
   "RUSH": {
     "id": "RUSH",
@@ -507,8 +917,17 @@
     "targets": 0,
     "energy_cost": 0,
     "effects": [
-      { "type": "REDUCE_NEXT_CARDS_COST", "value": 1, "charges": 1 , "target": "self" }
-    ]
+      {
+        "type": "REDUCE_NEXT_CARDS_COST",
+        "value": 1,
+        "charges": 1,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   },
   "SHIELD_BASH": {
     "id": "SHIELD_BASH",
@@ -520,12 +939,23 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { 
-        "type": "DAMAGE", 
+      {
+        "type": "DAMAGE",
         "target": "target",
-        "value": { "params": ["source.stack.shield", 0.5, "*"] }
+        "value": {
+          "params": [
+            "source.stack.shield",
+            0.5,
+            "*"
+          ]
+        }
       }
-    ]
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "SPIN_STRIKE": {
     "id": "SPIN_STRIKE",
@@ -537,10 +967,27 @@
     "targets": 3,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 2, "target": "target" },
-      { "type": "DAMAGE", "value": 2, "target": "target" },
-      { "type": "DAMAGE", "value": 2, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 2,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 2,
+        "target": "target"
+      },
+      {
+        "type": "DAMAGE",
+        "value": 2,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 3,
+      "required": false
+    }
   },
   "STRIKE": {
     "id": "STRIKE",
@@ -552,8 +999,17 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 5, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 5,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "SWEEP": {
     "id": "SWEEP",
@@ -562,11 +1018,19 @@
     "rewardable": true,
     "description": "Deal 3 dmg to all selected enemies",
     "image": "./Card/Sweep.png",
-    "targets": 999,
+    "targets": 0,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 3, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "all_enemies",
+      "required": false
+    }
   },
   "VAMPIRE": {
     "id": "VAMPIRE",
@@ -578,9 +1042,22 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 3, "target": "target" },
-      { "type": "HEAL", "value": 3, "target": "self" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 3,
+        "target": "target"
+      },
+      {
+        "type": "HEAL",
+        "value": 3,
+        "target": "self"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "WATER_FLOW": {
     "image": "./Card/Water_Flow.png",
@@ -591,9 +1068,23 @@
     "description": "Deal 5 water dmg. Apply Wet x1.",
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 5, "target": "target" },
-      { "type": "APPLY_STACK", "stack_name": "flow", "value": 2, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 5,
+        "target": "target"
+      },
+      {
+        "type": "APPLY_STACK",
+        "stack_name": "flow",
+        "value": 2,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
   },
   "WEAK_STRIKE": {
     "id": "WEAK_STRIKE",
@@ -605,7 +1096,146 @@
     "targets": 1,
     "energy_cost": 1,
     "effects": [
-      { "type": "DAMAGE", "value": 1, "target": "target" }
-    ]
+      {
+        "type": "DAMAGE",
+        "value": 1,
+        "target": "target"
+      }
+    ],
+    "targeting": {
+      "selector": "enemy",
+      "count": 1,
+      "required": false
+    }
+  },
+  "TACTICAL_INSIGHT": {
+    "id": "INTERACTION_DEMO",
+    "name": "Interaction Demo",
+    "rarity": "common",
+    "rewardable": false,
+    "description": "Draw 3. Discard 1",
+    "image": "./Card/Kindle.png",
+    "energy_cost": 1,
+    "effects": [
+      {
+        "type":"DRAW",
+        "value": 3
+      },
+      {
+        "type": "BEGIN_INTERACTION",
+        "interaction": {
+          "type": "select_cards",
+          "actionLabel": "Discard",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "selector": "hand",
+          "payload": {
+            "purpose": "discard_demo"
+          },
+          "onConfirm": [
+            {
+              "type": "DISCARD_SELECTED_CARDS"
+            }
+          ]
+        }
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
+  },
+  "ARCANE_FORGE": {
+    "id": "ARCANE_FORGE",
+    "name": "Arcane Forge",
+    "rarity": "uncommon",
+    "rewardable": false,
+    "description": "Upgrade a card in your hand (+2 damage, -1 cost).",
+    "image": "./Card/Kindle.png",
+    "energy_cost": 1,
+    "effects": [
+      {
+        "type": "BEGIN_INTERACTION",
+        "interaction": {
+          "type": "select_cards",
+          "actionLabel": "Upgrade",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "selector": "hand",
+          "payload": {
+            "purpose": "upgrade_demo"
+          },
+          "onConfirm": [
+            {
+              "type": "UPGRADE_SELECTED_CARD",
+              "upgrade": {
+                "damageBonus": 2,
+                "costReduction": 1
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
+  },
+  "STRATEGIC_DECISION": {
+    "id": "STRATEGIC_DECISION",
+    "name": "Strategic Decision",
+    "rarity": "rare",
+    "rewardable": false,
+    "description": "Choose one: heal 6 or gain 5 shield.",
+    "image": "./Card/Kindle.png",
+    "energy_cost": 1,
+    "effects": [
+      {
+        "type": "BEGIN_INTERACTION",
+        "interaction": {
+          "type": "select_option",
+          "actionLabel": "Choose",
+          "minSelections": 1,
+          "maxSelections": 1,
+          "options": [
+            {
+              "id": "choice_heal",
+              "label": "Heal 6",
+              "description": "Stabilize your health.",
+              "effects": [
+                {
+                  "type": "HEAL",
+                  "value": 6,
+                  "target": "self"
+                }
+              ]
+            },
+            {
+              "id": "choice_shield",
+              "label": "Gain 5 shield",
+              "description": "Fortify your defenses.",
+              "effects": [
+                {
+                  "type": "APPLY_STACK",
+                  "stack_name": "shield",
+                  "value": 5,
+                  "target": "self"
+                }
+              ]
+            }
+          ],
+          "onConfirm": [
+            {
+              "type": "APPLY_OPTION_EFFECTS"
+            }
+          ]
+        }
+      }
+    ],
+    "targeting": {
+      "selector": "self",
+      "required": false
+    }
   }
 }

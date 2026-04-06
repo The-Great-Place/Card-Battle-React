@@ -1,9 +1,17 @@
 import { makeAutoObservable } from 'mobx'
-import { CardLibrary } from "../engine/cardEffects";
+import { getCardDefinition } from "../engine/definitions/cardRegistry";
+import {
+  addModifier as addRuntimeModifier,
+  getModifiersByKind as getRuntimeModifiersByKind,
+  removeModifier as removeRuntimeModifier,
+} from "../engine/resolvers/modifierHelpers";
 
 export class Deck {
   constructor(initDeck) {
-    const cards = initDeck.map(cardId => new CardInstance(CardLibrary[cardId]));
+    const cards = initDeck
+      .map(cardId => getCardDefinition(cardId))
+      .filter(Boolean)
+      .map(definition => new CardInstance(definition));
 
     this.hand = [];
     this.drawPile = [...cards];     // cards available to draw
@@ -15,7 +23,9 @@ export class Deck {
     this.shuffle(this.drawPile);
   }
   gainCard(cardId){
-    const card = new CardInstance(CardLibrary[cardId]);
+    const definition = getCardDefinition(cardId);
+    if (!definition) return null;
+    const card = new CardInstance(definition);
     this.discardPile.push(card);
     this.allCards.push(card);
     return card;
@@ -68,14 +78,14 @@ export class Deck {
     return this.hand.findIndex(card => card.instanceId === instanceId);
   }
 
-  discardFromHand(instanceId) {
+  discardFromHand(instanceId, forceExhaust = false) {
     const handIndex = this.getHandIndex(instanceId);
     if (handIndex < 0) return null;
 
     const [card] = this.hand.splice(handIndex, 1);
     if (!card) return null;
 
-    if (!card.exhaust) {
+    if (!card.exhaust && !forceExhaust) {
       this.discardPile.push(card);
     }
 
@@ -84,7 +94,8 @@ export class Deck {
 
   discardHandAll() {
     while (this.hand.length > 0) {
-      this.discardPile.push(this.hand.pop());
+      console.log(this.hand.length)
+      this.discardFromHand(this.hand[0].instanceId);
     }
   }
 }
@@ -99,6 +110,7 @@ export class CardInstance {
     this.image = definition.image
     this.rarity = definition.rarity
     this.targets = definition.targets
+    this.targeting = definition.targeting ? structuredClone(definition.targeting) : null
     this.effects = structuredClone(definition.effects ?? [])
     this.tags = [...(definition.tags ?? [])]
 
@@ -114,8 +126,18 @@ export class CardInstance {
     this.permanentModifiers = []
     this.battleModifiers = []
     this.ephemeralModifiers = []
+    this.modifiers = []
 
     this.state = {}
+
+    if (Array.isArray(definition.modifiers)) {
+      definition.modifiers.forEach((modifierInput) => {
+        this.addModifier({
+          scope: "card",
+          ...modifierInput,
+        });
+      });
+    }
   }
 
   getCurrentCost() {
@@ -123,8 +145,20 @@ export class CardInstance {
   }
 
   static fromCardId(cardId, overrides = {}) {
-    const definition = CardLibrary[cardId];
+    const definition = getCardDefinition(cardId);
     if (!definition) return null;
     return new CardInstance(definition, overrides);
+  }
+
+  addModifier(modifierInput) {
+    return addRuntimeModifier(this, modifierInput);
+  }
+
+  removeModifier(modifierInstanceId) {
+    return removeRuntimeModifier(this, modifierInstanceId);
+  }
+
+  getModifiersByKind(kind) {
+    return getRuntimeModifiersByKind(this, kind);
   }
 }

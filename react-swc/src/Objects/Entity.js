@@ -1,8 +1,21 @@
 import { makeObservable, observable, action } from "mobx";
-import { EFFECT_ACTIONS, resolveValue } from "../engine/cardEffects";
-import { CardLibrary } from "../engine/cardEffects";
 import { Deck } from "./Card";
 import { getCardCost } from "../engine/queries/battleQueries";
+import { getCardDefinition } from "../engine/definitions/cardRegistry";
+import {
+  applyStatus as applyRuntimeStatus,
+  getStatusesByDefinition as getRuntimeStatusesByDefinition,
+  removeStatus as removeRuntimeStatus,
+} from "../engine/resolvers/statusHelpers";
+import { consumeModifierUse } from "../engine/resolvers/modifierHelpers";
+import {
+  consumePlayerPlayStatuses,
+  getNextTurnShieldValue,
+  prepareEffectWithStatuses,
+  processTurnStatuses,
+  resolveDamageWithStatuses,
+} from "../engine/resolvers/entityStatusRuntime";
+import { resolveCardPlay } from "../engine/resolvers/cardPlayRuntime";
 
 export class Entity {
   constructor(name, health, image) {
@@ -13,60 +26,33 @@ export class Entity {
     this.intents = [];
     this.alive = true;
     this.image = image
-    this.costReductionAmount = 0;
-    this.costReductionCharges = 0;
-
-    this.stack = {
-      "burn": 0,
-      "flow": 0,
-      "freeze": 0,
-      "charge": 0,
-      "regeneration": [],
-      "fortify": 0,
-      "shield": 0,
-      "static": false,
-      "damageMultiplier": 1,
-      "multiselect": 0,
-      "preparation": 1
-    }    
+    this.statuses = [];
 
     makeObservable(this, {
-      stack: observable,
       health: observable,
       intents: observable,
       alive: observable,
-      costReductionAmount: observable,
-      costReductionCharges: observable,
+      statuses: observable.shallow,
       takeDamage: action,
-      applyStack: action,
       checkAlive: action,
-
+      applyStatus: action,
+      removeStatus: action,
     });
   }
-  applyStack(type, amount){
-    if (type === "regeneration") {
-      this.stack.regeneration.push(amount);
-      return;
-    }
+  applyStatus(statusInput) {
+    return applyRuntimeStatus(this, statusInput);
+  }
 
-    if (type === "Stun") {
-      this.stack.Stun = true;
-      return;
-    }
+  removeStatus(statusInstanceId) {
+    return removeRuntimeStatus(this, statusInstanceId);
+  }
 
-    if (typeof this.stack[type] === "number") {
-      this.stack[type] += amount;
-    }
+  getStatusesByDefinition(definitionId) {
+    return getRuntimeStatusesByDefinition(this, definitionId);
   }
 
   takeDamage(amount) {
-    if (this.stack.shield >= amount){
-     this.stack.shield -= amount;
-    } else{
-     amount -= this.stack.shield;
-     this.stack.shield = 0;
-     this.health -= amount;
-    }
+    resolveDamageWithStatuses(this, amount);
     this.checkAlive()
   }
 
@@ -74,98 +60,20 @@ export class Entity {
   checkAlive() {if (this.health <= 0){this.alive = false;}}
   
   handleOverTurnEffects(){
-    //handle Burn
-    if (this.stack.burn > 0){
-      const burnDamage = this.stack.burn;
-
-      // burn 伤害直接打到这个单位
-      this.takeDamage(burnDamage, "burn");
-
-      // 伤害结算后 burn 减半，向下取整
-      this.stack.burn = Math.floor(this.stack.burn / 2);
-    }
-
-    //handle Regen
-    if (this.stack.regeneration > 0){
-      const activeCount = this.stack.regeneration.length;
-      if (activeCount <= 0) return;
-
-      this.modifyHealth(activeCount * 5);
-
-      this.stack.regeneration = this.stack.regeneration
-        .map(turnsLeft => turnsLeft - 1)
-        .filter(turnsLeft => turnsLeft > 0);
-    }
-
-    //handle Shield
-    if (this.stack.shield > 0 && this.stack.fortify <= 0){
-      this.stack.shield = Math.floor(this.stack.shield /2)
-    }
-
-    //handle Fortify
-    if (this.stack.fortify > 0){
-      this.stack.fortify -= 1;
-    }
-
-    //handle Charge
-    this.stack.charge = 0
+    processTurnStatuses(this);
   }
 
 
 
-  getNextTurnShield() { return Math.floor(this.shield / 2);}
+  getNextTurnShield() {
+    return getNextTurnShieldValue(this);
+  }
   playCard(target, card){
-    card.effects.forEach(rawEffect => {
-          const effect = { ...rawEffect }; 
-          
-      // Resolve dynamic values once before per-target modifiers/actions.
-      if (effect.value && typeof effect.value === "object" && Array.isArray(effect.value.params)) {
-        const context = {
-          source: this,
-          target: Array.isArray(target) ? target[0] : target,
-          card,
-        };
-
-        effect.value = resolveValue(context, { params: [...effect.value.params] }) ?? 0;
-      }
-
-      this.effectModifier(effect);
-      const effectAction = EFFECT_ACTIONS[effect.type];
-
-      if (!effectAction) return;
-
-      if (Array.isArray(target)) {
-        target.forEach((element) => {
-          const context = {
-            source: this,
-            target: effect.target === "self" ? this : element,
-            card,
-          };
-          effectAction(context, effect);
-        });
-        return;
-      }
-
-      const context = {
-        source: this,
-        target: effect.target === "self" ? this : target,
-        card,
-      };
-      effectAction(context, effect);
-    });
-
+    resolveCardPlay(this, target, card, (effect) => this.effectModifier(effect));
     this.isFrozen = false;  
   }
   effectModifier(effect){
-    if (this.stack.freeze == 3) {
-      effect.type = "NULL";
-      return;
-    }
-    if (effect.type == "DAMAGE"){ 
-      effect.value += this.stack.charge
-      effect.value *= this.stack.damageMultiplier
-      this.stack.damageMultiplier = 1
-    }
+    prepareEffectWithStatuses(this, effect);
   }
 
 }
@@ -178,12 +86,10 @@ export class Player extends Entity{
         this.deck = new Deck(deck);
         this.energy = 3;
         this.maxEnergy = 3;
-        this.costReduction = []
         this.gold = 0
         
         makeObservable(this, {
             deck: observable,
-            costReduction: observable,
             energy: observable,
             gold: observable,
             playCard: action,
@@ -193,17 +99,19 @@ export class Player extends Entity{
   }
   playCard(target, card, cardInstanceId) {
     const cost = getCardCost(this, card);
-    if (this.costReduction.length > 0){ 
-      this.costReduction.splice(0,1)
-    }
     this.energy -= cost;
-    let init_prep = this.stack.preparation
+    const init_prep = consumePlayerPlayStatuses(this);
+    const exhaustModifiers = card?.getModifiersByKind ? card.getModifiersByKind("exhaust_on_use") : [];
+    const shouldExhaust = card?.exhaust || exhaustModifiers.length > 0;
     for (let i = 0; i < init_prep; i++){
       super.playCard(target, card);
-      this.stack.preparation -= 1;
     }
-    this.stack.preparation += 1;
-    this.deck.discardFromHand(cardInstanceId);
+    exhaustModifiers.forEach((modifier) => {
+      if (modifier.remainingUses != null) {
+        consumeModifierUse(card, modifier.instanceId, 1);
+      }
+    });
+    this.deck.discardFromHand(cardInstanceId, shouldExhaust);
   }
   drawCard(n){
     for (let i = 0; i < n; i++) {
@@ -319,6 +227,8 @@ export class Enemy extends Entity {
 
 
     playCard(target, card){
-        super.playCard(target, CardLibrary[card]);
+        const definition = getCardDefinition(card);
+        if (!definition) return;
+        super.playCard(target, definition);
     }
 }

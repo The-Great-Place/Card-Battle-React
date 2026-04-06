@@ -3,7 +3,7 @@ import "../BattleView/css/LootView.css";
 import "../BattleView/css/CardUI.css";
 import { useState } from "react";
 import { HandCardView } from "../BattleView/HandCardView";
-import { CardLibrary } from "../../engine/cardEffects";
+import { getCardDefinition } from "../../engine/definitions/cardRegistry";
 import { getRandomLootChoices } from "../../engine/generateLoot";
 import "./css/ShopView.css"
 
@@ -54,7 +54,7 @@ export const ShopView = observer(({ gameState, battleEngine }) => {
                         
                         <div className="shop-items">
                             {lootChoices.map((element, index) => {
-                                const card = CardLibrary[element.id];
+                                const card = getCardDefinition(element.id);
                                 if (!card) return null;
 
                                 return (

@@ -3,14 +3,17 @@ import { DeckView } from "./DeckView"
 import { StatusMarks } from "./StatusMarks";
 
 
-export const PlayerUnit = ({ onPress, player, selectedTargets }) => {
+export const PlayerUnit = observer(({ onPress, playerView }) => {
+    const player = playerView?.entity;
+    if (!player) return null;
+
     return(
         <div className='player-area'>
             <div className='player-row'>
                     <div className="playerWrap" onClick={onPress}>
                          <div className="player-energy">⚡ {player.energy}/{player.maxEnergy} </div>
 
-                    <div className={`playerSection ${selectedTargets.idx.includes(0) ? 'selectedEnemy' : ''}`}>
+                    <div className={`playerSection ${playerView.isSelected ? 'selectedEnemy' : ''} ${playerView.isLegalTarget ? 'clickable' : ''}`}>
                         
            
                         <img src={player.image} alt="Player" className='playerImg' />
@@ -36,4 +39,4 @@ export const PlayerUnit = ({ onPress, player, selectedTargets }) => {
             </div>
         </div>
     )
-};
+});

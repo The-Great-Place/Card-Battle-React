@@ -1,47 +1,9 @@
-import { CardInstance } from "../Objects/Card";
+import { setCardDefinitions } from "./definitions/cardRegistry";
+
 // data/cardLibrary.js
 const response = await fetch('./Data/cards.json')
 export const CardLibrary = await response.json()
-
-
-export const EFFECT_ACTIONS = {
-  DAMAGE: (context, effect) => {
-    const amount = resolveValue(context, effect.value);
-    context.target.takeDamage(amount);
-  },
-  HEAL: (context, effect) => {
-    context.target.modifyHealth(effect.value)
-  }, // Or addHeal
-  DRAW: (context, effect) => {
-    context.target.drawCard(effect.value)
-  },
-  APPLY_STACK: (context, effect) => {
-    const amount = resolveValue(context, effect.value)
-    context.target.applyStack(effect.stack_name, amount)
-  },
-  REDUCE_NEXT_CARDS_COST: (context, effect) => {
-    let value = effect.value
-    for (let i = 0; i < effect.charges; i++){
-      if (context.target.costReduction[i]){ context.target.costReduction[i] += effect.value }
-      else {context.target.costReduction.push(effect.value)}
-    }
-  },
-  CREATE_TEMP_CARD_IN_HAND: (context, effect) => {
-  let value = effect.value
-
-  for (let i = 0; i < value.count; i++) {
-    const tempCard = CardInstance.fromCardId(value.cardId, {
-      costOverride: value.energy_cost ?? null,
-      exhaust: value.exhaust ?? false,
-      temporary: true,
-    });
-    if (!tempCard) continue;
-
-    context.target.deck.addCardInstance(tempCard, "hand");
-  }
-  },
- 
-};
+setCardDefinitions(CardLibrary);
 
 
 

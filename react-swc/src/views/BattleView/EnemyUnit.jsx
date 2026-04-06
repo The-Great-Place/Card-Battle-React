@@ -1,17 +1,20 @@
 import { observer } from "mobx-react"
 import { StatusMarks } from "./StatusMarks";
-import { CardLibrary } from "../../engine/cardEffects";
+import { getCardDefinition } from "../../engine/definitions/cardRegistry";
 import { HandCardView } from "./HandCardView";
 
 
 
-export const EnemyUnit = observer(({ onPress, enemy, enemy_idx, selectedTargets }) => {
+export const EnemyUnit = observer(({ onPress, enemyView }) => {
+  const enemy = enemyView?.entity;
+  if (!enemy) return null;
+
   const healthPercent = Math.max(0, (enemy.health / (enemy.maxHealth)) * 100);
   return (
     <div className="enemy-wrapper">
 
       <div className='enemyUnitWrap' onClick={onPress}>
-        <div className={`enemyCard ${selectedTargets.idx.includes(enemy_idx) ? 'selectedEnemy' : ''}`}>
+        <div className={`enemyCard ${enemyView.isSelected ? 'selectedEnemy' : ''} ${enemyView.isLegalTarget ? 'clickable' : ''}`}>
           <img src={enemy.image} alt="Enemy" className='enemyImg' />
           <div className='statsOverlay'>
             <div className="stat-bar health-bar">
@@ -34,7 +37,8 @@ export const EnemyUnit = observer(({ onPress, enemy, enemy_idx, selectedTargets 
 
       <div className='enemy-intents'>
         {enemy.intents.slice(0, 3).map((move, i) => {
-          const def = CardLibrary[move.card]; // move.card is the id string
+          const def = getCardDefinition(move.card); // move.card is the id string
+          if (!def) return null;
           return(
             <div key={i} className="intent-icon">
                 {/* <span className="intent-glyph">{getIntentGlyph(def)}</span> */}

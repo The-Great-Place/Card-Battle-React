@@ -12,6 +12,11 @@
   transform-origin: bottom center;
 }
 
+.card.card--interaction-target {
+  box-shadow: 0 20px 0 rgba(0, 0, 0, 0.45), 0 24px 40px rgba(255, 185, 85, 0.75);
+  border: 1px solid rgba(255, 185, 85, 0.9);
+}
+
 /* Full-bleed art */
 .card__artFull {
   position: absolute;

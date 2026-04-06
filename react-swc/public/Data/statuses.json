@@ -1,0 +1,100 @@
+{
+  "burn": {
+    "id": "burn",
+    "name": "Burn",
+    "icon": "🔥",
+    "stacking": "amount",
+    "triggers": [
+      { "event": "turn_end", "type": "burn", "decay": "halve" }
+    ]
+  },
+  "freeze": {
+    "id": "freeze",
+    "name": "Freeze",
+    "icon": "❄️",
+    "stacking": "amount",
+    "triggers": [
+      { "event": "before_effect", "type": "freeze_threshold_skip", "threshold": 3 }
+    ]
+  },
+  "charge": {
+    "id": "charge",
+    "name": "Charge",
+    "icon": "✨",
+    "stacking": "amount",
+    "triggers": [
+      { "event": "before_effect", "type": "add_damage" },
+      { "event": "turn_end", "type": "clear_self", "consume": "clear_all" }
+    ]
+  },
+  "damageMultiplier": {
+    "id": "damageMultiplier",
+    "name": "Execution",
+    "icon": "💥",
+    "stacking": "amount",
+    "triggers": [
+      { "event": "before_effect", "type": "multiply_damage", "consume": "clear_all" }
+    ]
+  },
+  "multiselect": {
+    "id": "multiselect",
+    "name": "Multiselect",
+    "icon": "🎯",
+    "stacking": "amount",
+    "triggers": [
+      { "event": "card_play", "type": "extra_targets", "consume": "clear_all" }
+    ]
+  },
+  "preparation": {
+    "id": "preparation",
+    "name": "Preparation",
+    "icon": "🔁",
+    "stacking": "amount",
+    "triggers": [
+      { "event": "card_play", "type": "extra_plays", "consume": "clear_all" }
+    ]
+  },
+  "costReduction": {
+    "id": "costReduction",
+    "name": "Cost Shift",
+    "icon": "⚡",
+    "stacking": "separate_instances",
+    "triggers": [
+      { "event": "card_play", "type": "cost_reduction", "consume": "duration" }
+    ]
+  },
+  "shield": {
+    "id": "shield",
+    "name": "Shield",
+    "icon": "🛡️",
+    "stacking": "amount",
+    "triggers": [
+      { "event": "turn_end", "type": "decay_half_unless", "unlessStatus": "fortify" }
+    ]
+  },
+  "fortify": {
+    "id": "fortify",
+    "name": "Fortify",
+    "icon": "🧱",
+    "stacking": "duration",
+    "triggers": [
+      { "event": "turn_end", "type": "duration_decay" }
+    ]
+  },
+  "regeneration": {
+    "id": "regeneration",
+    "name": "Regeneration",
+    "icon": "💚",
+    "stacking": "separate_instances",
+    "triggers": [
+      { "event": "turn_end", "type": "regen", "healPerStack": 5, "consume": "duration" }
+    ]
+  },
+  "flow": {
+    "id": "flow",
+    "name": "Flow",
+    "icon": "💧",
+    "stacking": "amount",
+    "triggers": []
+  }
+}

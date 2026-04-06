@@ -1,12 +1,25 @@
 import { getRandomLootChoices } from "../generateLoot";
-import { canPlayCard } from "../queries/battleQueries";
+import { canPlayCard, getCardPlayState } from "../queries/battleQueries";
+import {
+  getTargetingRule,
+  resolveTargetsForPlay,
+} from "../resolvers/targetingResolver";
+import {
+  InteractionController,
+  registerInteractionController,
+} from "./InteractionController";
+import { resolveEffect } from "../resolvers/effectResolver";
 
 export class BattleEngine {
   constructor(gameState) {
     this.gameState = gameState;
+    this.interactionController = new InteractionController(gameState);
+    registerInteractionController(this.interactionController);
+    console.log("Iniitalized GameState: ", gameState)
   }
 
   dispatch(command) {
+    console.log("Command:",command.type, "Recieved")
     switch (command.type) {
       case "START_LEVEL":
         return this.startLevel(command);
@@ -28,6 +41,12 @@ export class BattleEngine {
         return this.buyCard(command);
       case "REFRESH_SHOP":
         return this.refreshShop(command);
+      case "CONFIRM_INTERACTION":
+        return this.confirmInteraction(command);
+      case "CANCEL_INTERACTION":
+        return this.cancelInteraction();
+      case "SET_INTERACTION_SELECTIONS":
+        return this.setInteractionSelections(command);
       default:
         throw new Error(`Unknown command type: ${command.type}`);
     }
@@ -67,6 +86,7 @@ export class BattleEngine {
 
   playCard({ cardInstanceId, targetIds = [] }) {
     const { player } = this.gameState;
+    if (this.gameState.pendingInteraction) return false;
     if (!this.gameState.playerTurn) return false;
     if (this.gameState.lootOpen || this.gameState.runComplete || this.gameState.runFailed) return false;
     if (!canPlayCard(this.gameState, cardInstanceId)) return false;
@@ -74,22 +94,28 @@ export class BattleEngine {
     const card = player.deck.getCardInHand(cardInstanceId);
     if (!card) return false;
 
-    const targets = this.resolveEntityTargets(targetIds);
-    if (targets.length === 0) return false;
+    const playState = getCardPlayState(this.gameState, cardInstanceId, targetIds);
+    if (!playState.canPlay) return false;
 
-    player.playCard(targets, card, cardInstanceId);
+    const rule = getTargetingRule(card);
+    const resolvedTargets = resolveTargetsForPlay(this.gameState, rule, playState.selectedTargetIds);
+    if (playState.requiredTargets > 0 && resolvedTargets.length < playState.requiredTargets) return false;
+
+    player.playCard(resolvedTargets, card, cardInstanceId);
     this.updateBattleState();
     return true;
   }
 
   endTurn() {
     const { player } = this.gameState;
+    console.log(player)
     if (!this.gameState.playerTurn) return false;
     if (this.gameState.lootOpen || this.gameState.runComplete || this.gameState.runFailed) return false;
 
     this.gameState.playerTurn = false;
+    console.log(player.deck)
     player.deck.discardHandAll();
-
+    console.log(player.deck)
     this.runEnemyTurn();
     this.updateBattleState();
 
@@ -103,6 +129,50 @@ export class BattleEngine {
     this.gameState.turn += 1;
     this.startPlayerTurn();
     return true;
+  }
+
+  confirmInteraction({ selectionIds = [] }) {
+    const result = this.interactionController.confirmInteraction(selectionIds);
+    console.log("Interaction confirmed", result);
+    if (result) {
+      this.resolveInteractionEffects(result.pending, result.selectionIds, "onConfirm");
+    }
+    return Boolean(result);
+  }
+
+  cancelInteraction() {
+    const result = this.interactionController.cancelInteraction();
+    console.log("Interaction cancelled", result);
+    if (result) {
+      this.resolveInteractionEffects(result, [], "onCancel");
+    }
+    return Boolean(result);
+  }
+
+  setInteractionSelections({ selectionIds = [] }) {
+    const result = this.interactionController.updateSelection(selectionIds);
+    return Boolean(result);
+  }
+
+  resolveInteractionEffects(pendingInteraction, selectionIds = [], effectKey = "onConfirm") {
+    if (!pendingInteraction) return;
+
+    const effects = pendingInteraction[effectKey] ?? [];
+    if (!Array.isArray(effects) || effects.length === 0) return;
+
+    const selections = selectionIds.length > 0
+      ? [...selectionIds]
+      : [...(pendingInteraction.selectedTargetIds ?? [])];
+
+    const context = {
+      source: this.gameState.player,
+      target: this.gameState.player,
+      card: null,
+      selectionIds: selections,
+      pendingInteraction,
+    };
+
+    effects.forEach((effect) => resolveEffect(context, effect));
   }
 
   runEnemyTurn() {
@@ -218,17 +288,4 @@ export class BattleEngine {
     return true;
   }
 
-  resolveEntityTargets(targetIds) {
-    const ids = Array.isArray(targetIds) ? targetIds : [targetIds];
-
-    return ids
-      .map((targetId) => this.findEntityById(targetId))
-      .filter(Boolean);
-  }
-
-  findEntityById(entityId) {
-    if (!entityId) return null;
-    if (this.gameState.player.id === entityId) return this.gameState.player;
-    return this.gameState.currentEnemies.find((enemy) => enemy.id === entityId) ?? null;
-  }
 }

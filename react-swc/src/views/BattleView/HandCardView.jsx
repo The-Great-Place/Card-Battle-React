@@ -7,7 +7,7 @@ import {
 } from "../../animations/cardMotion";
 import { getCardCost } from "../../engine/queries/battleQueries";
 
-export const HandCardView = observer(({ onPress, player, card, card_idx, selectedCard, canPlay = true }) => {
+export const HandCardView = observer(({ onPress, player, card, card_idx, selectedCard, canPlay = true, isInteractionTarget = false }) => {
   if (player === null) {
     return (
       <motion.button
@@ -44,6 +44,8 @@ export const HandCardView = observer(({ onPress, player, card, card_idx, selecte
   const slotMotion = getHandCardSlotMotion({ isSelected });
   const buttonMotion = getHandCardButtonMotion({ isSelected, canPlay });
 
+  const highlightClass = isInteractionTarget ? "card--interaction-target" : "";
+
   return (
     <motion.div
       className="handCardSlot"
@@ -55,7 +57,7 @@ export const HandCardView = observer(({ onPress, player, card, card_idx, selecte
           e.stopPropagation();
           if (canPlay) onPress();
         }}
-        className={`card card--fullart ${isSelected ? "selectedCard" : ""} ${!canPlay ? "card--disabled" : ""}`}
+        className={`card card--fullart ${isSelected ? "selectedCard" : ""} ${!canPlay ? "card--disabled" : ""} ${highlightClass}`}
         style={{ "--i": card_idx, "--n": player ? player.deck.hand.length : "" }}
         {...buttonMotion}
       >

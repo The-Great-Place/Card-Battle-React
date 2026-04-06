@@ -204,7 +204,8 @@ interface RunState {
   unlocks: Record<string, boolean>
   flags: Record<string, unknown>
   completedLevels: string[]
-  activeGlobalModifiers: ModifierInstance[]
+  relics: ModifierInstance[]
+  passives: StatusInstance[]
 }
 ```
 
@@ -224,7 +225,7 @@ interface BattleState {
   order: string[]
   eventLog: GameEvent[]
   pendingInteraction: PendingInteraction | null
-  battleModifiers: ModifierInstance[]
+  environmentRules: ModifierInstance[]
   rewardState: RewardState | null
 }
 ```
@@ -255,7 +256,6 @@ interface Entity {
   state: Record<string, unknown>
 
   statuses: StatusInstance[]
-  modifiers: ModifierInstance[]
   zones?: ZoneCollection
 }
 ```
@@ -362,20 +362,19 @@ interface StatusInstance {
   amount?: number
 
   state: Record<string, unknown>
-  modifiers: ModifierInstance[]
 }
 ```
 
 ### ModifierInstance
 
-Modifiers can exist on cards, entities, statuses, the battle, or the environment.
+Modifiers are still a first-class JSON-defined concept, but their main runtime job is card mutation plus reusable rules used by statuses, relics, and environments. Entities themselves should not directly own `ModifierInstance[]`; temporary combat state on entities should be modeled as statuses instead.
 
 ```ts
 interface ModifierInstance {
   instanceId: string
   definitionId?: string
   kind: string
-  scope: "card" | "entity" | "team" | "battle" | "environment" | "run"
+  scope: "card" | "status" | "battle" | "environment" | "run"
   sourceEntityId?: string
   sourceCardInstanceId?: string
   sourceStatusInstanceId?: string
@@ -684,7 +683,7 @@ Legal targets should be computed by engine queries, not by JSX heuristics.
 
 ## Card Modifiers
 
-Modifiers are necessary for your planned mechanics.
+Modifiers are primarily for card-specific changes on `CardInstance`. They remain part of the broader engine data model because statuses, relics, run systems, and environments may still reference modifier definitions or emit modifier-like rules, but temporary combat state on entities should not be modeled as entity-owned modifiers.
 
 Examples from your list:
 
@@ -692,21 +691,17 @@ Examples from your list:
 - looting
 - thorn shield
 - frozen guard
-- cost reduction
 - multicast
-- multiselect
 - extra charges
-- attack bonus this turn
 - permanent enchantments
 - upgrades
 
 ### Modifier Scopes
 
-Modifiers should exist at different scopes:
+At runtime, the most common use of `ModifierInstance` should be `card` scope. Other scopes still exist in the data model for environment rules, relic/passive systems, and reusable status-granted behavior, but they should not be attached directly to `Entity`.
 
 - `card`
-- `entity`
-- `team`
+- `status`
 - `battle`
 - `environment`
 - `run`
@@ -714,9 +709,11 @@ Modifiers should exist at different scopes:
 Examples:
 
 - "Make a random card play twice next time" -> one card-scoped modifier
-- "Your next card costs 1 less" -> entity-scoped modifier with `remainingUses: 1`
-- "All attack cards deal +1 damage this turn" -> entity or battle modifier filtered by card tag
-- "Strike cards deal half damage here" -> environment modifier
+- "This Strike costs 0 for the rest of the run" -> card-scoped modifier
+- "This card has lifesteal" -> card-scoped modifier
+- "This created card exhausts after use" -> card-scoped modifier
+- "This environment halves Strike damage" -> environment rule using modifier definitions
+- "This relic upgrades all created Fire cards" -> run system using modifier definitions
 
 ### Modifier Lifetimes
 
@@ -726,18 +723,15 @@ Modifiers should support:
 - persistent for the level
 - battle only
 - until card is played
-- until turn end
-- until status expires
 
 ### Modifier Example
 
 ```json
 {
-  "id": "next_card_cost_less",
+  "id": "strike_upgrade_cost_less",
   "kind": "cost_adjustment",
-  "scope": "entity",
-  "amount": -1,
-  "remainingUses": 1
+  "scope": "card",
+  "amount": -1
 }
 ```
 
@@ -749,16 +743,26 @@ Statuses should be first-class runtime instances with:
 - amount
 - internal state
 - event triggers
-- granted modifiers
+- card-play influence when the status affects the owner's next `N` cards or cards played over the next `N` turns
 
 This supports:
 
 - burn
 - freeze
 - regeneration
+- cost reduction on the next card
+- multiselect on the next card
+- damage bonuses on the next `N` cards / turns
 - gain energy at the start of the next n turns
 - delayed kill checks
 - counters and watchers
+
+Practical rule:
+
+- if the effect changes a unit, model it as a status on that unit
+- if the effect changes a specific card, model it as a card modifier
+- if the effect changes the battlefield or all entities, model it as environment or battle rules
+- if the effect persists across the run for the player, model it as a relic/passive that usually applies statuses or card modifiers during battle
 
 ### Example: Energy Boost
 
@@ -1090,9 +1094,11 @@ Examples:
 Environment can contribute:
 
 - event triggers
-- battle-wide modifiers
+- battle-wide rules built from modifier definitions
 - restrictions
 - status interactions
+
+Environment is the right home for effects that impact the whole battle space or all entities, rather than a single player or card.
 
 Example:
 
@@ -1315,7 +1321,8 @@ Deliverables:
 
 - burn, freeze, shield, fortify, regeneration migrated first
 - event-based status triggers
-- scoped modifiers
+- card-scoped modifiers for upgrades and enchantments only
+- entity-side "next N cards / next N turns" combat effects modeled as statuses
 
 ### Phase 6: Replace simple targeting with TargetingRule
 

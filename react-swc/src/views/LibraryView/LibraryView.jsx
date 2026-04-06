@@ -1,6 +1,7 @@
 import './css/LibraryView.css'
 import { useEffect, useMemo, useState } from 'react'
 import { useGameStore } from '../../store/useGameStore.js'
+import { normalizeCardDefinition } from '../../engine/definitions/cardRegistry.js'
 
 export const LibraryView = () => {
   const setScreen = useGameStore((state) => state.setScreen)
@@ -26,10 +27,15 @@ export const LibraryView = () => {
         const enemiesJson = await enemiesRes.json()
 
         // cards.json / enemies.json 都是 object，转成 array
-        const cardList = Object.entries(cardsJson).map(([key, value]) => ({
-          key,
-          ...value,
-        }))
+        const cardList = Object.entries(cardsJson)
+          .map(([key, value]) => ({
+            key,
+            ...normalizeCardDefinition({
+              id: value?.id ?? key,
+              ...value,
+            }),
+          }))
+          .filter(Boolean)
 
         const enemyList = Object.entries(enemiesJson).map(([key, value]) => ({
           key,
@@ -94,6 +100,26 @@ export const LibraryView = () => {
       )
     })
   }, [tab, cards, enemies, search])
+
+  const getTargetingLabel = (entry) => {
+    const targeting = entry?.targeting ?? null
+    if (!targeting) {
+      return entry?.targets != null ? `${entry.targets} target(s)` : 'Targeting: -'
+    }
+
+    const selector = targeting.selector ?? 'unknown'
+    const count = targeting.count ?? null
+    const min = targeting.min ?? null
+    const max = targeting.max ?? null
+
+    if (count != null) return `Targeting: ${selector} x${count}`
+    if (min != null || max != null) {
+      const range = `${min ?? 0}-${max ?? (min ?? 0)}`
+      return `Targeting: ${selector} (${range})`
+    }
+
+    return `Targeting: ${selector}`
+  }
 
   return (
     <div className="libraryPage">
@@ -235,7 +261,7 @@ export const LibraryView = () => {
               <div className="libraryDetail__badges">
                 <span>{selectedEntry.rarity || 'unknown'}</span>
                 <span>Cost: {selectedEntry.energy_cost ?? '-'}</span>
-                <span>{selectedEntry.targets} target(s)</span>
+                <span>{getTargetingLabel(selectedEntry)}</span>
               </div>
 
               <div className="libraryDetail__section">

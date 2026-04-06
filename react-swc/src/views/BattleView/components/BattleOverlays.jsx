@@ -2,24 +2,24 @@ import { LootView } from "../LootView.jsx";
 import { RunCompleteView } from "../RunCompleteView.jsx";
 import { observer } from "mobx-react";
 
-export const BattleOverlays = observer(({ gameState, battleEngine }) => {
+export const BattleOverlays = observer(({ overlays, battleEngine }) => {
   return (
     <>
-      {gameState.lootOpen && (
+      {overlays.lootOpen && (
         <LootView
-          loot={gameState.pendingLoot}
+          loot={overlays.pendingLoot}
           onPick={(cardId) => battleEngine.dispatch({ type: "CLAIM_REWARD", cardId })}
           onSkip={() => battleEngine.dispatch({ type: "SKIP_REWARD" })}
         />
       )}
-      {gameState.runComplete && (
+      {overlays.runComplete && (
         <RunCompleteView
           title="Run Complete"
           buttonText="Next Level"
           onRestart={() => battleEngine.dispatch({ type: "NEXT_LEVEL" })}
         />
       )}
-      {gameState.runFailed && (
+      {overlays.runFailed && (
         <RunCompleteView
           title="You Died"
           buttonText="Try Again"
