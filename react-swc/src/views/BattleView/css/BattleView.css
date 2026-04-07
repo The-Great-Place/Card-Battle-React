@@ -501,7 +501,8 @@ width: 100%;
   min-width: 0;
 }
 .targetHint {
-  margin-top: 0.4rem;
+  transform: translateY(-35px);
+  margin-top: 0rem;
   font-size: 0.85rem;
   color: #d0c4ff;
   text-transform: uppercase;

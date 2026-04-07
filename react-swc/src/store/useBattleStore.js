@@ -6,14 +6,16 @@ import { BattleEngine } from '../engine/core/BattleEngine';
 function buildBattleState(set) {
   const player = new Player('player', 50, null, [
         "STRIKE",
-        "FORTIFY",
-        "SWEEP",
+        "STRIKE",
+        "DEFEND",
+        "DEFEND",
+        "PATCH_UP",
         // "ARCANE_FORGE",
-        "TACTICAL_INSIGHT",
+        //"TACTICAL_INSIGHT",
         // "FIVEFOLD_STRIKE"
         // "DEFEND",
         // "BURNING_DETERMINATION",
-        "GROWING_STRIKE",
+        //"GROWING_STRIKE",
         // "CHARGE",
         // "COMBUST",
         // "FLICKER_CUT",

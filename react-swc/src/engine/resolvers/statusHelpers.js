@@ -30,7 +30,7 @@ export function applyStatus(owner, statusInput) {
       } else if (stacking === "replace") {
         Object.assign(existing, normalizedStatus);
       }
-
+      owner.statuses = [...owner.statuses];
       return existing;
     }
   }
@@ -41,6 +41,7 @@ export function applyStatus(owner, statusInput) {
   });
 
   owner.statuses.push(status);
+    owner.statuses = [...owner.statuses];
   return status;
 }
 
